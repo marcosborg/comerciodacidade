@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
 use App\Models\Plan;
 use App\Models\User;
@@ -13,11 +14,11 @@ class HomeController
         $user = User::where('id', auth()->user()->id)
             ->with([
                 'subscription.subscription_type.plan',
-                'subscription.subscriptionPayments'
+                'subscription.subscriptionPayments.subscription.subscription_type.plan'
             ])->first();
 
         $plans = Plan::with([
-            'subscriptionTypes'
+            'subscriptionTypes.plan'
         ])
             ->get();
 
@@ -27,8 +28,9 @@ class HomeController
         ]);
     }
 
-    public function teste(Request $request)
+    public function subscriptionType(Request $request)
     {
-        return $request;
+        return SubscriptionType::with('plan')->where('id', $request->subscription_type_id)->first();
     }
+
 }

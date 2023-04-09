@@ -39,6 +39,6 @@ class Plan extends Model
 
     public function subscriptionTypes()
     {
-        return $this->hasMany(SubscriptionType::class);
+        return $this->hasMany(SubscriptionType::class)->orderBy('id', 'desc');
     }
 }

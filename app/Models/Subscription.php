@@ -49,7 +49,7 @@ class Subscription extends Model
 
     public function subscriptionPayments()
     {
-        return $this->hasOne(SubscriptionPayment::class);
+        return $this->hasMany(SubscriptionPayment::class);
     }
 
     public function getStartDateAttribute($value)

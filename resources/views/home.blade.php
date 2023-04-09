@@ -37,12 +37,15 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                @foreach ($plan->subscriptionTypes as $subscriptionType)
+                                                @foreach ($plan->subscriptionTypes as $key => $subscriptionType)
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio"
-                                                        name="subscription_type" value="{{ $subscriptionType->id }}"
-                                                        checked>
-                                                    <label class="form-check-label" for="exampleRadios1">
+                                                        name="subscription_type"
+                                                        id="subscription_type_{{ $subscriptionType->id }}"
+                                                        value="{{ $subscriptionType->id }}" {{ $key==0 ? 'checked' : ''
+                                                        }}>
+                                                    <label class="form-check-label"
+                                                        for="subscription_type_{{ $subscriptionType->id }}">
                                                         {{ $subscriptionType->months }} meses com {{
                                                         $subscriptionType->discount
                                                         }}% de
@@ -52,10 +55,10 @@
                                                 @endforeach
                                             </div>
                                             <div class="col-md-6">
-                                                <h1 class="float-right">€ 100.00<span class="small">+ IVA</span></h1>
+                                                <h1 class="float-right">€ <span id="price">0.00</span><span class="small">+ IVA</span></h1>
                                             </div>
                                         </div>
-                                        <button class="btn btn-success mt-4">Renovar</button>
+                                        <button class="btn btn-success mt-4" onclick="payByLink()">Renovar</button>
                                     </div>
                                 </div>
                             </div>
@@ -78,14 +81,18 @@
                                 <th>Data</th>
                                 <th>Valor</th>
                                 <th>Plano</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($user->subscription->subscriptionPayments as $subscriptionPayment)
                             <tr>
-                                <td>2022-08-09</td>
-                                <td>€10.49</td>
-                                <td>Monthly Plan</td>
+                                <td>{{ $subscriptionPayment->created_at }}</td>
+                                <td>€ {{ $subscriptionPayment->value }}</td>
+                                <td>{{ $subscriptionPayment->subscription->subscription_type->plan->name }}</td>
+                                <td>{!! $subscriptionPayment->paid == 1 ? '<span class="badge badge-success">Pago</span>' : '' !!}</td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -112,8 +119,47 @@
         $('#collapsePayment').on('shown.bs.collapse', function () {
             $('#btn-renew').hide();
         })
+
+        getSubscriptionType();
+
+        $('input[type=radio][name=subscription_type]').change(() => {
+            getSubscriptionType();
+        });
     });
-    console.log({!! $plans !!});
-    console.log({!! $user !!});
+
+    getSubscriptionType = () => {
+        let subscription_type_id = $('input[type=radio][name=subscription_type]:checked').val();
+        $.get('/admin/subscription-type/' + subscription_type_id).then((resp) => {
+            let subscriptionType = resp;
+            let totalWithoutDiscount = subscriptionType.months * subscriptionType.plan.price;
+            let discount = subscriptionType.discount;
+            let totalWithDiscount = (totalWithoutDiscount * discount)/100;
+            let total = totalWithoutDiscount - totalWithDiscount;
+            console.log({
+                totalWithoutDiscount: totalWithoutDiscount,
+                discount: discount,
+                totalWithDiscount: totalWithDiscount,
+                total: total,
+            });
+            $('#total').html('total');
+        });
+    }
+
+    payByLink = () => {
+        var settings = {
+            "url": "https://ifthenpay.com/api/gateway/paybylink/get?gatewaykey=BMBR-650534&id=1000&amount=2",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Cookie": "ARRAffinity=cc3c6651acdd3282d60a76036929f0b096836d3038b01b137cfbdaf09c0a1429; ASP.NET_SessionId=elrpt2qsz5hbmcs1ipvs4n0k"
+            },
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            window.open(response, '_blank', 'width=500,height=500');
+        });
+    }
+
+    console.log({!! $plans !!})
 </script>
 @endsection
