@@ -18,7 +18,7 @@ class SubscriptionTypeController extends Controller
     {
         abort_if(Gate::denies('subscription_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $subscriptionTypes = SubscriptionType::with(['plans'])->get();
+        $subscriptionTypes = SubscriptionType::with(['plan'])->get();
 
         return view('admin.subscriptionTypes.index', compact('subscriptionTypes'));
     }
@@ -27,7 +27,7 @@ class SubscriptionTypeController extends Controller
     {
         abort_if(Gate::denies('subscription_type_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $plans = Plan::pluck('name', 'id');
+        $plans = Plan::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.subscriptionTypes.create', compact('plans'));
     }
@@ -35,7 +35,6 @@ class SubscriptionTypeController extends Controller
     public function store(StoreSubscriptionTypeRequest $request)
     {
         $subscriptionType = SubscriptionType::create($request->all());
-        $subscriptionType->plans()->sync($request->input('plans', []));
 
         return redirect()->route('admin.subscription-types.index');
     }
@@ -44,9 +43,9 @@ class SubscriptionTypeController extends Controller
     {
         abort_if(Gate::denies('subscription_type_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $plans = Plan::pluck('name', 'id');
+        $plans = Plan::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $subscriptionType->load('plans');
+        $subscriptionType->load('plan');
 
         return view('admin.subscriptionTypes.edit', compact('plans', 'subscriptionType'));
     }
@@ -54,7 +53,6 @@ class SubscriptionTypeController extends Controller
     public function update(UpdateSubscriptionTypeRequest $request, SubscriptionType $subscriptionType)
     {
         $subscriptionType->update($request->all());
-        $subscriptionType->plans()->sync($request->input('plans', []));
 
         return redirect()->route('admin.subscription-types.index');
     }
@@ -63,7 +61,7 @@ class SubscriptionTypeController extends Controller
     {
         abort_if(Gate::denies('subscription_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $subscriptionType->load('plans');
+        $subscriptionType->load('plan');
 
         return view('admin.subscriptionTypes.show', compact('subscriptionType'));
     }

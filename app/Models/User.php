@@ -77,4 +77,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    //CUSTOM
+
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
 }

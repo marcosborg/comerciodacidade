@@ -21,7 +21,7 @@ class StoreSubscriptionRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'plan_id' => [
+            'subscription_type_id' => [
                 'required',
                 'integer',
             ],

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroySubscriptionRequest;
 use App\Http\Requests\StoreSubscriptionRequest;
 use App\Http\Requests\UpdateSubscriptionRequest;
-use App\Models\Plan;
 use App\Models\Subscription;
+use App\Models\SubscriptionType;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class SubscriptionController extends Controller
     {
         abort_if(Gate::denies('subscription_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $subscriptions = Subscription::with(['user', 'plan'])->get();
+        $subscriptions = Subscription::with(['user', 'subscription_type'])->get();
 
         return view('admin.subscriptions.index', compact('subscriptions'));
     }
@@ -30,9 +30,9 @@ class SubscriptionController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $plans = Plan::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $subscription_types = SubscriptionType::pluck('months', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.subscriptions.create', compact('plans', 'users'));
+        return view('admin.subscriptions.create', compact('subscription_types', 'users'));
     }
 
     public function store(StoreSubscriptionRequest $request)
@@ -48,11 +48,11 @@ class SubscriptionController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $plans = Plan::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $subscription_types = SubscriptionType::pluck('months', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $subscription->load('user', 'plan');
+        $subscription->load('user', 'subscription_type');
 
-        return view('admin.subscriptions.edit', compact('plans', 'subscription', 'users'));
+        return view('admin.subscriptions.edit', compact('subscription', 'subscription_types', 'users'));
     }
 
     public function update(UpdateSubscriptionRequest $request, Subscription $subscription)
@@ -66,7 +66,7 @@ class SubscriptionController extends Controller
     {
         abort_if(Gate::denies('subscription_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $subscription->load('user', 'plan');
+        $subscription->load('user', 'subscription_type');
 
         return view('admin.subscriptions.show', compact('subscription'));
     }

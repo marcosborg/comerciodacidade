@@ -32,7 +32,7 @@
                             {{ trans('cruds.subscriptionType.fields.discount') }}
                         </th>
                         <th>
-                            {{ trans('cruds.subscriptionType.fields.plans') }}
+                            {{ trans('cruds.subscriptionType.fields.plan') }}
                         </th>
                         <th>
                             &nbsp;
@@ -55,9 +55,7 @@
                                 {{ $subscriptionType->discount ?? '' }}
                             </td>
                             <td>
-                                @foreach($subscriptionType->plans as $key => $item)
-                                    <span class="badge badge-info">{{ $item->name }}</span>
-                                @endforeach
+                                {{ $subscriptionType->plan->name ?? '' }}
                             </td>
                             <td>
                                 @can('subscription_type_show')

@@ -24,7 +24,7 @@ class Subscription extends Model
 
     protected $fillable = [
         'user_id',
-        'plan_id',
+        'subscription_type_id',
         'start_date',
         'end_date',
         'created_at',
@@ -42,9 +42,14 @@ class Subscription extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function plan()
+    public function subscription_type()
     {
-        return $this->belongsTo(Plan::class, 'plan_id');
+        return $this->belongsTo(SubscriptionType::class, 'subscription_type_id');
+    }
+
+    public function subscriptionPayments()
+    {
+        return $this->hasOne(SubscriptionPayment::class);
     }
 
     public function getStartDateAttribute($value)

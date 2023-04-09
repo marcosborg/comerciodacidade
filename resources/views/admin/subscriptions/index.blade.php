@@ -32,7 +32,10 @@
                             {{ trans('cruds.user.fields.email') }}
                         </th>
                         <th>
-                            {{ trans('cruds.subscription.fields.plan') }}
+                            {{ trans('cruds.subscription.fields.subscription_type') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.subscriptionType.fields.discount') }}
                         </th>
                         <th>
                             {{ trans('cruds.subscription.fields.start_date') }}
@@ -61,7 +64,10 @@
                                 {{ $subscription->user->email ?? '' }}
                             </td>
                             <td>
-                                {{ $subscription->plan->name ?? '' }}
+                                {{ $subscription->subscription_type->months ?? '' }}
+                            </td>
+                            <td>
+                                {{ $subscription->subscription_type->discount ?? '' }}
                             </td>
                             <td>
                                 {{ $subscription->start_date ?? '' }}

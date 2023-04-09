@@ -41,12 +41,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.subscriptionType.fields.plans') }}
+                            {{ trans('cruds.subscriptionType.fields.plan') }}
                         </th>
                         <td>
-                            @foreach($subscriptionType->plans as $key => $plans)
-                                <span class="label label-info">{{ $plans->name }}</span>
-                            @endforeach
+                            {{ $subscriptionType->plan->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>

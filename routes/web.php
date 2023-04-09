@@ -16,9 +16,8 @@ Route::prefix('registo')->group(function () {
 
 Route::get('/home', function () {
     if (session('status')) {
-        return redirect()->route('admin.home')->with('status', session('status'));
+        return redirect()->route('admin.home');
     }
-
     return redirect()->route('admin.home');
 });
 
@@ -26,6 +25,9 @@ Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::prefix('forms')->group(function(){
+        Route::post('teste', 'HomeController@teste');
+    });
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
     Route::resource('permissions', 'PermissionsController');

@@ -22,16 +22,16 @@
                 <span class="help-block">{{ trans('cruds.subscription.fields.user_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="plan_id">{{ trans('cruds.subscription.fields.plan') }}</label>
-                <select class="form-control select2 {{ $errors->has('plan') ? 'is-invalid' : '' }}" name="plan_id" id="plan_id" required>
-                    @foreach($plans as $id => $entry)
-                        <option value="{{ $id }}" {{ old('plan_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                <label class="required" for="subscription_type_id">{{ trans('cruds.subscription.fields.subscription_type') }}</label>
+                <select class="form-control select2 {{ $errors->has('subscription_type') ? 'is-invalid' : '' }}" name="subscription_type_id" id="subscription_type_id" required>
+                    @foreach($subscription_types as $id => $entry)
+                        <option value="{{ $id }}" {{ old('subscription_type_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('plan'))
-                    <span class="text-danger">{{ $errors->first('plan') }}</span>
+                @if($errors->has('subscription_type'))
+                    <span class="text-danger">{{ $errors->first('subscription_type') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.subscription.fields.plan_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.subscription.fields.subscription_type_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="start_date">{{ trans('cruds.subscription.fields.start_date') }}</label>

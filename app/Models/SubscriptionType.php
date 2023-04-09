@@ -22,6 +22,7 @@ class SubscriptionType extends Model
     protected $fillable = [
         'months',
         'discount',
+        'plan_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -32,8 +33,8 @@ class SubscriptionType extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function plans()
+    public function plan()
     {
-        return $this->belongsToMany(Plan::class);
+        return $this->belongsTo(Plan::class, 'plan_id');
     }
 }

@@ -29,12 +29,9 @@ class StoreSubscriptionTypeRequest extends FormRequest
                 'min:-2147483648',
                 'max:2147483647',
             ],
-            'plans.*' => [
-                'integer',
-            ],
-            'plans' => [
+            'plan_id' => [
                 'required',
-                'array',
+                'integer',
             ],
         ];
     }
