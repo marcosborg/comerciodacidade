@@ -10,9 +10,12 @@
 
                 <div class="card-body">
                     <p><b>Logado como: </b>{{ auth()->user()->email }}</p>
-                    <p><b>Plano atual: </b>{{ $user->subscription ? $user->subscription->subscription_type->plan->name : 'Ainda não fez nenhuma subscrição' }}</p>
-                    <p><b>Última renovação: </b>{{ $user->subscription ? $user->subscription->start_date : 'Ainda não fez nenhuma subscrição' }}</p>
-                    <p><b>Proxima renovação: </b>{{ $user->subscription ? $user->subscription->end_date : 'Ainda não fez nenhuma subscrição' }}</p>
+                    <p><b>Plano atual: </b>{{ $user->subscription->subscription_type->plan->name }}</p>
+                    @if ($user->subscription->subscriptionPayments->count() > 0)
+                    <p><b>Última renovação: </b>{{ $user->subscription->start_date }}</p>
+                    <p><b>Proxima renovação: </b>{{ $user->subscription->end_date }}</p>
+                    <hr>
+                    @endif
                     <p>
                         <button class="btn btn-primary" id="btn-renew" type="button" data-toggle="collapse" data-target="#collapsePayment" aria-expanded="false">
                             Renovar
@@ -171,8 +174,6 @@
         });
     }
 
-    console.log({
-        !!$plans!!
-    })
+    console.log({!! $user !!});
 </script>
 @endsection

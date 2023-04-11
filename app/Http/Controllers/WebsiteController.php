@@ -8,11 +8,14 @@ use App\Models\Page;
 use App\Models\Register;
 use App\Models\Plan;
 use App\Models\User;
+use App\Models\Subscription;
+use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class WebsiteController extends Controller
 {
@@ -36,10 +39,10 @@ class WebsiteController extends Controller
             'email' => 'email:rfc,dns|required',
             'name' => 'required',
         ], [], [
-                'company_name' => 'Nome da empresa',
-                'email' => 'Email',
-                'name' => 'Nome de contacto',
-            ]);
+            'company_name' => 'Nome da empresa',
+            'email' => 'Email',
+            'name' => 'Nome de contacto',
+        ]);
 
         $register = new Register;
         $register->company_name = $request->company_name;
@@ -58,9 +61,9 @@ class WebsiteController extends Controller
         $request->validate([
             'email' => 'email:rfc,dns|required'
         ], [
-                'email.required' => 'O email é obrigatório.',
-                'email.email' => 'O email tem que ser válido.'
-            ]);
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'O email tem que ser válido.'
+        ]);
 
         $newsletter = new Newsletter;
         $newsletter->email = $request->email;
@@ -84,7 +87,10 @@ class WebsiteController extends Controller
     public function selectedRegister(Request $request)
     {
         $plan = Plan::where('id', $request->plan_id)
-            ->with('items')
+            ->with([
+                'items',
+                'subscriptionTypes'
+            ])
             ->first();
         return view('website.pages.selected-register')->with('plan', $plan);
     }
@@ -106,18 +112,18 @@ class WebsiteController extends Controller
             'zip' => 'required',
             'location' => 'required',
         ], [
-                'name.required' => 'O nome é obrigatório.',
-                'email.required' => 'O email é obrigatório.',
-                'email.email' => 'O email tem de ser válido.',
-                'password.min' => 'A password deve ter no mínimo 8 caracteres.',
-                'password.regex' => 'A password deve ter um comprimento mínimo de 8 caracteres, deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial.',
-                'password.confirmed' => 'A confirmação de password deve corresponder ao campo password.',
-                'company.required' => 'O nome da empresa é obrigatório.',
-                'vat.required' => 'O contribuinte é obrigatório.',
-                'address.required' => 'O endereço é obrigatório.',
-                'zip.required' => 'O código postal é obrigatório.',
-                'location.required' => 'A localidade é obrigatória.',
-            ]);
+            'name.required' => 'O nome é obrigatório.',
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'O email tem de ser válido.',
+            'password.min' => 'A password deve ter no mínimo 8 caracteres.',
+            'password.regex' => 'A password deve ter um comprimento mínimo de 8 caracteres, deve conter pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial.',
+            'password.confirmed' => 'A confirmação de password deve corresponder ao campo password.',
+            'company.required' => 'O nome da empresa é obrigatório.',
+            'vat.required' => 'O contribuinte é obrigatório.',
+            'address.required' => 'O endereço é obrigatório.',
+            'zip.required' => 'O código postal é obrigatório.',
+            'location.required' => 'A localidade é obrigatória.',
+        ]);
 
         $user = new User;
         $user->name = $request->name;
@@ -147,7 +153,22 @@ class WebsiteController extends Controller
 
         $user->roles()->sync([2]);
 
-        return Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-    }
+        $subscriptionType = SubscriptionType::find($request->subscription_type_id);
 
+        $startDate = Carbon::now();
+        $endDate = $startDate->addMonths($subscriptionType->months);
+        $startDate = $startDate->toDateTimeString();
+        $endDate = $endDate->toDateTimeString();
+
+        $subscription = new Subscription;
+        $subscription->start_date = $startDate;
+        $subscription->end_date = $endDate;
+        $subscription->user_id = $user->id;
+        $subscription->subscription_type_id = $request->subscription_type_id;
+        $subscription->save();
+
+        Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+
+        return [];
+    }
 }
