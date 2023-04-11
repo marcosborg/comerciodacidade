@@ -17,8 +17,8 @@
                     <hr>
                     @endif
                     <p>
-                        <button class="btn btn-primary" id="btn-renew" type="button" data-toggle="collapse" data-target="#collapsePayment" aria-expanded="false">
-                            Renovar
+                        <button class="btn btn-primary" id="btn-pay" type="button" data-toggle="collapse" data-target="#collapsePayment" aria-expanded="false">
+                            Pagar plano atual
                         </button>
                     </p>
                     <div class="collapse" id="collapsePayment">
@@ -47,32 +47,28 @@
                             " id="tab-{{ $plan->id }}" role="tabpanel">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                @foreach ($plan->subscriptionTypes as $key => $subscriptionType)
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="subscription_type" id="subscription_type_{{ $subscriptionType->id }}" value="{{ $subscriptionType->id }}" {{ $key==0 ? 'checked' : ''
+                                        @foreach ($plan->subscriptionTypes as $key => $subscriptionType)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="subscription_type" id="subscription_type_{{ $subscriptionType->id }}" value="{{ $subscriptionType->id }}" {{ $key==0 ? 'checked' : ''
                                                         }}>
-                                                    <label class="form-check-label" for="subscription_type_{{ $subscriptionType->id }}">
-                                                        {{ $subscriptionType->months }} meses com {{
+                                            <label class="form-check-label" for="subscription_type_{{ $subscriptionType->id }}">
+                                                {{ $subscriptionType->months }} meses com {{
                                                         $subscriptionType->discount
                                                         }}% de
-                                                        desconto
-                                                    </label>
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h1 class="float-right">€ <span id="price">0.00</span><span class="small">+ IVA</span></h1>
-                                            </div>
+                                                desconto
+                                            </label>
                                         </div>
-                                        <button class="btn btn-success mt-4" onclick="payByLink()">Renovar</button>
+                                        @endforeach
+                                        <button class="btn btn-light btn-payment"><img src="/theme/assets/img/payment/mb-logo.png" class="img-fluid"></button>
+                                        <button class="btn btn-light btn-payment"><img src="/theme/assets/img/payment/mbway-logo.png" class="img-fluid"></button>
+                                        <button class="btn btn-light btn-payment"><img src="/theme/assets/img/payment/visa-e-mastercard.png" class="img-fluid"></button>
                                     </div>
                                 </div>
                             </div>
                             @endforeach
                         </div>
                     </div>
+                    <h1 class="float-right total">€ <span id="total">0.00</span><span class="small">+ IVA</span></h1>
                 </div>
             </div>
         </div>
@@ -124,6 +120,11 @@
     span.small {
         font-size: 20px;
     }
+
+    .total {
+        display: none;
+    }
+    
 </style>
 @endsection
 @section('scripts')
@@ -131,10 +132,10 @@
 <script>
     $(() => {
         $('#collapsePayment').on('shown.bs.collapse', function() {
-            $('#btn-renew').hide();
+            $('#btn-pay').hide();
+            $('.total').show();
+            getSubscriptionType();
         })
-
-        getSubscriptionType();
 
         $('input[type=radio][name=subscription_type]').change(() => {
             getSubscriptionType();
@@ -149,31 +150,8 @@
             let discount = subscriptionType.discount;
             let totalWithDiscount = (totalWithoutDiscount * discount) / 100;
             let total = totalWithoutDiscount - totalWithDiscount;
-            console.log({
-                totalWithoutDiscount: totalWithoutDiscount,
-                discount: discount,
-                totalWithDiscount: totalWithDiscount,
-                total: total,
-            });
-            $('#total').html('total');
+            $('#total').text(total.toFixed(2));
         });
     }
-
-    payByLink = () => {
-        var settings = {
-            "url": "https://ifthenpay.com/api/gateway/paybylink/get?gatewaykey=BMBR-650534&id=1000&amount=2",
-            "method": "GET",
-            "timeout": 0,
-            "headers": {
-                "Cookie": "ARRAffinity=cc3c6651acdd3282d60a76036929f0b096836d3038b01b137cfbdaf09c0a1429; ASP.NET_SessionId=elrpt2qsz5hbmcs1ipvs4n0k"
-            },
-        };
-        $.ajax(settings).done(function(response) {
-            console.log(response);
-            window.open(response, '_blank', 'width=500,height=500');
-        });
-    }
-
-    console.log({!! $user !!});
 </script>
 @endsection
