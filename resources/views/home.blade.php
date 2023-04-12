@@ -185,6 +185,26 @@
     }
 
     payment = (type) => {
+        if(type == 'mb'){
+            var settings = {
+                "url": "https://ifthenpay.com/api/multibanco/reference/sandbox",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Cookie": "ARRAffinity=cc3c6651acdd3282d60a76036929f0b096836d3038b01b137cfbdaf09c0a1429; ARRAffinitySameSite=cc3c6651acdd3282d60a76036929f0b096836d3038b01b137cfbdaf09c0a1429; ASP.NET_SessionId=h4ongsaijfxsua0gtqdwvehr"
+                },
+                "data": JSON.stringify({
+                    "mbKey": "YBN-625144",
+                    "orderId": 1,
+                    "amount": 20.3
+                }),
+                };
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+        }
         $('#payment-modal').modal('show');
         console.log(type);
     }
