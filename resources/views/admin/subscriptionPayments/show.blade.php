@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.subscriptionPayment.fields.method') }}
+                        </th>
+                        <td>
+                            {{ $subscriptionPayment->method }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.subscriptionPayment.fields.paid') }}
                         </th>
                         <td>

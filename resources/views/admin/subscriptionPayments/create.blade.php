@@ -30,6 +30,14 @@
                 <span class="help-block">{{ trans('cruds.subscriptionPayment.fields.value_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="method">{{ trans('cruds.subscriptionPayment.fields.method') }}</label>
+                <input class="form-control {{ $errors->has('method') ? 'is-invalid' : '' }}" type="text" name="method" id="method" value="{{ old('method', '') }}" required>
+                @if($errors->has('method'))
+                    <span class="text-danger">{{ $errors->first('method') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.subscriptionPayment.fields.method_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <div class="form-check {{ $errors->has('paid') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="paid" value="0">
                     <input class="form-check-input" type="checkbox" name="paid" id="paid" value="1" {{ old('paid', 0) == 1 ? 'checked' : '' }}>

@@ -22,6 +22,7 @@ class SubscriptionPayment extends Model
     protected $fillable = [
         'subscription_id',
         'value',
+        'method',
         'paid',
         'created_at',
         'updated_at',

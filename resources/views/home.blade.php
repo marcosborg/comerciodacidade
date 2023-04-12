@@ -97,6 +97,7 @@
                                 <th>Data</th>
                                 <th>Valor</th>
                                 <th>Plano</th>
+                                <th>Método</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
@@ -106,6 +107,7 @@
                                 <td>{{ $subscriptionPayment->created_at }}</td>
                                 <td>€ {{ $subscriptionPayment->value }}</td>
                                 <td>{{ $subscriptionPayment->subscription->subscription_type->plan->name }}</td>
+                                <td>{{ $subscriptionPayment->method }}</td>
                                 <td>{!! $subscriptionPayment->paid == 1 ? '<span
                                         class="badge badge-success">Pago</span>' : '' !!}</td>
                             </tr>
@@ -122,8 +124,9 @@
         </div>
     </div>
 </div>
+<input type="hidden" name="amount">
 <div class="modal fade" id="payment-modal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Pagamento</h5>
@@ -131,13 +134,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Enviar dados por email</button>
-            </div>
+            <div id="inner-payment"></div>
         </div>
     </div>
 </div>
@@ -159,13 +156,20 @@
 @endsection
 @section('scripts')
 @parent
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+</script>
+
 <script>
     $(() => {
         $('#collapsePayment').on('shown.bs.collapse', function() {
             $('#btn-pay').hide();
             $('.total').show();
             getSubscriptionType();
-        })
+        });
+
+        $('#payment-modal').on('hidden.bs.modal', function() {
+            location.reload();
+        });
 
         $('input[type=radio][name=subscription_type]').change(() => {
             getSubscriptionType();
@@ -181,31 +185,43 @@
             let totalWithDiscount = (totalWithoutDiscount * discount) / 100;
             let total = totalWithoutDiscount - totalWithDiscount;
             $('#total').text(total.toFixed(2));
+            $('input[name=amount]').val(total.toFixed(2));
         });
     }
 
     payment = (type) => {
+        $.LoadingOverlay('show');
+        let method = '';
         if(type == 'mb'){
-            var settings = {
-                "url": "https://ifthenpay.com/api/multibanco/reference/sandbox",
-                "method": "POST",
-                "timeout": 0,
-                "headers": {
-                    "Content-Type": "application/json",
-                },
-                "data": JSON.stringify({
-                    "mbKey": "YBN-625144",
-                    "orderId": 1,
-                    "amount": 20.3
-                }),
-                };
-
-            $.ajax(settings).done(function (response) {
-                console.log(response);
-            });
+            method = 'Multibanco';
         }
+        let amount = ($('input[name=amount]').val()*1.23).toFixed(2);
+        var form = new FormData();
+        form.append("subscription_id", {{ $user->subscription->id }});
+        form.append("value", amount);
+        form.append("method", method);
+        form.append("paid", "0");
+        var settings = {
+            "url": "/payments/subscriptionPaymentGenerate",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+            },
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": form
+        };
+        $.ajax(settings).done(function () {
+            if(type == 'mb'){
+                $.get('payments/mb/' + amount).then((resp) => {
+                    $.LoadingOverlay('hide');
+                    $('#inner-payment').html(resp);
+                });
+            }
+        });
         $('#payment-modal').modal('show');
-        console.log(type);
     }
 </script>
 @endsection

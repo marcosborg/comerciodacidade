@@ -24,6 +24,10 @@ class StoreSubscriptionPaymentRequest extends FormRequest
             'value' => [
                 'required',
             ],
+            'method' => [
+                'string',
+                'required',
+            ],
         ];
     }
 }

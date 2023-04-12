@@ -89,3 +89,8 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
+
+Route::middleware(['auth'])->prefix('payments')->group(function () {
+    Route::post('subscriptionPaymentGenerate', 'PaymentsController@subscriptionPaymentGenerate');
+    Route::get('mb/{amount}', 'PaymentsController@mb');
+});
