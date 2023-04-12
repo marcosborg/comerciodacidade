@@ -17,7 +17,8 @@
                     <hr>
                     @endif
                     <p>
-                        <button class="btn btn-primary" id="btn-pay" type="button" data-toggle="collapse" data-target="#collapsePayment" aria-expanded="false">
+                        <button class="btn btn-primary" id="btn-pay" type="button" data-toggle="collapse"
+                            data-target="#collapsePayment" aria-expanded="false">
                             Pagar plano atual
                         </button>
                     </p>
@@ -49,19 +50,29 @@
                                     <div class="card-body">
                                         @foreach ($plan->subscriptionTypes as $key => $subscriptionType)
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="subscription_type" id="subscription_type_{{ $subscriptionType->id }}" value="{{ $subscriptionType->id }}" {{ $key==0 ? 'checked' : ''
-                                                        }}>
-                                            <label class="form-check-label" for="subscription_type_{{ $subscriptionType->id }}">
+                                            <input class="form-check-input" type="radio" name="subscription_type"
+                                                id="subscription_type_{{ $subscriptionType->id }}"
+                                                value="{{ $subscriptionType->id }}" {{ $key==0 ? 'checked' : '' }}>
+                                            <label class="form-check-label"
+                                                for="subscription_type_{{ $subscriptionType->id }}">
                                                 {{ $subscriptionType->months }} meses com {{
-                                                        $subscriptionType->discount
-                                                        }}% de
+                                                $subscriptionType->discount
+                                                }}% de
                                                 desconto
                                             </label>
                                         </div>
                                         @endforeach
-                                        <button class="btn btn-light btn-payment"><img src="/theme/assets/img/payment/mb-logo.png" class="img-fluid"></button>
-                                        <button class="btn btn-light btn-payment"><img src="/theme/assets/img/payment/mbway-logo.png" class="img-fluid"></button>
-                                        <button class="btn btn-light btn-payment"><img src="/theme/assets/img/payment/visa-e-mastercard.png" class="img-fluid"></button>
+                                        <hr>
+
+                                        <button onclick="payment('mb')" type="button" class="btn btn-light"><img
+                                                src="/theme/assets/img/payment/mb-logo.png" alt="mb-logo"></button>
+                                        <button onclick="payment('mbway')" type="button" class="btn btn-light"><img
+                                                src="/theme/assets/img/payment/mbway-logo.png"
+                                                alt="mbway-logo"></button>
+                                        <button onclick="payment('cards')" type="button" class="btn btn-light"><img
+                                                src="/theme/assets/img/payment/visa-e-mastercard.png"
+                                                alt="visa-e-mastercard"></button>
+
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +106,8 @@
                                 <td>{{ $subscriptionPayment->created_at }}</td>
                                 <td>€ {{ $subscriptionPayment->value }}</td>
                                 <td>{{ $subscriptionPayment->subscription->subscription_type->plan->name }}</td>
-                                <td>{!! $subscriptionPayment->paid == 1 ? '<span class="badge badge-success">Pago</span>' : '' !!}</td>
+                                <td>{!! $subscriptionPayment->paid == 1 ? '<span
+                                        class="badge badge-success">Pago</span>' : '' !!}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -106,6 +118,25 @@
                     </div>
                     @endif
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="payment-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pagamento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Enviar dados por email</button>
             </div>
         </div>
     </div>
@@ -124,7 +155,6 @@
     .total {
         display: none;
     }
-    
 </style>
 @endsection
 @section('scripts')
@@ -152,6 +182,11 @@
             let total = totalWithoutDiscount - totalWithDiscount;
             $('#total').text(total.toFixed(2));
         });
+    }
+
+    payment = (type) => {
+        $('#payment-modal').modal('show');
+        console.log(type);
     }
 </script>
 @endsection
