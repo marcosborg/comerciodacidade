@@ -45,7 +45,7 @@ class PaymentsController extends Controller
         return view('partials.mb')->with([
             'amount' => $mb['Amount'],
             'entity' => $mb['Entity'],
-            'reference' => $mb['Reference']
+            'reference' => $mb['Reference'],
         ]);
 
     }

@@ -109,7 +109,8 @@
                                 <td>{{ $subscriptionPayment->subscription->subscription_type->plan->name }}</td>
                                 <td>{{ $subscriptionPayment->method }}</td>
                                 <td>{!! $subscriptionPayment->paid == 1 ? '<span
-                                        class="badge badge-success">Pago</span>' : '' !!}</td>
+                                        class="badge badge-success">Pago</span>' : '<span
+                                        class="badge badge-danger">Aguarda pagamento</span>' !!}</td>
                             </tr>
                             @endforeach
                         </tbody>
