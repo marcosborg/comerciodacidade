@@ -1,6 +1,6 @@
 <div class="modal-body">
     <center>
-        <img src="/theme/assets/img/payment/mb-logo.png" class="img-fluid">
+        <img src="https://comerciodacidade.pt/theme/assets/img/payment/mb-logo.png" class="img-fluid">
         <table class="table">
             <tr>
                 <th>Entidade</th>
@@ -19,5 +19,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-    <button type="button" class="btn btn-primary">Receber por email</button>
+    <button type="button" class="btn btn-primary" onclick="sendMbByEmail()">Receber por email</button>
 </div>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\SubscriptionPayment;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Notifications\SendMbByEmail;
 
 class PaymentsController extends Controller
 {
@@ -25,7 +27,7 @@ class PaymentsController extends Controller
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => '{
                     "mbKey": "YBN-625144",
-                    "orderId": ' . 1 . ',
+                    "orderId": ' . $request->subscriptionPayment . ',
                     "amount": ' . $request->amount . '
                 }',
                 CURLOPT_HTTPHEADER => array(
@@ -58,6 +60,13 @@ class PaymentsController extends Controller
         $subscriptionPayment->paid = $request->paid;
         $subscriptionPayment->save();
         
+        return $subscriptionPayment;
+    }
+
+    public function sendMbByEmail(Request $request)
+    {
+        User::find(auth()->user()->id)->notify(new SendMbByEmail($request->body));
         return [];
     }
+
 }

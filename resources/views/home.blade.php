@@ -158,6 +158,7 @@
 @parent
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     $(() => {
@@ -213,15 +214,46 @@
             "contentType": false,
             "data": form
         };
-        $.ajax(settings).done(function () {
+        $.ajax(settings).done(function (resp) {
+            let subscriptionPayment = JSON.parse(resp);
             if(type == 'mb'){
-                $.get('payments/mb/' + amount).then((resp) => {
+                $.get('payments/mb/' + subscriptionPayment.id + '/' + amount).then((resp) => {
                     $.LoadingOverlay('hide');
                     $('#inner-payment').html(resp);
                 });
             }
         });
         $('#payment-modal').modal('show');
+    }
+
+    sendMbByEmail = () => {
+        $.LoadingOverlay('show');
+        let body = $('#inner-payment .modal-body').html();
+        let data = {
+            body: body,
+        }
+        $.ajax({
+            url: '/payments/sendMbByEmail',
+            type: 'POST',
+            data: data,
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                $.LoadingOverlay('hide');
+                Swal.fire(
+                    'Sucesso!',
+                    'Enviamos os dados de pagamento para o seu email!',
+                    'success'
+                ).then(() => {
+                    $('#payment-modal').modal('hide');
+                });
+            },
+            error: function(error) {
+                $.LoadingOverlay('hide');
+                $('#payment-modal').modal('hide');
+            }
+        });
     }
 </script>
 @endsection

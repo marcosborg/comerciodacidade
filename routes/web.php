@@ -92,5 +92,6 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 
 Route::middleware(['auth'])->prefix('payments')->group(function () {
     Route::post('subscriptionPaymentGenerate', 'PaymentsController@subscriptionPaymentGenerate');
-    Route::get('mb/{amount}', 'PaymentsController@mb');
+    Route::get('mb/{subscriptionPayment}/{amount}', 'PaymentsController@mb');
+    Route::post('sendMbByEmail', 'PaymentsController@sendMbByEmail');
 });
