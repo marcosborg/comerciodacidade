@@ -95,4 +95,6 @@ Route::middleware(['auth'])->prefix('payments')->group(function () {
     Route::get('mb/{subscriptionPayment}/{amount}', 'PaymentsController@mb');
     Route::post('sendMbByEmail', 'PaymentsController@sendMbByEmail');
     Route::get('mbway/{subscriptionPayment}/{amount}', 'PaymentsController@mbway');
+    Route::post('submitMbway', 'PaymentsController@submitMbway');
+    Route::get('list', 'PaymentsController@list');
 });

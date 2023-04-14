@@ -89,37 +89,8 @@
                     Pagamentos
                 </div>
 
-                <div class="card-body">
-                    @if ($user->subscription && $user->subscription->subscriptionPayments)
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Valor</th>
-                                <th>Plano</th>
-                                <th>Método</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($user->subscription->subscriptionPayments as $subscriptionPayment)
-                            <tr>
-                                <td>{{ $subscriptionPayment->created_at }}</td>
-                                <td>€ {{ $subscriptionPayment->value }}</td>
-                                <td>{{ $subscriptionPayment->subscription->subscription_type->plan->name }}</td>
-                                <td>{{ $subscriptionPayment->method }}</td>
-                                <td>{!! $subscriptionPayment->paid == 1 ? '<span
-                                        class="badge badge-success">Pago</span>' : '<span
-                                        class="badge badge-danger">Aguarda pagamento</span>' !!}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    @else
-                    <div class="alert alert-primary" role="alert">
-                        Ainda não existem pagamentos.
-                    </div>
-                    @endif
+                <div class="card-body" id="payments">
+
                 </div>
             </div>
         </div>
@@ -139,6 +110,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 @section('styles')
 <style>
@@ -176,7 +148,19 @@
         $('input[type=radio][name=subscription_type]').change(() => {
             getSubscriptionType();
         });
+
+        getPaymentsList();
+        
+        setInterval(() => {
+            getPaymentsList();
+        }, 10000);
     });
+
+    getPaymentsList = () => {
+        $.get('/payments/list').then((resp) => {
+            $('#payments').html(resp);
+        });
+    }
 
     getSubscriptionType = () => {
         let subscription_type_id = $('input[type=radio][name=subscription_type]:checked').val();
@@ -197,7 +181,7 @@
         if(type == 'mb'){
             method = 'Multibanco';
         } else if(type == 'mbway'){
-            method = 'MBWAY';
+            method = 'Mbway';
         } else {
             method = 'Cartão';
         }
@@ -266,6 +250,43 @@
                 $('#payment-modal').modal('hide');
             }
         });
+    }
+
+    submitMbway = (referencia, valor) => {
+        let nrtlm = $('#nrtlm').val();
+        if(!nrtlm) {
+            Swal.fire(
+                'Erro de validação!',
+                'O número de telemovel é obrigatório!',
+                'warning'
+            );
+        } else {
+            $.LoadingOverlay('show');
+            let data = {
+                nrtlm: nrtlm,
+                referencia: referencia,
+                valor: valor
+            }
+            $.post({
+                url: '/payments/submitMbway',
+                method: 'POST',
+                data: data,
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (resp) => {
+                    $.LoadingOverlay('hide');
+                    Swal.fire('Verifique o seu telemovel').then(() => {
+                        location.reload();
+                    });
+                    console.log(resp);
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+                    console.log(error);
+                }
+            });
+        }
     }
 </script>
 @endsection

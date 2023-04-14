@@ -36,7 +36,23 @@ class PaymentsController extends Controller
     public function mbway(Request $request)
     {
 
-        return $request;
+        $subscriptionPayment = SubscriptionPayment::find($request->referencia);
+        $subscriptionPayment->paid = true;
+        $subscriptionPayment->save();
+
+        $subscription = Subscription::where('id', $subscriptionPayment->subscription_id)
+        ->with([
+            'subscription_type'
+        ])
+        ->first();
+
+        $start_date = $subscription->end_date;
+        $months = $subscription->subscription_type->months;
+        $subscription->start_date = $start_date;
+        $subscription->end_date = Carbon::parse($start_date)->addMonths($months);
+        $subscription->save();
+        
+        return $subscription;
 
     }
 }
