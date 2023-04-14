@@ -17,7 +17,7 @@ class PaymentsController extends Controller
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => 'https://ifthenpay.com/api/multibanco/reference/sandbox',
+                CURLOPT_URL => 'https://ifthenpay.com/api/multibanco/reference/init',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -26,7 +26,7 @@ class PaymentsController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => '{
-                    "mbKey": "YBN-625144",
+                    "mbKey": "383",
                     "orderId": ' . $request->subscriptionPayment . ',
                     "amount": ' . $request->amount . '
                 }',
@@ -67,6 +67,46 @@ class PaymentsController extends Controller
     {
         User::find(auth()->user()->id)->notify(new SendMbByEmail($request->body));
         return [];
+    }
+
+    public function mbway(Request $request)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array(
+            $curl,
+            array(
+                CURLOPT_URL => 'https://ifthenpay.com/api/multibanco/reference/sandbox',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{
+                    "mbKey": "YBN-625144",
+                    "orderId": ' . $request->subscriptionPayment . ',
+                    "amount": ' . $request->amount . '
+                }',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                ),
+            )
+        );
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $mb = json_decode($response, true);
+
+        return view('partials.mb')->with([
+            'amount' => $mb['Amount'],
+            'entity' => $mb['Entity'],
+            'reference' => $mb['Reference'],
+        ]);
+
     }
 
 }

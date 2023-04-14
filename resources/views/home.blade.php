@@ -196,6 +196,10 @@
         let method = '';
         if(type == 'mb'){
             method = 'Multibanco';
+        } else if(type == 'mbway'){
+            method = 'MBWAY';
+        } else {
+            method = 'Cartão';
         }
         let amount = ($('input[name=amount]').val()*1.23).toFixed(2);
         var form = new FormData();
@@ -222,6 +226,13 @@
                     $.LoadingOverlay('hide');
                     $('#inner-payment').html(resp);
                 });
+            } else if(type == 'mbway') {
+                $.get('payments/mbway/' + subscriptionPayment.id + '/' + amount).then((resp) => {
+                    $.LoadingOverlay('hide');
+                    $('#inner-payment').html(resp);
+                });
+            } else {
+
             }
         });
         $('#payment-modal').modal('show');
