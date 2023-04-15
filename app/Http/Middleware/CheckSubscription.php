@@ -25,8 +25,7 @@ class CheckSubscription
                 }
             }
             if(isset($roleToRemove)){
-                $role_ids = $user->roles->pluck('id')->except([$roleToRemove])->toArray();
-                $user->roles()->sync($role_ids);
+                $user->roles()->detach($roleToRemove);
             }
         }
         
