@@ -23,7 +23,7 @@ Route::get('/home', function () {
 
 Auth::routes(['register' => false]);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'checkSubscription']], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('subscription-type/{subscription_type_id}', 'HomeController@subscriptionType');
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\Subscription;
 use App\Models\SubscriptionPayment;
 use Carbon\Carbon;
@@ -19,7 +20,8 @@ class PaymentsController extends Controller
 
         $subscription = Subscription::where('id', $subscriptionPayment->subscription_id)
         ->with([
-            'subscription_type'
+            'subscription_type',
+            'user.roles'
         ])
         ->first();
         
@@ -28,8 +30,17 @@ class PaymentsController extends Controller
         $subscription->end_date = Carbon::parse($start_date)->addMonths($months);
         $subscription->start_date = date('Y-m-d H:i:s');
         $subscription->save();
-        
-        return $subscription;
+
+        $roles = [];
+        if($subscription->user->roles()->where('title', 'Admin')->exists()){
+            $roles[] = 1;
+        }
+        $roles[] = 2;
+        $roles[] = Role::where('title', $subscription->subscription_type->plan->name)->first()->id;
+
+        $subscription->user->roles()->sync($roles);
+
+        return $roles;
 
     }
 
@@ -52,7 +63,16 @@ class PaymentsController extends Controller
         $subscription->start_date = date('Y-m-d H:i:s');
         $subscription->save();
         
-        return $subscription;
+        $roles = [];
+        if($subscription->user->roles()->where('title', 'Admin')->exists()){
+            $roles[] = 1;
+        }
+        $roles[] = 2;
+        $roles[] = Role::where('title', $subscription->subscription_type->plan->name)->first()->id;
+
+        $subscription->user->roles()->sync($roles);
+
+        return $roles;
 
     }
 }
