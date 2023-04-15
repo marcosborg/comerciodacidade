@@ -52,7 +52,9 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="subscription_type"
                                                 id="subscription_type_{{ $subscriptionType->id }}"
-                                                value="{{ $subscriptionType->id }}" {{ $key==0 ? 'checked' : '' }}>
+                                                value="{{ $subscriptionType->id }}" {{ $key==0 &&
+                                                $user->subscription->subscription_type->plan_id == $plan->id ? 'checked'
+                                            : '' }}>
                                             <label class="form-check-label"
                                                 for="subscription_type_{{ $subscriptionType->id }}">
                                                 {{ $subscriptionType->months }} meses com {{
@@ -81,6 +83,7 @@
                     </div>
                     <h1 class="float-right total">€ <span id="total">0.00</span><span class="small">+ IVA</span></h1>
                 </div>
+
             </div>
         </div>
         <div class="col-md-6">
@@ -141,10 +144,6 @@
             getSubscriptionType();
         });
 
-        $('#payment-modal').on('hidden.bs.modal', function() {
-            location.reload();
-        });
-
         $('input[type=radio][name=subscription_type]').change(() => {
             getSubscriptionType();
         });
@@ -186,8 +185,12 @@
             method = 'Cartão';
         }
         let amount = ($('input[name=amount]').val()*1.23).toFixed(2);
+
+        let subscription_type_id = $('input[type=radio][name=subscription_type]:checked').val();
+
         var form = new FormData();
-        form.append("subscription_id", {{ $user->subscription->id }});
+        form.append("subscription_id", {{ optional($user->subscription)->id }});
+        form.append("subscription_type_id", subscription_type_id);
         form.append("value", amount);
         form.append("method", method);
         form.append("paid", "0");
@@ -219,6 +222,7 @@
 
             }
         });
+        
         $('#payment-modal').modal('show');
     }
 

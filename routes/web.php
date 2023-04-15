@@ -97,4 +97,5 @@ Route::middleware(['auth'])->prefix('payments')->group(function () {
     Route::get('mbway/{subscriptionPayment}/{amount}', 'PaymentsController@mbway');
     Route::post('submitMbway', 'PaymentsController@submitMbway');
     Route::get('list', 'PaymentsController@list');
+    Route::post('selectSubscriptionType', 'PaymentsController@selectSubscriptionType');
 });

@@ -18,7 +18,10 @@ class SubscriptionPaymentController extends Controller
     {
         abort_if(Gate::denies('subscription_payment_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $subscriptionPayments = SubscriptionPayment::with(['subscription'])->get();
+        $subscriptionPayments = SubscriptionPayment::with([
+            'subscription.subscription_type.plan',
+            'subscription.user',
+            ])->get();
 
         return view('admin.subscriptionPayments.index', compact('subscriptionPayments'));
     }

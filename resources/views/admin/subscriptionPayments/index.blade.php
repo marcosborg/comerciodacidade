@@ -26,16 +26,22 @@
                             {{ trans('cruds.subscriptionPayment.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.subscriptionPayment.fields.subscription') }}
+                            {{ trans('cruds.user.title_singular') }}
                         </th>
                         <th>
-                            {{ trans('cruds.subscription.fields.end_date') }}
+                            {{ trans('cruds.plan.title_singular') }}
                         </th>
                         <th>
                             {{ trans('cruds.subscriptionPayment.fields.value') }}
                         </th>
                         <th>
                             {{ trans('cruds.subscriptionPayment.fields.method') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.subscriptionPayment.fields.created_at') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.subscriptionPayment.fields.updated_at') }}
                         </th>
                         <th>
                             {{ trans('cruds.subscriptionPayment.fields.paid') }}
@@ -55,16 +61,22 @@
                                 {{ $subscriptionPayment->id ?? '' }}
                             </td>
                             <td>
-                                {{ $subscriptionPayment->subscription->start_date ?? '' }}
+                                {{ $subscriptionPayment->subscription->user->email ?? '' }}
                             </td>
                             <td>
-                                {{ $subscriptionPayment->subscription->end_date ?? '' }}
+                                {{ $subscriptionPayment->subscription->subscription_type->plan->name ?? '' }} - {{ $subscriptionPayment->subscription->subscription_type->months ?? '' }} meses
                             </td>
                             <td>
                                 {{ $subscriptionPayment->value ?? '' }}
                             </td>
                             <td>
                                 {{ $subscriptionPayment->method ?? '' }}
+                            </td>
+                            <td>
+                                {{ $subscriptionPayment->created_at ?? '' }}
+                            </td>
+                            <td>
+                                {{ $subscriptionPayment->updated_at ?? '' }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $subscriptionPayment->paid ?? '' }}</span>
@@ -100,6 +112,8 @@
         </div>
     </div>
 </div>
+
+<script>console.log({!! $subscriptionPayments !!})</script>
 
 
 

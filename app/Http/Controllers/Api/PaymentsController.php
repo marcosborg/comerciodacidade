@@ -25,8 +25,8 @@ class PaymentsController extends Controller
         
         $start_date = $subscription->end_date;
         $months = $subscription->subscription_type->months;
-        $subscription->start_date = $start_date;
         $subscription->end_date = Carbon::parse($start_date)->addMonths($months);
+        $subscription->start_date = date('Y-m-d H:i:s');
         $subscription->save();
         
         return $subscription;
@@ -48,8 +48,8 @@ class PaymentsController extends Controller
 
         $start_date = $subscription->end_date;
         $months = $subscription->subscription_type->months;
-        $subscription->start_date = $start_date;
         $subscription->end_date = Carbon::parse($start_date)->addMonths($months);
+        $subscription->start_date = date('Y-m-d H:i:s');
         $subscription->save();
         
         return $subscription;

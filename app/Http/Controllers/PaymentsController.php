@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subscription;
 use App\Models\SubscriptionPayment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -52,6 +53,10 @@ class PaymentsController extends Controller
 
     public function subscriptionPaymentGenerate(Request $request)
     {
+
+        $subscription = Subscription::find($request->subscription_id);
+        $subscription->subscription_type_id = $request->subscription_type_id;
+        $subscription->save();
 
         $subscriptionPayment = new SubscriptionPayment;
         $subscriptionPayment->subscription_id = $request->subscription_id;
@@ -118,6 +123,11 @@ class PaymentsController extends Controller
         return view('partials.payments')->with([
             'subscriptionPayments' => $subscriptionPayments
         ]);
+    }
+
+    public function selectSubscriptionType(Request $request)
+    {
+        return $request;
     }
 
 }

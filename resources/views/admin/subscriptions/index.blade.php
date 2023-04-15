@@ -64,10 +64,10 @@
                                 {{ $subscription->user->email ?? '' }}
                             </td>
                             <td>
-                                {{ $subscription->subscription_type->months ?? '' }}
+                                {{ $subscription->subscription_type->plan->name ?? '' }} - {{ $subscription->subscription_type->months ?? '' }} meses
                             </td>
                             <td>
-                                {{ $subscription->subscription_type->discount ?? '' }}
+                                {{ $subscription->subscription_type->discount ?? '' }}%
                             </td>
                             <td>
                                 {{ $subscription->start_date ?? '' }}

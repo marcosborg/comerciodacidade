@@ -36,7 +36,7 @@
                             {{ trans('cruds.subscription.fields.subscription_type') }}
                         </th>
                         <td>
-                            {{ $subscription->subscription_type->months ?? '' }}
+                            {{ $subscription->subscription_type->plan->name }} - {{ $subscription->subscription_type->months ?? '' }} meses
                         </td>
                     </tr>
                     <tr>

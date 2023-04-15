@@ -153,16 +153,9 @@ class WebsiteController extends Controller
 
         $user->roles()->sync([2]);
 
-        $subscriptionType = SubscriptionType::find($request->subscription_type_id);
-
-        $startDate = Carbon::now();
-        $endDate = $startDate->addMonths($subscriptionType->months);
-        $startDate = $startDate->toDateTimeString();
-        $endDate = $endDate->toDateTimeString();
-
         $subscription = new Subscription;
-        $subscription->start_date = $startDate;
-        $subscription->end_date = $endDate;
+        $subscription->start_date = date('Y-m-d H:i:s');
+        $subscription->end_date = date('Y-m-d H:i:s');
         $subscription->user_id = $user->id;
         $subscription->subscription_type_id = $request->subscription_type_id;
         $subscription->save();

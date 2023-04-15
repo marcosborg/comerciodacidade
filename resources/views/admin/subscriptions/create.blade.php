@@ -24,8 +24,9 @@
             <div class="form-group">
                 <label class="required" for="subscription_type_id">{{ trans('cruds.subscription.fields.subscription_type') }}</label>
                 <select class="form-control select2 {{ $errors->has('subscription_type') ? 'is-invalid' : '' }}" name="subscription_type_id" id="subscription_type_id" required>
-                    @foreach($subscription_types as $id => $entry)
-                        <option value="{{ $id }}" {{ old('subscription_type_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    <option>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach($subscription_types as $subscription_type)
+                        <option value="{{ $subscription_type->id }}" {{ old('subscription_type_id') == $subscription_type->id ? 'selected' : '' }}>{{ $subscription_type->plan->name }} - {{ $subscription_type->months }} meses</option>
                     @endforeach
                 </select>
                 @if($errors->has('subscription_type'))
@@ -61,3 +62,4 @@
 
 
 @endsection
+<script>console.log({!! $subscription_types !!})</script>

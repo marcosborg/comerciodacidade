@@ -19,7 +19,7 @@ class SubscriptionController extends Controller
     {
         abort_if(Gate::denies('subscription_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $subscriptions = Subscription::with(['user', 'subscription_type'])->get();
+        $subscriptions = Subscription::with(['user', 'subscription_type.plan'])->get();
 
         return view('admin.subscriptions.index', compact('subscriptions'));
     }
@@ -30,7 +30,7 @@ class SubscriptionController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $subscription_types = SubscriptionType::pluck('months', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $subscription_types = SubscriptionType::with('plan')->get();
 
         return view('admin.subscriptions.create', compact('subscription_types', 'users'));
     }
@@ -48,7 +48,7 @@ class SubscriptionController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $subscription_types = SubscriptionType::pluck('months', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $subscription_types = SubscriptionType::with('plan')->get();
 
         $subscription->load('user', 'subscription_type');
 
@@ -66,7 +66,7 @@ class SubscriptionController extends Controller
     {
         abort_if(Gate::denies('subscription_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $subscription->load('user', 'subscription_type');
+        $subscription->load('user', 'subscription_type.plan');
 
         return view('admin.subscriptions.show', compact('subscription'));
     }
