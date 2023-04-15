@@ -79,6 +79,44 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('subscription-payments/destroy', 'SubscriptionPaymentController@massDestroy')->name('subscription-payments.massDestroy');
     Route::resource('subscription-payments', 'SubscriptionPaymentController');
 
+    // Shop Category
+    Route::delete('shop-categories/destroy', 'ShopCategoryController@massDestroy')->name('shop-categories.massDestroy');
+    Route::post('shop-categories/media', 'ShopCategoryController@storeMedia')->name('shop-categories.storeMedia');
+    Route::post('shop-categories/ckmedia', 'ShopCategoryController@storeCKEditorImages')->name('shop-categories.storeCKEditorImages');
+    Route::resource('shop-categories', 'ShopCategoryController');
+
+    // Shop Location
+    Route::delete('shop-locations/destroy', 'ShopLocationController@massDestroy')->name('shop-locations.massDestroy');
+    Route::resource('shop-locations', 'ShopLocationController');
+
+    // Shop Type
+    Route::delete('shop-types/destroy', 'ShopTypeController@massDestroy')->name('shop-types.massDestroy');
+    Route::resource('shop-types', 'ShopTypeController');
+
+    // Shop Taxes
+    Route::delete('shop-taxes/destroy', 'ShopTaxesController@massDestroy')->name('shop-taxes.massDestroy');
+    Route::resource('shop-taxes', 'ShopTaxesController');
+
+    // Shop Company
+    Route::delete('shop-companies/destroy', 'ShopCompanyController@massDestroy')->name('shop-companies.massDestroy');
+    Route::post('shop-companies/media', 'ShopCompanyController@storeMedia')->name('shop-companies.storeMedia');
+    Route::post('shop-companies/ckmedia', 'ShopCompanyController@storeCKEditorImages')->name('shop-companies.storeCKEditorImages');
+    Route::resource('shop-companies', 'ShopCompanyController');
+
+    // Shop Product Category
+    Route::delete('shop-product-categories/destroy', 'ShopProductCategoryController@massDestroy')->name('shop-product-categories.massDestroy');
+    Route::resource('shop-product-categories', 'ShopProductCategoryController');
+
+    // Shop Product
+    Route::delete('shop-products/destroy', 'ShopProductController@massDestroy')->name('shop-products.massDestroy');
+    Route::post('shop-products/media', 'ShopProductController@storeMedia')->name('shop-products.storeMedia');
+    Route::post('shop-products/ckmedia', 'ShopProductController@storeCKEditorImages')->name('shop-products.storeCKEditorImages');
+    Route::resource('shop-products', 'ShopProductController');
+
+    // Shop Product Variations
+    Route::delete('shop-product-variations/destroy', 'ShopProductVariationsController@massDestroy')->name('shop-product-variations.massDestroy');
+    Route::resource('shop-product-variations', 'ShopProductVariationsController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
