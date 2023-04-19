@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.company.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.shopCompany.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.companies.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.shop-companies.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,86 +17,70 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.company.fields.id') }}
+                            {{ trans('cruds.shopCompany.fields.id') }}
                         </th>
                         <td>
-                            {{ $company->id }}
+                            {{ $shopCompany->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.company.fields.name') }}
+                            {{ trans('cruds.shopCompany.fields.company') }}
                         </th>
                         <td>
-                            {{ $company->name }}
+                            {{ $shopCompany->company->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.company.fields.vat') }}
+                            {{ trans('cruds.shopCompany.fields.about') }}
                         </th>
                         <td>
-                            {{ $company->vat }}
+                            {!! $shopCompany->about !!}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.company.fields.address') }}
+                            {{ trans('cruds.shopCompany.fields.shop_location') }}
                         </th>
                         <td>
-                            {{ $company->address }}
+                            {{ $shopCompany->shop_location->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.company.fields.zip') }}
+                            {{ trans('cruds.shopCompany.fields.shop_categories') }}
                         </th>
                         <td>
-                            {{ $company->zip }}
+                            @foreach($shopCompany->shop_categories as $key => $shop_categories)
+                                <span class="label label-info">{{ $shop_categories->name }}</span>
+                            @endforeach
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.company.fields.location') }}
+                            {{ trans('cruds.shopCompany.fields.contacts') }}
                         </th>
                         <td>
-                            {{ $company->location }}
+                            {{ $shopCompany->contacts }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.company.fields.email') }}
+                            {{ trans('cruds.shopCompany.fields.photos') }}
                         </th>
                         <td>
-                            {{ $company->email }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.company.fields.logo') }}
-                        </th>
-                        <td>
-                            @if($company->logo)
-                                <a href="{{ $company->logo->getUrl() }}" target="_blank" style="display: inline-block">
-                                    <img src="{{ $company->logo->getUrl('thumb') }}">
+                            @foreach($shopCompany->photos as $key => $media)
+                                <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $media->getUrl('thumb') }}">
                                 </a>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.company.fields.user') }}
-                        </th>
-                        <td>
-                            @foreach($company->users as $key => $user)
-                                <span class="label label-info">{{ $user->name }}</span>
                             @endforeach
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.companies.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.shop-companies.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

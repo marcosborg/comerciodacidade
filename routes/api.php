@@ -10,6 +10,10 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Shop Category
     Route::post('shop-categories/media', 'ShopCategoryApiController@storeMedia')->name('shop-categories.storeMedia');
     Route::apiResource('shop-categories', 'ShopCategoryApiController');
+
+    // Shop Company
+    Route::post('shop-companies/media', 'ShopCompanyApiController@storeMedia')->name('shop-companies.storeMedia');
+    Route::apiResource('shop-companies', 'ShopCompanyApiController');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function(){
