@@ -28,6 +28,12 @@ class StoreShopProductRequest extends FormRequest
             'photos' => [
                 'array',
             ],
+            'shop_product_categories.*' => [
+                'integer',
+            ],
+            'shop_product_categories' => [
+                'array',
+            ],
             'tax_id' => [
                 'required',
                 'integer',

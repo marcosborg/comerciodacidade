@@ -35,6 +35,9 @@
                             {{ trans('cruds.shopProduct.fields.photos') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopProduct.fields.shop_product_categories') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.price') }}
                         </th>
                         <th>
@@ -71,6 +74,11 @@
                                     <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
                                         <img src="{{ $media->getUrl('thumb') }}">
                                     </a>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($shopProduct->shop_product_categories as $key => $item)
+                                    <span class="badge badge-info">{{ $item->name }}</span>
                                 @endforeach
                             </td>
                             <td>

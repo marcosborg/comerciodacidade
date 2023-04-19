@@ -44,6 +44,22 @@
                 <span class="help-block">{{ trans('cruds.shopProduct.fields.photos_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="shop_product_categories">{{ trans('cruds.shopProduct.fields.shop_product_categories') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('shop_product_categories') ? 'is-invalid' : '' }}" name="shop_product_categories[]" id="shop_product_categories" multiple>
+                    @foreach($shop_product_categories as $id => $shop_product_category)
+                        <option value="{{ $id }}" {{ (in_array($id, old('shop_product_categories', [])) || $shopProduct->shop_product_categories->contains($id)) ? 'selected' : '' }}>{{ $shop_product_category }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('shop_product_categories'))
+                    <span class="text-danger">{{ $errors->first('shop_product_categories') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.shop_product_categories_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="price">{{ trans('cruds.shopProduct.fields.price') }}</label>
                 <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price" id="price" value="{{ old('price', $shopProduct->price) }}" step="0.01">
                 @if($errors->has('price'))
