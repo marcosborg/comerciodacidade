@@ -35,6 +35,9 @@
                             {{ trans('cruds.shopCompany.fields.shop_location') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopCompany.fields.shop_categories') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.shopCompany.fields.contacts') }}
                         </th>
                         <th>
@@ -62,6 +65,11 @@
                             </td>
                             <td>
                                 {{ $shopCompany->shop_location->name ?? '' }}
+                            </td>
+                            <td>
+                                @foreach($shopCompany->shop_categories as $key => $item)
+                                    <span class="badge badge-info">{{ $item->name }}</span>
+                                @endforeach
                             </td>
                             <td>
                                 {{ $shopCompany->contacts ?? '' }}

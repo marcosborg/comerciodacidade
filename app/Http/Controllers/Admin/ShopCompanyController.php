@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyShopCompanyRequest;
 use App\Http\Requests\StoreShopCompanyRequest;
 use App\Http\Requests\UpdateShopCompanyRequest;
 use App\Models\Company;
+use App\Models\ShopCategory;
 use App\Models\ShopCompany;
 use App\Models\ShopLocation;
 use Gate;
@@ -23,7 +24,7 @@ class ShopCompanyController extends Controller
     {
         abort_if(Gate::denies('shop_company_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $shopCompanies = ShopCompany::with(['company', 'shop_location', 'media'])->get();
+        $shopCompanies = ShopCompany::with(['company', 'shop_location', 'shop_categories', 'media'])->get();
 
         return view('admin.shopCompanies.index', compact('shopCompanies'));
     }
@@ -36,13 +37,15 @@ class ShopCompanyController extends Controller
 
         $shop_locations = ShopLocation::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.shopCompanies.create', compact('companies', 'shop_locations'));
+        $shop_categories = ShopCategory::pluck('name', 'id');
+
+        return view('admin.shopCompanies.create', compact('companies', 'shop_categories', 'shop_locations'));
     }
 
     public function store(StoreShopCompanyRequest $request)
     {
         $shopCompany = ShopCompany::create($request->all());
-
+        $shopCompany->shop_categories()->sync($request->input('shop_categories', []));
         foreach ($request->input('photos', []) as $file) {
             $shopCompany->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
         }
@@ -62,15 +65,17 @@ class ShopCompanyController extends Controller
 
         $shop_locations = ShopLocation::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $shopCompany->load('company', 'shop_location');
+        $shop_categories = ShopCategory::pluck('name', 'id');
 
-        return view('admin.shopCompanies.edit', compact('companies', 'shopCompany', 'shop_locations'));
+        $shopCompany->load('company', 'shop_location', 'shop_categories');
+
+        return view('admin.shopCompanies.edit', compact('companies', 'shopCompany', 'shop_categories', 'shop_locations'));
     }
 
     public function update(UpdateShopCompanyRequest $request, ShopCompany $shopCompany)
     {
         $shopCompany->update($request->all());
-
+        $shopCompany->shop_categories()->sync($request->input('shop_categories', []));
         if (count($shopCompany->photos) > 0) {
             foreach ($shopCompany->photos as $media) {
                 if (! in_array($media->file_name, $request->input('photos', []))) {
@@ -92,7 +97,7 @@ class ShopCompanyController extends Controller
     {
         abort_if(Gate::denies('shop_company_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $shopCompany->load('company', 'shop_location');
+        $shopCompany->load('company', 'shop_location', 'shop_categories');
 
         return view('admin.shopCompanies.show', compact('shopCompany'));
     }

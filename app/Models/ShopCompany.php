@@ -57,6 +57,11 @@ class ShopCompany extends Model implements HasMedia
         return $this->belongsTo(ShopLocation::class, 'shop_location_id');
     }
 
+    public function shop_categories()
+    {
+        return $this->belongsToMany(ShopCategory::class);
+    }
+
     public function getPhotosAttribute()
     {
         $files = $this->getMedia('photos');

@@ -25,6 +25,12 @@ class StoreShopCompanyRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            'shop_categories.*' => [
+                'integer',
+            ],
+            'shop_categories' => [
+                'array',
+            ],
             'photos' => [
                 'array',
             ],

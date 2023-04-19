@@ -43,6 +43,22 @@
                 <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_location_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="shop_categories">{{ trans('cruds.shopCompany.fields.shop_categories') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('shop_categories') ? 'is-invalid' : '' }}" name="shop_categories[]" id="shop_categories" multiple>
+                    @foreach($shop_categories as $id => $shop_category)
+                        <option value="{{ $id }}" {{ (in_array($id, old('shop_categories', [])) || $shopCompany->shop_categories->contains($id)) ? 'selected' : '' }}>{{ $shop_category }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('shop_categories'))
+                    <span class="text-danger">{{ $errors->first('shop_categories') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_categories_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="contacts">{{ trans('cruds.shopCompany.fields.contacts') }}</label>
                 <textarea class="form-control {{ $errors->has('contacts') ? 'is-invalid' : '' }}" name="contacts" id="contacts">{{ old('contacts', $shopCompany->contacts) }}</textarea>
                 @if($errors->has('contacts'))
