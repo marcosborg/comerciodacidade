@@ -20,6 +20,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::post('shop-companies/media', 'ShopCompanyApiController@storeMedia')->name('shop-companies.storeMedia');
     Route::apiResource('shop-companies', 'ShopCompanyApiController');
     Route::get('companiesByCategory/{category_id}', 'ShopCompanyApiController@companiesByCategory');
+    Route::get('companyByProductCategory/{id}', 'ShopCompanyApiController@companyByProductCategory');
 
     // Shop Product Category
     Route::apiResource('shop-product-categories', 'ShopProductCategoryApiController');
@@ -28,6 +29,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Shop Product
     Route::post('shop-products/media', 'ShopProductApiController@storeMedia')->name('shop-products.storeMedia');
     Route::apiResource('shop-products', 'ShopProductApiController');
+    Route::get('shopProductsByCategoryProduct/{id}', 'ShopProductApiController@shopProductsByCategoryProduct');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {

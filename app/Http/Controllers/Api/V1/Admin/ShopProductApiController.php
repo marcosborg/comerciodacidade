@@ -20,13 +20,13 @@ class ShopProductApiController extends Controller
     {
         //abort_if(Gate::denies('shop_product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ShopProductResource(ShopProduct::with(['tax'])->get());
+        return new ShopProductResource(ShopProduct::with(['shop_product_categories', 'tax'])->get());
     }
 
     public function store(StoreShopProductRequest $request)
     {
         $shopProduct = ShopProduct::create($request->all());
-
+        $shopProduct->shop_product_categories()->sync($request->input('shop_product_categories', []));
         foreach ($request->input('photos', []) as $file) {
             $shopProduct->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
         }
@@ -36,27 +36,40 @@ class ShopProductApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
+    public function shopProductsByCategoryProduct(Request $request)
+    {
+        $products = ShopProduct::with([
+            'shop_product_categories'
+        ])
+            ->whereHas('shop_product_categories', function ($query) use ($request) {
+                $query->where('id', $request->id);
+            })
+            ->get();
+
+        return $products;
+    }
+
     public function show(ShopProduct $shopProduct)
     {
-        abort_if(Gate::denies('shop_product_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('shop_product_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ShopProductResource($shopProduct->load(['tax']));
+        return new ShopProductResource($shopProduct->load(['shop_product_categories', 'tax']));
     }
 
     public function update(UpdateShopProductRequest $request, ShopProduct $shopProduct)
     {
         $shopProduct->update($request->all());
-
+        $shopProduct->shop_product_categories()->sync($request->input('shop_product_categories', []));
         if (count($shopProduct->photos) > 0) {
             foreach ($shopProduct->photos as $media) {
-                if (! in_array($media->file_name, $request->input('photos', []))) {
+                if (!in_array($media->file_name, $request->input('photos', []))) {
                     $media->delete();
                 }
             }
         }
         $media = $shopProduct->photos->pluck('file_name')->toArray();
         foreach ($request->input('photos', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
+            if (count($media) === 0 || !in_array($file, $media)) {
                 $shopProduct->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
             }
         }

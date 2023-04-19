@@ -8,6 +8,7 @@ use App\Http\Requests\StoreShopCompanyRequest;
 use App\Http\Requests\UpdateShopCompanyRequest;
 use App\Http\Resources\Admin\ShopCompanyResource;
 use App\Models\ShopCompany;
+use App\Models\ShopProductCategory;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,10 +29,22 @@ class ShopCompanyApiController extends Controller
         $shopCompanies = ShopCompany::with([
             'shop_categories',
             'company'
-        ])->whereHas('shop_categories', function($query) use ($request) {
+        ])->whereHas('shop_categories', function ($query) use ($request) {
             $query->where('id', $request->category_id);
         })->get();
         return $shopCompanies;
+    }
+
+    public function companyByProductCategory(Request $request)
+    {
+        $shopProductCategory = ShopProductCategory::where([
+            'id' => $request->id
+        ])
+            ->with([
+                'company'
+            ])
+            ->first();
+        return $shopProductCategory;
     }
 
     public function store(StoreShopCompanyRequest $request)
@@ -60,14 +73,14 @@ class ShopCompanyApiController extends Controller
 
         if (count($shopCompany->photos) > 0) {
             foreach ($shopCompany->photos as $media) {
-                if (! in_array($media->file_name, $request->input('photos', []))) {
+                if (!in_array($media->file_name, $request->input('photos', []))) {
                     $media->delete();
                 }
             }
         }
         $media = $shopCompany->photos->pluck('file_name')->toArray();
         foreach ($request->input('photos', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
+            if (count($media) === 0 || !in_array($file, $media)) {
                 $shopCompany->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
             }
         }
