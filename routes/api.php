@@ -14,6 +14,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Shop Company
     Route::post('shop-companies/media', 'ShopCompanyApiController@storeMedia')->name('shop-companies.storeMedia');
     Route::apiResource('shop-companies', 'ShopCompanyApiController');
+    Route::get('companiesByCategory/{category_id}', 'ShopCompanyApiController@companiesByCategory');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function(){

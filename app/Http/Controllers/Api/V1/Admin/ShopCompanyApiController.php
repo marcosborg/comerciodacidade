@@ -23,6 +23,17 @@ class ShopCompanyApiController extends Controller
         return new ShopCompanyResource(ShopCompany::with(['company', 'shop_location'])->get());
     }
 
+    public function companiesByCategory(Request $request)
+    {
+        $shopCompanies = ShopCompany::with([
+            'shop_categories',
+            'company'
+        ])->whereHas('shop_categories', function($query) use ($request) {
+            $query->where('id', $request->category_id);
+        })->get();
+        return $shopCompanies;
+    }
+
     public function store(StoreShopCompanyRequest $request)
     {
         $shopCompany = ShopCompany::create($request->all());

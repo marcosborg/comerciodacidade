@@ -1,47 +1,53 @@
 @extends('layouts.admin')
 @section('content')
-@can('shop_company_create')
+@can('company_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.shop-companies.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.shopCompany.title_singular') }}
+            <a class="btn btn-success" href="{{ route('admin.companies.create') }}">
+                {{ trans('global.add') }} {{ trans('cruds.company.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.shopCompany.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.company.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-ShopCompany">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Company">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.shopCompany.fields.id') }}
+                            {{ trans('cruds.company.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopCompany.fields.company') }}
+                            {{ trans('cruds.company.fields.name') }}
                         </th>
                         <th>
                             {{ trans('cruds.company.fields.vat') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopCompany.fields.shop_location') }}
+                            {{ trans('cruds.company.fields.address') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopCompany.fields.shop_categories') }}
+                            {{ trans('cruds.company.fields.zip') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopCompany.fields.contacts') }}
+                            {{ trans('cruds.company.fields.location') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopCompany.fields.photos') }}
+                            {{ trans('cruds.company.fields.email') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.company.fields.logo') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.company.fields.user') }}
                         </th>
                         <th>
                             &nbsp;
@@ -49,53 +55,59 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($shopCompanies as $key => $shopCompany)
-                        <tr data-entry-id="{{ $shopCompany->id }}">
+                    @foreach($companies as $key => $company)
+                        <tr data-entry-id="{{ $company->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $shopCompany->id ?? '' }}
+                                {{ $company->id ?? '' }}
                             </td>
                             <td>
-                                {{ $shopCompany->company->name ?? '' }}
+                                {{ $company->name ?? '' }}
                             </td>
                             <td>
-                                {{ $shopCompany->company->vat ?? '' }}
+                                {{ $company->vat ?? '' }}
                             </td>
                             <td>
-                                {{ $shopCompany->shop_location->name ?? '' }}
+                                {{ $company->address ?? '' }}
                             </td>
                             <td>
-                                @foreach($shopCompany->shop_categories as $key => $item)
+                                {{ $company->zip ?? '' }}
+                            </td>
+                            <td>
+                                {{ $company->location ?? '' }}
+                            </td>
+                            <td>
+                                {{ $company->email ?? '' }}
+                            </td>
+                            <td>
+                                @if($company->logo)
+                                    <a href="{{ $company->logo->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $company->logo->getUrl('thumb') }}">
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @foreach($company->users as $key => $item)
                                     <span class="badge badge-info">{{ $item->name }}</span>
                                 @endforeach
                             </td>
                             <td>
-                                {{ $shopCompany->contacts ?? '' }}
-                            </td>
-                            <td>
-                                @foreach($shopCompany->photos as $key => $media)
-                                    <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $media->getUrl('thumb') }}">
-                                    </a>
-                                @endforeach
-                            </td>
-                            <td>
-                                @can('shop_company_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.shop-companies.show', $shopCompany->id) }}">
+                                @can('company_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.companies.show', $company->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('shop_company_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.shop-companies.edit', $shopCompany->id) }}">
+                                @can('company_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.companies.edit', $company->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('shop_company_delete')
-                                    <form action="{{ route('admin.shop-companies.destroy', $shopCompany->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('company_delete')
+                                    <form action="{{ route('admin.companies.destroy', $company->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -120,11 +132,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('shop_company_delete')
+@can('company_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.shop-companies.massDestroy') }}",
+    url: "{{ route('admin.companies.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -155,7 +167,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let table = $('.datatable-ShopCompany:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-Company:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
