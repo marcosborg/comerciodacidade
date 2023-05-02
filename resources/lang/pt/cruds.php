@@ -451,5 +451,35 @@ return [
             'deleted_at_helper'   => ' ',
         ],
     ],
+    'shopProductSubCategory' => [
+        'title'          => 'Shop Product Sub Category',
+        'title_singular' => 'Shop Product Sub Category',
+        'fields'         => [
+            'id'                           => 'ID',
+            'id_helper'                    => ' ',
+            'shop_product_category'        => 'Shop Product Category',
+            'shop_product_category_helper' => ' ',
+            'name'                         => 'Name',
+            'name_helper'                  => ' ',
+            'created_at'                   => 'Created at',
+            'created_at_helper'            => ' ',
+            'updated_at'                   => 'Updated at',
+            'updated_at_helper'            => ' ',
+            'deleted_at'                   => 'Deleted at',
+            'deleted_at_helper'            => ' ',
+        ],
+    ],
+    'manageCategory' => [
+        'title'          => 'Gerir categorias',
+        'title_singular' => 'Gerir categoria',
+    ],
+    'myCategory' => [
+        'title'          => 'Categorias',
+        'title_singular' => 'Categoria',
+    ],
+    'mySubCategory' => [
+        'title'          => 'Subcategorias',
+        'title_singular' => 'Subcategoria',
+    ],
 
 ];

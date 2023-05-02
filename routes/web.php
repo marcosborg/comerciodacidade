@@ -121,6 +121,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('shop-product-features/destroy', 'ShopProductFeatureController@massDestroy')->name('shop-product-features.massDestroy');
     Route::resource('shop-product-features', 'ShopProductFeatureController');
 
+    // Shop Product Sub Category
+    Route::delete('shop-product-sub-categories/destroy', 'ShopProductSubCategoryController@massDestroy')->name('shop-product-sub-categories.massDestroy');
+    Route::resource('shop-product-sub-categories', 'ShopProductSubCategoryController');
+
+    // My Categories
+    Route::delete('my-categories/destroy', 'MyCategoriesController@massDestroy')->name('my-categories.massDestroy');
+    Route::resource('my-categories', 'MyCategoriesController');
+
+    // My Sub Categories
+    Route::delete('my-sub-categories/destroy', 'MySubCategoriesController@massDestroy')->name('my-sub-categories.massDestroy');
+    Route::resource('my-sub-categories', 'MySubCategoriesController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
