@@ -86,4 +86,9 @@ class User extends Authenticatable
         return $this->hasOne(Subscription::class);
     }
 
+    public function company()
+    {
+        return $this->belongsToMany(Company::class)->limit(1);
+    }
+
 }

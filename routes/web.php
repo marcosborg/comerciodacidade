@@ -126,12 +126,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('shop-product-sub-categories', 'ShopProductSubCategoryController');
 
     // My Categories
-    Route::delete('my-categories/destroy', 'MyCategoriesController@massDestroy')->name('my-categories.massDestroy');
-    Route::resource('my-categories', 'MyCategoriesController');
+    Route::prefix('my-categories')->group(function () {
+        Route::get('/', 'MyCategoriesController@index')->name('my-categories.index');
+        Route::get('create', 'MyCategoriesController@create')->name('my-categories.create');
+        Route::post('store', 'MyCategoriesController@store')->name('my-categories.store');
+    });
 
     // My Sub Categories
-    Route::delete('my-sub-categories/destroy', 'MySubCategoriesController@massDestroy')->name('my-sub-categories.massDestroy');
-    Route::resource('my-sub-categories', 'MySubCategoriesController');
+    Route::prefix('my-sub-categories')->group(function(){
+        Route::get('index/{category_id?}', 'MySubCategoriesController@index')->name('my-sub-categories.index');
+        Route::get('create/{category_id?}', 'MySubCategoriesController@create')->name('my-sub-categories.create');
+    });
 
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {

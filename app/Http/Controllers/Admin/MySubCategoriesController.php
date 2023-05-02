@@ -3,74 +3,57 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyMySubCategoryRequest;
-use App\Http\Requests\StoreMySubCategoryRequest;
-use App\Http\Requests\UpdateMySubCategoryRequest;
+use App\Models\ShopProductCategory;
+use App\Models\ShopProductSubCategory;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MySubCategoriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('my_sub_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.mySubCategories.index');
-    }
+        $company_id = User::where('id', auth()->user()->id)->with('company')->first()->company[0]->id;
 
-    public function create()
-    {
-        abort_if(Gate::denies('my_sub_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.mySubCategories.create');
-    }
-
-    public function store(StoreMySubCategoryRequest $request)
-    {
-        $mySubCategory = MySubCategory::create($request->all());
-
-        return redirect()->route('admin.my-sub-categories.index');
-    }
-
-    public function edit(MySubCategory $mySubCategory)
-    {
-        abort_if(Gate::denies('my_sub_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.mySubCategories.edit', compact('mySubCategory'));
-    }
-
-    public function update(UpdateMySubCategoryRequest $request, MySubCategory $mySubCategory)
-    {
-        $mySubCategory->update($request->all());
-
-        return redirect()->route('admin.my-sub-categories.index');
-    }
-
-    public function show(MySubCategory $mySubCategory)
-    {
-        abort_if(Gate::denies('my_sub_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.mySubCategories.show', compact('mySubCategory'));
-    }
-
-    public function destroy(MySubCategory $mySubCategory)
-    {
-        abort_if(Gate::denies('my_sub_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $mySubCategory->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyMySubCategoryRequest $request)
-    {
-        $mySubCategories = MySubCategory::find(request('ids'));
-
-        foreach ($mySubCategories as $mySubCategory) {
-            $mySubCategory->delete();
+        if ($request->category_id) {
+            $category_id = $request->category_id;
+        } else {
+            $category_id = NULL;
         }
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        if ($request->category_id) {
+            $category = ShopProductCategory::find($request->category_id);
+            abort_if($category->company_id != $company_id, Response::HTTP_FORBIDDEN, '403 Forbidden');
+            $shopProductSubCategories = ShopProductSubCategory::where([
+                'shop_product_category_id' => $request->category_id,
+            ])->with(['shop_product_category'])->get();
+        } else {
+            $shopProductSubCategories = ShopProductSubCategory::whereHas('shop_product_category', function ($query) use ($company_id) {
+                $query->where('company_id', $company_id);
+            })->with(['shop_product_category'])->get();
+        }
+
+        return view('admin.mySubCategories.index', compact('shopProductSubCategories', 'category_id'));
     }
+
+    public function create(Request $request)
+    {
+        abort_if(Gate::denies('my_sub_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        if ($request->category_id) {
+            $category_id = $request->category_id;
+        } else {
+            $category_id = NULL;
+        }
+
+        $company_id = User::where('id', auth()->user()->id)->with('company')->first()->company[0]->id;
+
+        $shop_product_categories = ShopProductCategory::where('company_id', $company_id)->get();
+
+        return view('admin.mySubCategories.create', compact('shop_product_categories', 'category_id'));
+    }
+
 }

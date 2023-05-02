@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyMyCategoryRequest;
-use App\Http\Requests\StoreMyCategoryRequest;
-use App\Http\Requests\UpdateMyCategoryRequest;
+use App\Http\Requests\StoreShopCategoryRequest;
+use App\Http\Requests\StoreShopProductCategoryRequest;
+use App\Models\ShopCategory;
+use App\Models\ShopProductCategory;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,61 +18,29 @@ class MyCategoriesController extends Controller
     {
         abort_if(Gate::denies('my_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.myCategories.index');
+        $company_id = User::where('id', auth()->user()->id)->with('company')->first()->company[0]->id;
+
+        $shopProductCategories = ShopProductCategory::where([
+            'company_id' => $company_id
+        ])->get();
+
+        return view('admin.myCategories.index', compact('shopProductCategories'));
     }
 
     public function create()
     {
-        abort_if(Gate::denies('my_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('my_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.myCategories.create');
+        $company = User::where('id', auth()->user()->id)->with('company')->first()->company[0];
+
+        return view('admin.myCategories.create', compact('company'));
     }
 
-    public function store(StoreMyCategoryRequest $request)
+    public function store(StoreShopProductCategoryRequest $request)
     {
-        $myCategory = MyCategory::create($request->all());
+        $shopProductCategory = ShopProductCategory::create($request->all());
 
         return redirect()->route('admin.my-categories.index');
     }
 
-    public function edit(MyCategory $myCategory)
-    {
-        abort_if(Gate::denies('my_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.myCategories.edit', compact('myCategory'));
-    }
-
-    public function update(UpdateMyCategoryRequest $request, MyCategory $myCategory)
-    {
-        $myCategory->update($request->all());
-
-        return redirect()->route('admin.my-categories.index');
-    }
-
-    public function show(MyCategory $myCategory)
-    {
-        abort_if(Gate::denies('my_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.myCategories.show', compact('myCategory'));
-    }
-
-    public function destroy(MyCategory $myCategory)
-    {
-        abort_if(Gate::denies('my_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $myCategory->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyMyCategoryRequest $request)
-    {
-        $myCategories = MyCategory::find(request('ids'));
-
-        foreach ($myCategories as $myCategory) {
-            $myCategory->delete();
-        }
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
 }
