@@ -117,6 +117,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('shop-product-variations/destroy', 'ShopProductVariationsController@massDestroy')->name('shop-product-variations.massDestroy');
     Route::resource('shop-product-variations', 'ShopProductVariationsController');
 
+    // Shop Product Feature
+    Route::delete('shop-product-features/destroy', 'ShopProductFeatureController@massDestroy')->name('shop-product-features.massDestroy');
+    Route::resource('shop-product-features', 'ShopProductFeatureController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

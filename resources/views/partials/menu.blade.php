@@ -305,6 +305,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('shop_product_feature_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.shop-product-features.index") }}" class="nav-link {{ request()->is("admin/shop-product-features") || request()->is("admin/shop-product-features/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-tasks">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.shopProductFeature.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
                         <li class="nav-item">
