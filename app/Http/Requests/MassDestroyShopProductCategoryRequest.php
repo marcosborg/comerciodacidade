@@ -11,15 +11,18 @@ class MassDestroyShopProductCategoryRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('shop_product_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $allow = false;
 
-        return true;
+        if (Gate::allows('shop_product_category_delete') || Gate::allows('my_category_access')) {
+            $allow = true;
+        }
+        return $allow;
     }
 
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
+            'ids' => 'required|array',
             'ids.*' => 'exists:shop_product_categories,id',
         ];
     }

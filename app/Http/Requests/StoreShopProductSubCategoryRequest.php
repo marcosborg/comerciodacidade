@@ -11,7 +11,13 @@ class StoreShopProductSubCategoryRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('shop_product_sub_category_create');
+
+        $allow = false;
+
+        if (Gate::allows('shop_product_sub_category_create') || Gate::allows('my_sub_category_access')) {
+            $allow = true;
+        }
+        return $allow;
     }
 
     public function rules()

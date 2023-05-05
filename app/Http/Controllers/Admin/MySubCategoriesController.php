@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreShopProductSubCategoryRequest;
 use App\Models\ShopProductCategory;
 use App\Models\ShopProductSubCategory;
 use App\Models\User;
@@ -54,6 +55,25 @@ class MySubCategoriesController extends Controller
         $shop_product_categories = ShopProductCategory::where('company_id', $company_id)->get();
 
         return view('admin.mySubCategories.create', compact('shop_product_categories', 'category_id'));
+    }
+
+    public function store(StoreShopProductSubCategoryRequest $request)
+    {
+
+        $shopProductSubCategory = ShopProductSubCategory::create($request->all());
+
+        return redirect()->route('admin.my-sub-categories.index', [$request->shop_product_category_id]);
+    }
+
+    public function edit(ShopProductSubCategory $shopProductSubCategory)
+    {
+        abort_if(Gate::denies('my_sub_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $shop_product_categories = ShopProductCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $shopProductSubCategory->load('shop_product_category');
+
+        return view('admin.my-sub-categories.edit', compact('shopProductSubCategory', 'shop_product_categories'));
     }
 
 }

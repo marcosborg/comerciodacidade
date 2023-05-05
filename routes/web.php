@@ -136,6 +136,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::prefix('my-sub-categories')->group(function () {
         Route::get('index/{category_id?}', 'MySubCategoriesController@index')->name('my-sub-categories.index');
         Route::get('create/{category_id?}', 'MySubCategoriesController@create')->name('my-sub-categories.create');
+        Route::post('store', 'MySubCategoriesController@store')->name('my-sub-categories.store');
+        Route::get('edit/{id}', 'MySubCategoriesController@edit')->name('my-sub-categories.edit');
     });
 
     // My Shop

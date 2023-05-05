@@ -46,21 +46,21 @@
                             {{ $shopProductCategory->name ?? '' }}
                         </td>
                         <td>
-                            @can('shop_product_category_show')
+                            @if(Gate::allows('shop_product_category_show') || Gate::allows('my_category_access'))
                             <a class="btn btn-xs btn-primary"
                                 href="{{ route('admin.my-sub-categories.index') }}/{{ $shopProductCategory->id }}">
                                 {{ trans('cruds.mySubCategory.title') }}
                             </a>
-                            @endcan
+                            @endif
 
-                            @can('shop_product_category_edit')
+                            @if (Gate::allows('shop_product_category_edit') || Gate::allows('my_category_access'))
                             <a class="btn btn-xs btn-info"
                                 href="{{ route('admin.shop-product-categories.edit', $shopProductCategory->id) }}">
                                 {{ trans('global.edit') }}
                             </a>
-                            @endcan
+                            @endif
 
-                            @can('shop_product_category_delete')
+                            @if (Gate::allows('shop_product_category_delete') || Gate::allows('my_category_access'))
                             <form
                                 action="{{ route('admin.shop-product-categories.destroy', $shopProductCategory->id) }}"
                                 method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
@@ -69,8 +69,7 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                             </form>
-                            @endcan
-
+                            @endif
                         </td>
 
                     </tr>
@@ -135,4 +134,6 @@
 </script>
 @endsection
 
-<script>console.log({!! $shopProductCategories !!})</script>
+<script>
+    console.log({!! $shopProductCategories !!})
+</script>

@@ -3,11 +3,11 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.shopProductSubCategory.title_singular') }}
+        {{ trans('global.create') }} {{ trans('cruds.mySubCategory.title_singular') }}
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.shop-product-sub-categories.store") }}"
+        <form method="POST" action="{{ route("admin.my-sub-categories.store") }}"
             enctype="multipart/form-data">
             @csrf
             <div class="form-group">

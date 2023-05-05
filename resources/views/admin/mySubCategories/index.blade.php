@@ -28,9 +28,6 @@
                             {{ trans('cruds.shopProductSubCategory.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopProductSubCategory.fields.shop_product_category') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.shopProductSubCategory.fields.name') }}
                         </th>
                         <th>
@@ -51,31 +48,28 @@
                             {{ $shopProductSubCategory->id ?? '' }}
                         </td>
                         <td>
-                            {{ $shopProductSubCategory->shop_product_category->name ?? '' }}
-                        </td>
-                        <td>
                             {{ $shopProductSubCategory->name ?? '' }}
                         </td>
                         <td>
                             {{ $shopProductSubCategory->shop_product_category->name ?? '' }}
                         </td>
                         <td>
-                            @can('shop_product_sub_category_edit')
+                            @if(Gate::allows('shop_product_sub_category_edit') || Gate::allows('my_sub_category_access'))
                             <a class="btn btn-xs btn-info"
-                                href="{{ route('admin.shop-product-sub-categories.edit', $shopProductSubCategory->id) }}">
+                                href="{{ route('admin.my-sub-categories.edit', $shopProductSubCategory->id) }}">
                                 {{ trans('global.edit') }}
                             </a>
                             @endcan
-                            @can('shop_product_sub_category_delete')
+                            @if (Gate::allows('shop_product_sub_category_delete') || Gate::allows('my_sub_category_access'))
                             <form
-                                action="{{ route('admin.shop-product-sub-categories.destroy', $shopProductSubCategory->id) }}"
-                                method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                style="display: inline-block;">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                            </form>
-                            @endcan
+                            action="{{ route('admin.shop-product-sub-categories.destroy', $shopProductSubCategory->id) }}"
+                            method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                            style="display: inline-block;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                        </form>
+                            @endif
                         </td>
 
                     </tr>
