@@ -329,6 +329,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('my_shop_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.my-shops.index") }}" class="nav-link {{ request()->is("admin/my-shops") || request()->is("admin/my-shops/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-store-alt">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.myShop.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('manage_category_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/my-categories*") ? "menu-open" : "" }} {{ request()->is("admin/my-sub-categories*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle {{ request()->is("admin/my-categories*") ? "active" : "" }} {{ request()->is("admin/my-sub-categories*") ? "active" : "" }}" href="#">

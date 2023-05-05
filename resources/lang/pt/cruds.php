@@ -481,5 +481,9 @@ return [
         'title'          => 'Subcategorias',
         'title_singular' => 'Subcategoria',
     ],
+    'myShop' => [
+        'title'          => 'A minha loja',
+        'title_singular' => 'A minha loja',
+    ],
 
 ];

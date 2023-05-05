@@ -98,6 +98,16 @@
             </div>
         </div>
     </div>
+    <div class="card">
+        <div class="card-body">
+            @if ($user->company[0]->shop_company)
+            <a href="" class="btn btn-lg btn-success">Editar loja</a>
+            @else
+            <h3>Parabens! O seu plano está ativo. Pode criar a sua loja.</h3>
+            <a href="/admin/my-shops/create" class="btn btn-lg btn-success">Criar loja</a>
+            @endif
+        </div>
+    </div>
 </div>
 <input type="hidden" name="amount">
 <div class="modal fade" id="payment-modal" tabindex="-1">
@@ -294,3 +304,6 @@
     }
 </script>
 @endsection
+<script>
+    console.log({!! $user !!})
+</script>

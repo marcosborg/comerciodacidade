@@ -14,7 +14,8 @@ class HomeController
         $user = User::where('id', auth()->user()->id)
             ->with([
                 'subscription.subscription_type.plan',
-                'subscription.subscriptionPayments.subscription.subscription_type.plan'
+                'subscription.subscriptionPayments.subscription.subscription_type.plan',
+                'company.shop_company'
             ])->first();
 
         $plans = Plan::with([

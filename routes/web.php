@@ -133,9 +133,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     });
 
     // My Sub Categories
-    Route::prefix('my-sub-categories')->group(function(){
+    Route::prefix('my-sub-categories')->group(function () {
         Route::get('index/{category_id?}', 'MySubCategoriesController@index')->name('my-sub-categories.index');
         Route::get('create/{category_id?}', 'MySubCategoriesController@create')->name('my-sub-categories.create');
+    });
+
+    // My Shop
+    Route::prefix('my-shops')->group(function () {
+        Route::get('/', 'MyShopController@index')->name('my-shops.index');
+        Route::get('create', 'MyShopController@create');
+        Route::post('store', 'MyShopController@store')->name('my-shops.store');
+        Route::put('update/{shop_company_id}', 'MyShopController@update')->name('my-shops.update');
     });
 
 });

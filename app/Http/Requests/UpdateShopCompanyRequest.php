@@ -11,7 +11,13 @@ class UpdateShopCompanyRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('shop_company_edit');
+        $allow = false;
+
+        if (Gate::allows('shop_company_create') || Gate::allows('my_shop_access')) {
+            $allow = true;
+        }
+
+        return $allow;
     }
 
     public function rules()
