@@ -62,10 +62,10 @@
                             @endcan
                             @if (Gate::allows('shop_product_sub_category_delete') || Gate::allows('my_sub_category_access'))
                             <form
-                            action="{{ route('admin.shop-product-sub-categories.destroy', $shopProductSubCategory->id) }}"
+                            action="{{ route('admin.my-sub-categories.destroy') }}"
                             method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                             style="display: inline-block;">
-                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="id" value="{{ $shopProductSubCategory->id }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                         </form>

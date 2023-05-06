@@ -55,18 +55,18 @@
 
                             @if (Gate::allows('shop_product_category_edit') || Gate::allows('my_category_access'))
                             <a class="btn btn-xs btn-info"
-                                href="{{ route('admin.shop-product-categories.edit', $shopProductCategory->id) }}">
+                                href="{{ route('admin.my-categories.edit', [$shopProductCategory->id]) }}">
                                 {{ trans('global.edit') }}
                             </a>
                             @endif
 
                             @if (Gate::allows('shop_product_category_delete') || Gate::allows('my_category_access'))
                             <form
-                                action="{{ route('admin.shop-product-categories.destroy', $shopProductCategory->id) }}"
+                                action="{{ route('admin.my-categories.destroy') }}"
                                 method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                 style="display: inline-block;">
-                                <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="id" value="{{ $shopProductCategory->id }}">
                                 <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                             </form>
                             @endif

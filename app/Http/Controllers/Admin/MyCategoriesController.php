@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreShopCategoryRequest;
 use App\Http\Requests\StoreShopProductCategoryRequest;
+use App\Http\Requests\UpdateShopProductCategoryRequest;
 use App\Models\ShopCategory;
 use App\Models\ShopProductCategory;
 use App\Models\User;
@@ -41,6 +42,37 @@ class MyCategoriesController extends Controller
         $shopProductCategory = ShopProductCategory::create($request->all());
 
         return redirect()->route('admin.my-categories.index');
+    }
+
+    public function edit(Request $request)
+    {
+        abort_if(Gate::denies('my_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $company = User::where('id', auth()->user()->id)->with('company')->first()->company[0];
+
+        $shopProductCategory = ShopProductCategory::find($request->id);
+
+        return view('admin.myCategories.edit', compact('company', 'shopProductCategory'));
+    }
+
+    public function update(Request $request)
+    {
+        $shopProductCategory = ShopProductCategory::find($request->id);
+        $shopProductCategory->name = $request->name;
+        $shopProductCategory->save();
+
+        return redirect()->route('admin.my-categories.index');
+    }
+
+    public function destroy(Request $request)
+    {
+
+        abort_if(Gate::denies('my_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $shopProductCategory = ShopProductCategory::find($request->id);
+        $shopProductCategory->delete();
+
+        return back();
     }
 
 }

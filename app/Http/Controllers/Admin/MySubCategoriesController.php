@@ -65,15 +65,39 @@ class MySubCategoriesController extends Controller
         return redirect()->route('admin.my-sub-categories.index', [$request->shop_product_category_id]);
     }
 
-    public function edit(ShopProductSubCategory $shopProductSubCategory)
+    public function edit(Request $request)
     {
         abort_if(Gate::denies('my_sub_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $shop_product_categories = ShopProductCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $shopProductSubCategory = ShopProductSubCategory::find($request->id);
+        
         $shopProductSubCategory->load('shop_product_category');
 
-        return view('admin.my-sub-categories.edit', compact('shopProductSubCategory', 'shop_product_categories'));
+        return view('admin.mySubCategories.edit', compact('shopProductSubCategory', 'shop_product_categories'));
+    }
+
+    public function update(Request $request)
+    {
+        abort_if(Gate::denies('my_sub_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $shopProductSubCategory = ShopProductSubCategory::find($request->id);
+        $shopProductSubCategory->name = $request->name;
+        $shopProductSubCategory->shop_product_category_id = $request->shop_product_category_id;
+        $shopProductSubCategory->save();
+
+        return redirect()->route('admin.my-sub-categories.index', [$request->shop_product_category_id]);
+    }
+
+    public function destroy(Request $request)
+    {
+        abort_if(Gate::denies('my_sub_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $shopProductSubCategory = ShopProductSubCategory::find($request->id);
+        $shopProductSubCategory->delete();
+
+        return back();
     }
 
 }

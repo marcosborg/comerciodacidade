@@ -130,6 +130,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::get('/', 'MyCategoriesController@index')->name('my-categories.index');
         Route::get('create', 'MyCategoriesController@create')->name('my-categories.create');
         Route::post('store', 'MyCategoriesController@store')->name('my-categories.store');
+        Route::get('edit/{id}', 'MyCategoriesController@edit')->name('my-categories.edit');
+        Route::put('update', 'MyCategoriesController@update')->name('my-categories.update');
+        Route::post('destroy', 'MyCategoriesController@destroy')->name('my-categories.destroy');
     });
 
     // My Sub Categories
@@ -138,6 +141,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::get('create/{category_id?}', 'MySubCategoriesController@create')->name('my-sub-categories.create');
         Route::post('store', 'MySubCategoriesController@store')->name('my-sub-categories.store');
         Route::get('edit/{id}', 'MySubCategoriesController@edit')->name('my-sub-categories.edit');
+        Route::post('update', 'MySubCategoriesController@update')->name('my-sub-categories.update');
+        ROute::post('destroy', 'MySubCategoriesController@destroy')->name('my-sub-categories.destroy');
     });
 
     // My Shop

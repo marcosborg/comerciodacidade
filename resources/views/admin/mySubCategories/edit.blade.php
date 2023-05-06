@@ -7,9 +7,9 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.shop-product-sub-categories.update", [$shopProductSubCategory->id]) }}" enctype="multipart/form-data">
-            @method('PUT')
+        <form method="POST" action="{{ route("admin.my-sub-categories.update") }}" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" name="id" value="{{ $shopProductSubCategory->id }}">
             <div class="form-group">
                 <label class="required" for="shop_product_category_id">{{ trans('cruds.shopProductSubCategory.fields.shop_product_category') }}</label>
                 <select class="form-control select2 {{ $errors->has('shop_product_category') ? 'is-invalid' : '' }}" name="shop_product_category_id" id="shop_product_category_id" required>
