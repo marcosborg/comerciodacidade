@@ -39,6 +39,12 @@ class StoreShopProductRequest extends FormRequest
             'shop_product_categories' => [
                 'array',
             ],
+            'shop_product_sub_categories.*' => [
+                'integer',
+            ],
+            'shop_product_sub_categories' => [
+                'array',
+            ],
             'tax_id' => [
                 'required',
                 'integer',

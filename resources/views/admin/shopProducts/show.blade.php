@@ -71,6 +71,16 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.shopProduct.fields.shop_product_sub_categories') }}
+                        </th>
+                        <td>
+                            @foreach($shopProduct->shop_product_sub_categories as $key => $shop_product_sub_categories)
+                                <span class="label label-info">{{ $shop_product_sub_categories->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.price') }}
                         </th>
                         <td>

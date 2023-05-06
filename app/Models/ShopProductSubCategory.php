@@ -32,6 +32,11 @@ class ShopProductSubCategory extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+    public function shopProductSubCategoriesShopProducts()
+    {
+        return $this->belongsToMany(ShopProduct::class);
+    }
+
     public function shop_product_category()
     {
         return $this->belongsTo(ShopProductCategory::class, 'shop_product_category_id');

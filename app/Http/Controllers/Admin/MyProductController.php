@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ShopProduct;
 use App\Models\ShopProductCategory;
+use App\Models\ShopProductSubCategory;
 use App\Models\ShopTax;
 use App\Models\User;
 use Gate;
@@ -38,7 +39,13 @@ class MyProductController extends Controller
             $query->where('company_id', $company->id);
         })->get()->pluck('name', 'id');
 
-        return view('admin.myProducts.create', compact('shop_product_categories', 'taxes'));
+        $shop_product_sub_categories = ShopProductSubCategory::with('shop_product_category.company')->whereHas('shop_product_category', function ($query) use ($company) {
+            $query->whereHas('company', function($q) use ($company) {
+                $q->where('id', $company->id);
+            });
+        })->get()->pluck('name', 'id');
+
+        return view('admin.myProducts.create', compact('shop_product_categories', 'shop_product_sub_categories', 'taxes'));
     }
 
 }

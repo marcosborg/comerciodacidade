@@ -9,6 +9,7 @@ use App\Http\Requests\StoreShopProductRequest;
 use App\Http\Requests\UpdateShopProductRequest;
 use App\Models\ShopProduct;
 use App\Models\ShopProductCategory;
+use App\Models\ShopProductSubCategory;
 use App\Models\ShopTax;
 use Gate;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class ShopProductController extends Controller
     {
         abort_if(Gate::denies('shop_product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $shopProducts = ShopProduct::with(['shop_product_categories', 'tax', 'media'])->get();
+        $shopProducts = ShopProduct::with(['shop_product_categories', 'shop_product_sub_categories', 'tax', 'media'])->get();
 
         return view('admin.shopProducts.index', compact('shopProducts'));
     }
@@ -34,15 +35,18 @@ class ShopProductController extends Controller
 
         $shop_product_categories = ShopProductCategory::pluck('name', 'id');
 
+        $shop_product_sub_categories = ShopProductSubCategory::pluck('name', 'id');
+
         $taxes = ShopTax::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.shopProducts.create', compact('shop_product_categories', 'taxes'));
+        return view('admin.shopProducts.create', compact('shop_product_categories', 'shop_product_sub_categories', 'taxes'));
     }
 
     public function store(StoreShopProductRequest $request)
     {
         $shopProduct = ShopProduct::create($request->all());
         $shopProduct->shop_product_categories()->sync($request->input('shop_product_categories', []));
+        $shopProduct->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         foreach ($request->input('photos', []) as $file) {
             $shopProduct->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
         }
@@ -56,7 +60,6 @@ class ShopProductController extends Controller
         } else {
             return redirect()->route('admin.my-products.index');
         }
-
     }
 
     public function edit(ShopProduct $shopProduct)
@@ -65,27 +68,30 @@ class ShopProductController extends Controller
 
         $shop_product_categories = ShopProductCategory::pluck('name', 'id');
 
+        $shop_product_sub_categories = ShopProductSubCategory::pluck('name', 'id');
+
         $taxes = ShopTax::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $shopProduct->load('shop_product_categories', 'tax');
+        $shopProduct->load('shop_product_categories', 'shop_product_sub_categories', 'tax');
 
-        return view('admin.shopProducts.edit', compact('shopProduct', 'shop_product_categories', 'taxes'));
+        return view('admin.shopProducts.edit', compact('shopProduct', 'shop_product_categories', 'shop_product_sub_categories', 'taxes'));
     }
 
     public function update(UpdateShopProductRequest $request, ShopProduct $shopProduct)
     {
         $shopProduct->update($request->all());
         $shopProduct->shop_product_categories()->sync($request->input('shop_product_categories', []));
+        $shopProduct->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         if (count($shopProduct->photos) > 0) {
             foreach ($shopProduct->photos as $media) {
-                if (!in_array($media->file_name, $request->input('photos', []))) {
+                if (! in_array($media->file_name, $request->input('photos', []))) {
                     $media->delete();
                 }
             }
         }
         $media = $shopProduct->photos->pluck('file_name')->toArray();
         foreach ($request->input('photos', []) as $file) {
-            if (count($media) === 0 || !in_array($file, $media)) {
+            if (count($media) === 0 || ! in_array($file, $media)) {
                 $shopProduct->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
             }
         }
@@ -97,7 +103,7 @@ class ShopProductController extends Controller
     {
         abort_if(Gate::denies('shop_product_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $shopProduct->load('shop_product_categories', 'tax', 'shopProductShopProductVariations');
+        $shopProduct->load('shop_product_categories', 'shop_product_sub_categories', 'tax', 'shopProductShopProductVariations');
 
         return view('admin.shopProducts.show', compact('shopProduct'));
     }
@@ -126,10 +132,10 @@ class ShopProductController extends Controller
     {
         abort_if(Gate::denies('shop_product_create') && Gate::denies('shop_product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $model = new ShopProduct();
-        $model->id = $request->input('crud_id', 0);
+        $model         = new ShopProduct();
+        $model->id     = $request->input('crud_id', 0);
         $model->exists = true;
-        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }

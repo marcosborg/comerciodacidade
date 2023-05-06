@@ -75,4 +75,11 @@ class ShopProduct extends Model implements HasMedia
     {
         return $this->belongsTo(ShopTax::class, 'tax_id');
     }
+
+    public function shop_product_sub_categories()
+    {
+        return $this->belongsToMany(ShopProductSubCategory::class);
+    }
+
+    
 }

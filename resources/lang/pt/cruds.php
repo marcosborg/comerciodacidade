@@ -411,6 +411,8 @@ return [
             'deleted_at_helper'  => ' ',
             'shop_product_categories'        => 'Shop Product Categories',
             'shop_product_categories_helper' => ' ',
+            'shop_product_sub_categories'        => 'Sub Categorias',
+            'shop_product_sub_categories_helper' => ' ',
         ],
     ],
     'shopProductVariation' => [

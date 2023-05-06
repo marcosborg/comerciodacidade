@@ -99,21 +99,21 @@
                             <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
                         </td>
                         <td>
-                            @can('shop_product_show')
+                            @if (Gate::allows('shop_product_show') || Gate::allows('my_product_access'))
                             <a class="btn btn-xs btn-primary"
                                 href="{{ route('admin.shop-products.show', $shopProduct->id) }}">
                                 {{ trans('global.view') }}
                             </a>
-                            @endcan
+                            @endif
 
-                            @can('shop_product_edit')
+                            @if (Gate::allows('shop_product_edit') || Gate::allows('my_product_access'))
                             <a class="btn btn-xs btn-info"
                                 href="{{ route('admin.shop-products.edit', $shopProduct->id) }}">
                                 {{ trans('global.edit') }}
                             </a>
-                            @endcan
+                            @endif
 
-                            @can('shop_product_delete')
+                            @if (Gate::allows('shop_product_delete') || Gate::allows('my_product_access'))
                             <form action="{{ route('admin.shop-products.destroy', $shopProduct->id) }}" method="POST"
                                 onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                 style="display: inline-block;">
@@ -121,7 +121,7 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                             </form>
-                            @endcan
+                            @endif
 
                         </td>
 

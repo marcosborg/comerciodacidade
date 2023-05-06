@@ -50,6 +50,22 @@
     </div>
 </div>
 
-
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.relatedData') }}
+    </div>
+    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="#shop_product_sub_categories_shop_products" role="tab" data-toggle="tab">
+                {{ trans('cruds.shopProduct.title') }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane" role="tabpanel" id="shop_product_sub_categories_shop_products">
+            @includeIf('admin.shopProductSubCategories.relationships.shopProductSubCategoriesShopProducts', ['shopProducts' => $shopProductSubCategory->shopProductSubCategoriesShopProducts])
+        </div>
+    </div>
+</div>
 
 @endsection

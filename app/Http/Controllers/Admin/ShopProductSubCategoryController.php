@@ -61,7 +61,7 @@ class ShopProductSubCategoryController extends Controller
     {
         abort_if(Gate::denies('shop_product_sub_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $shopProductSubCategory->load('shop_product_category');
+        $shopProductSubCategory->load('shop_product_category', 'shopProductSubCategoriesShopProducts');
 
         return view('admin.shopProductSubCategories.show', compact('shopProductSubCategory'));
     }

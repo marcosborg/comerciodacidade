@@ -38,6 +38,9 @@
                             {{ trans('cruds.shopProduct.fields.shop_product_categories') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopProduct.fields.shop_product_sub_categories') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.price') }}
                         </th>
                         <th>
@@ -78,6 +81,11 @@
                             </td>
                             <td>
                                 @foreach($shopProduct->shop_product_categories as $key => $item)
+                                    <span class="badge badge-info">{{ $item->name }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($shopProduct->shop_product_sub_categories as $key => $item)
                                     <span class="badge badge-info">{{ $item->name }}</span>
                                 @endforeach
                             </td>
