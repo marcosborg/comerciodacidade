@@ -485,5 +485,9 @@ return [
         'title'          => 'A minha loja',
         'title_singular' => 'A minha loja',
     ],
+    'myProduct' => [
+        'title'          => 'Produtos',
+        'title_singular' => 'Produto',
+    ],
 
 ];

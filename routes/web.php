@@ -153,6 +153,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::put('update/{shop_company_id}', 'MyShopController@update')->name('my-shops.update');
     });
 
+    // My Product
+    Route::prefix('my-products')->group(function () {
+        Route::get('/', 'MyProductController@index')->name('my-products.index');
+        Route::get('create', 'MyProductController@create')->name('my-products.create');
+    });
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

@@ -380,6 +380,18 @@
                         </ul>
                     </li>
                 @endcan
+                @can('my_product_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.my-products.index") }}" class="nav-link {{ request()->is("admin/my-products") || request()->is("admin/my-products/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-box-open">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.myProduct.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
                         <li class="nav-item">

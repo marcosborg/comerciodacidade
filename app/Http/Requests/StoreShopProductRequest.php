@@ -11,7 +11,12 @@ class StoreShopProductRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('shop_product_create');
+        $allow = false;
+        if (Gate::allows('shop_product_create') || Gate::allows('my_product_access')) {
+            $allow = true;
+        }
+        return $allow;
+
     }
 
     public function rules()
