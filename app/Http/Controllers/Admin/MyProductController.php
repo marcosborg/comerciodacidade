@@ -7,6 +7,7 @@ use App\Models\ShopProduct;
 use App\Models\ShopProductCategory;
 use App\Models\ShopProductFeature;
 use App\Models\ShopProductSubCategory;
+use App\Models\ShopProductVariation;
 use App\Models\ShopTax;
 use App\Models\User;
 use Gate;
@@ -83,6 +84,41 @@ class MyProductController extends Controller
     public function deleteShopProductFeature(Request $request)
     {
         ShopProductFeature::where('id', $request->shop_product_feature_id)->first()->delete();
+    }
+
+    public function newShopProductVariation(Request $request)
+    {
+
+        $shopProduct = ShopProduct::find($request->shop_product_id);
+
+        $shopProductVariation = new ShopProductVariation;
+        $shopProductVariation->shop_product_id = $request->shop_product_id;
+        $shopProductVariation->name = $request->name;
+        $shopProductVariation->price = $shopProduct->price;
+        $shopProductVariation->save();
+    }
+
+    public function shopProductVariationList(Request $request)
+    {
+        $shopProductVariations = ShopProductVariation::where('shop_product_id', $request->shop_product_id)->get();
+
+        return view('admin.myProducts.VariationList', compact('shopProductVariations'));
+    }
+
+    public function deleteShopProductVariation(Request $request)
+    {
+        ShopProductVariation::where('id', $request->shop_product_variation_id)->first()->delete();
+    }
+
+    public function updateShopProductVariationPrices(Request $request)
+    {
+        $data = json_decode($request->data);
+        
+        foreach ($data as $variation) {
+            $shopProductVariation = ShopProductVariation::find($variation->shop_product_variation_id);
+            $shopProductVariation->price = $variation->price;
+            $shopProductVariation->save();
+        }
     }
 
 }

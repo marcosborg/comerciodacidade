@@ -159,8 +159,27 @@
                         </div>
                     </div>
                 </form>
-
                 <ul class="list-group" id="shop_product_feature_list"></ul>
+                <form action="/admin/my-products/new-shop-product-variation" method="post"
+                    id="shop_product_variation_form">
+                    @csrf
+                    <input type="hidden" name="shop_product_id" value="{{ $shopProduct->id }}">
+                    <div class="form-group mt-4">
+                        <label>Variações do produto</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Nova variação" name="name" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="submit" id="button-addon2">Inserir
+                                    variação</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <ul class="list-group list-group-flush" id="shop_product_variation_list">
+
+                </ul>
+                <button type="button" class="btn btn-secondary mt-4 float-right"
+                    onclick="updateShopProductVariationPrices()">Gravar alterações às variações</button>
             </div>
         </div>
     </div>
@@ -318,8 +337,10 @@ Dropzone.options.photosDropzone = {
         });
     });
     shopProductFeatureList = () => {
+        $.LoadingOverlay('show');
         let shop_product_id = {!! $shopProduct->id !!};
         $.get('/admin/my-products/shop-product-feature-list/' + shop_product_id).then((resp) => {
+            $.LoadingOverlay('hide');
             $('#shop_product_feature_list').html(resp);
         });
     }
@@ -347,5 +368,82 @@ Dropzone.options.photosDropzone = {
             }
         });
     }
+</script>
+<script>
+    $(() => {
+    shopProductVariationList();
+    $('#shop_product_variation_form').ajaxForm({
+        beforeSubmit: () => {
+            $.LoadingOverlay('show');
+        },
+        success: () => {
+            $.LoadingOverlay('hide');
+            $('#shop_product_variation_form input[name=name]').val('');
+            shopProductVariationList();
+        },
+        error: (error) => {
+            $.LoadingOverlay('hide');
+            console.log(error);
+        }
+    });
+});
+shopProductVariationList = () => {
+    $.LoadingOverlay('show');
+    let shop_product_id = {!! $shopProduct->id !!};
+    $.get('/admin/my-products/shop-product-variation-list/' + shop_product_id).then((resp) => {
+        $.LoadingOverlay('hide');
+        $('#shop_product_variation_list').html(resp);
+    });
+}
+deleteShopProductVariation = (shop_product_variation_id) => {
+    Swal.fire({
+        title: 'Tem a certeza?',
+        text: "Não é possivel reverter!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, pode apagar!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.LoadingOverlay('show');
+            $.get('/admin/my-products/delete-shop-product-variation/' + shop_product_variation_id).then(() => {
+                shopProductVariationList();
+                $.LoadingOverlay('hide');
+                Swal.fire(
+                    'Apagado!',
+                    'Pode continuar.',
+                    'success'
+                );
+            });
+        }
+    });
+}
+updateShopProductVariationPrices = () => {
+    data = [];
+    $('#shop_product_variation_list input[name=price]').each(function(){
+        data.push({
+            shop_product_variation_id: $(this).data('shop_product_variation_id'),
+            price: $(this).val()
+        });
+        console.log();
+    });
+    $.ajax({
+        url: '/admin/my-products/update-shop-product-variation-prices',
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+        data: {
+            data: JSON.stringify(data)
+        },
+        success: () => {
+            shopProductVariationList();
+        },
+        error: (err) => {
+            console.log(err);
+        }
+    });
+}
 </script>
 @endsection
