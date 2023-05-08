@@ -108,7 +108,7 @@
 
                             @if (Gate::allows('shop_product_edit') || Gate::allows('my_product_access'))
                             <a class="btn btn-xs btn-info"
-                                href="{{ route('admin.shop-products.edit', $shopProduct->id) }}">
+                                href="/admin/my-products/edit/{{ $shopProduct->id }}">
                                 {{ trans('global.edit') }}
                             </a>
                             @endif

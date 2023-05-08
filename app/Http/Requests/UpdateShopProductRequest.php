@@ -11,7 +11,12 @@ class UpdateShopProductRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('shop_product_edit');
+        $allow = false;
+        if (Gate::allows('shop_product_edit') || Gate::allows('my_product_access')) {
+            $allow = true;
+        }
+
+        return $allow;
     }
 
     public function rules()

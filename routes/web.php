@@ -157,6 +157,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::prefix('my-products')->group(function () {
         Route::get('/', 'MyProductController@index')->name('my-products.index');
         Route::get('create', 'MyProductController@create')->name('my-products.create');
+        Route::get('edit/{id}', 'MyProductController@edit')->name('my-products.edit');
+        Route::post('new-shop-product-feature', 'MyProductController@newShopProductFeature');
+        Route::get('shop-product-feature-list/{shop_product_id}', 'MyProductController@shopProductFeatureList');
+        Route::get('delete-shop-product-feature/{shop_product_feature_id}', 'MyProductController@deleteShopProductFeature');
     });
 
 });

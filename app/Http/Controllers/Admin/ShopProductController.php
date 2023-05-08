@@ -58,7 +58,7 @@ class ShopProductController extends Controller
         if (!$request->myProduct) {
             return redirect()->route('admin.shop-products.index');
         } else {
-            return redirect()->route('admin.my-products.index');
+            return redirect('admin/my-products/edit/' . $shopProduct->id)->with('message', 'Criado com sucesso');
         }
     }
 
@@ -84,19 +84,22 @@ class ShopProductController extends Controller
         $shopProduct->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         if (count($shopProduct->photos) > 0) {
             foreach ($shopProduct->photos as $media) {
-                if (! in_array($media->file_name, $request->input('photos', []))) {
+                if (!in_array($media->file_name, $request->input('photos', []))) {
                     $media->delete();
                 }
             }
         }
         $media = $shopProduct->photos->pluck('file_name')->toArray();
         foreach ($request->input('photos', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
+            if (count($media) === 0 || !in_array($file, $media)) {
                 $shopProduct->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
             }
         }
-
-        return redirect()->route('admin.shop-products.index');
+        if (!$request->myProduct) {
+            return redirect()->route('admin.shop-products.index');
+        } else {
+            return redirect()->back()->with('message', 'Atualizado com sucesso');
+        }
     }
 
     public function show(ShopProduct $shopProduct)
@@ -132,10 +135,10 @@ class ShopProductController extends Controller
     {
         abort_if(Gate::denies('shop_product_create') && Gate::denies('shop_product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $model         = new ShopProduct();
-        $model->id     = $request->input('crud_id', 0);
+        $model = new ShopProduct();
+        $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
