@@ -102,7 +102,7 @@ class MyProductController extends Controller
     {
         $shopProductVariations = ShopProductVariation::where('shop_product_id', $request->shop_product_id)->get();
 
-        return view('admin.myProducts.VariationList', compact('shopProductVariations'));
+        return view('admin.myProducts.variationList', compact('shopProductVariations'));
     }
 
     public function deleteShopProductVariation(Request $request)
