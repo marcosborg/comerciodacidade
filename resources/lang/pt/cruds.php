@@ -413,6 +413,12 @@ return [
             'shop_product_categories_helper' => ' ',
             'shop_product_sub_categories'        => 'Sub Categorias',
             'shop_product_sub_categories_helper' => ' ',
+            'youtube'                            => 'Youtube',
+            'youtube_helper'                     => ' ',
+            'attachment_name'                    => 'Nome do anexo',
+            'attachment_name_helper'             => ' ',
+            'attachment'                         => 'Anexo',
+            'attachment_helper'                  => ' ',
         ],
     ],
     'shopProductVariation' => [

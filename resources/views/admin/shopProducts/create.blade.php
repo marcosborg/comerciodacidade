@@ -95,6 +95,14 @@
                 <span class="help-block">{{ trans('cruds.shopProduct.fields.tax_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="youtube">{{ trans('cruds.shopProduct.fields.youtube') }}</label>
+                <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text" name="youtube" id="youtube" value="{{ old('youtube', '') }}">
+                @if($errors->has('youtube'))
+                    <span class="text-danger">{{ $errors->first('youtube') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.youtube_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <div class="form-check {{ $errors->has('state') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="state" value="0">
                     <input class="form-check-input" type="checkbox" name="state" id="state" value="1" {{ old('state', 0) == 1 || old('state') === null ? 'checked' : '' }}>
@@ -104,6 +112,23 @@
                     <span class="text-danger">{{ $errors->first('state') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.shopProduct.fields.state_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="attachment_name">{{ trans('cruds.shopProduct.fields.attachment_name') }}</label>
+                <input class="form-control {{ $errors->has('attachment_name') ? 'is-invalid' : '' }}" type="text" name="attachment_name" id="attachment_name" value="{{ old('attachment_name', '') }}">
+                @if($errors->has('attachment_name'))
+                    <span class="text-danger">{{ $errors->first('attachment_name') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.attachment_name_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="attachment">{{ trans('cruds.shopProduct.fields.attachment') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('attachment') ? 'is-invalid' : '' }}" id="attachment-dropzone">
+                </div>
+                @if($errors->has('attachment'))
+                    <span class="text-danger">{{ $errors->first('attachment') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.attachment_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
@@ -243,5 +268,55 @@ Dropzone.options.photosDropzone = {
      }
 }
 
+</script>
+<script>
+    Dropzone.options.attachmentDropzone = {
+    url: '{{ route('admin.shop-products.storeMedia') }}',
+    maxFilesize: 5, // MB
+    maxFiles: 1,
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    params: {
+      size: 5
+    },
+    success: function (file, response) {
+      $('form').find('input[name="attachment"]').remove()
+      $('form').append('<input type="hidden" name="attachment" value="' + response.name + '">')
+    },
+    removedfile: function (file) {
+      file.previewElement.remove()
+      if (file.status !== 'error') {
+        $('form').find('input[name="attachment"]').remove()
+        this.options.maxFiles = this.options.maxFiles + 1
+      }
+    },
+    init: function () {
+@if(isset($shopProduct) && $shopProduct->attachment)
+      var file = {!! json_encode($shopProduct->attachment) !!}
+          this.options.addedfile.call(this, file)
+      file.previewElement.classList.add('dz-complete')
+      $('form').append('<input type="hidden" name="attachment" value="' + file.file_name + '">')
+      this.options.maxFiles = this.options.maxFiles - 1
+@endif
+    },
+     error: function (file, response) {
+         if ($.type(response) === 'string') {
+             var message = response //dropzone sends it's own error messages in string
+         } else {
+             var message = response.errors.file
+         }
+         file.previewElement.classList.add('dz-error')
+         _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+         _results = []
+         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+             node = _ref[_i]
+             _results.push(node.textContent = message)
+         }
+
+         return _results
+     }
+}
 </script>
 @endsection

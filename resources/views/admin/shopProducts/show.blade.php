@@ -97,10 +97,38 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.shopProduct.fields.youtube') }}
+                        </th>
+                        <td>
+                            {{ $shopProduct->youtube }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.state') }}
                         </th>
                         <td>
                             <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopProduct.fields.attachment_name') }}
+                        </th>
+                        <td>
+                            {{ $shopProduct->attachment_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopProduct.fields.attachment') }}
+                        </th>
+                        <td>
+                            @if($shopProduct->attachment)
+                                <a href="{{ $shopProduct->attachment->getUrl() }}" target="_blank">
+                                    {{ trans('global.view_file') }}
+                                </a>
+                            @endif
                         </td>
                     </tr>
                 </tbody>

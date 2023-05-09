@@ -18,6 +18,7 @@ class ShopProduct extends Model implements HasMedia
 
     protected $appends = [
         'photos',
+        'attachment',
     ];
 
     protected $dates = [
@@ -32,6 +33,8 @@ class ShopProduct extends Model implements HasMedia
         'description',
         'price',
         'tax_id',
+        'youtube',
+        'attachment_name',
         'state',
         'created_at',
         'updated_at',
@@ -79,6 +82,11 @@ class ShopProduct extends Model implements HasMedia
     public function shop_product_sub_categories()
     {
         return $this->belongsToMany(ShopProductSubCategory::class);
+    }
+
+    public function getAttachmentAttribute()
+    {
+        return $this->getMedia('attachment')->last();
     }
 
     

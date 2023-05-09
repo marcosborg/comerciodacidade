@@ -50,7 +50,16 @@
                             {{ trans('cruds.shopTax.fields.tax') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopProduct.fields.youtube') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.state') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.shopProduct.fields.attachment_name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.shopProduct.fields.attachment') }}
                         </th>
                         <th>
                             &nbsp;
@@ -99,8 +108,21 @@
                                 {{ $shopProduct->tax->tax ?? '' }}
                             </td>
                             <td>
+                                {{ $shopProduct->youtube ?? '' }}
+                            </td>
+                            <td>
                                 <span style="display:none">{{ $shopProduct->state ?? '' }}</span>
                                 <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                {{ $shopProduct->attachment_name ?? '' }}
+                            </td>
+                            <td>
+                                @if($shopProduct->attachment)
+                                    <a href="{{ $shopProduct->attachment->getUrl() }}" target="_blank">
+                                        {{ trans('global.view_file') }}
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 @can('shop_product_show')

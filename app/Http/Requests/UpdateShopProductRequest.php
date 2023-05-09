@@ -49,6 +49,14 @@ class UpdateShopProductRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            'youtube' => [
+                'string',
+                'nullable',
+            ],
+            'attachment_name' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }
