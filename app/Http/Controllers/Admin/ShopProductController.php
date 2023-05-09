@@ -88,20 +88,20 @@ class ShopProductController extends Controller
         $shopProduct->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         if (count($shopProduct->photos) > 0) {
             foreach ($shopProduct->photos as $media) {
-                if (! in_array($media->file_name, $request->input('photos', []))) {
+                if (!in_array($media->file_name, $request->input('photos', []))) {
                     $media->delete();
                 }
             }
         }
         $media = $shopProduct->photos->pluck('file_name')->toArray();
         foreach ($request->input('photos', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
+            if (count($media) === 0 || !in_array($file, $media)) {
                 $shopProduct->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
             }
         }
 
         if ($request->input('attachment', false)) {
-            if (! $shopProduct->attachment || $request->input('attachment') !== $shopProduct->attachment->file_name) {
+            if (!$shopProduct->attachment || $request->input('attachment') !== $shopProduct->attachment->file_name) {
                 if ($shopProduct->attachment) {
                     $shopProduct->attachment->delete();
                 }
@@ -128,7 +128,11 @@ class ShopProductController extends Controller
 
     public function destroy(ShopProduct $shopProduct)
     {
-        abort_if(Gate::denies('shop_product_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $allow = false;
+        if (Gate::allows('shop_product_delete') || Gate::allows('my_product_access')) {
+            $allow = true;
+        }
+        abort_if($allow == false, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $shopProduct->delete();
 
