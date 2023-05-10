@@ -32,9 +32,6 @@
         <span style="display:none">{{ $shopProduct->state ?? '' }}</span>
         <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
     </td>
-    <td>
-        {{ $shopProduct->position }}
-    </td>
     <td class="text-muted">
         <i class="right fa fa-fw fa-arrow-up"></i>
         <i class="right fa fa-fw fa-arrow-down"></i>
