@@ -176,7 +176,7 @@
                         <label>Caracteristicas do produto</label>
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" placeholder="Nova caracteristica" name="name"
-                                required>
+                                required autocomplete="off">
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="submit" id="button-addon2">Inserir
                                     caracteristica</button>
@@ -192,7 +192,7 @@
                     <div class="form-group mt-4">
                         <label>Variações do produto</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Nova variação" name="name" required>
+                            <input type="text" autocomplete="off" class="form-control" placeholder="Nova variação" name="name" required>
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="submit" id="button-addon2">Inserir
                                     variação</button>
