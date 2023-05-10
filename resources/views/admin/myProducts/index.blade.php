@@ -1,7 +1,3 @@
-<script>
-    console.log({!! $shopProducts !!})
-</script>
-
 @extends('layouts.admin')
 @section('content')
 
@@ -20,14 +16,11 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-ShopProduct">
+            <table class="table table-bordered table-striped table-hover datatable datatable-ShopProduct">
                 <thead>
                     <tr>
-                        <th width="10">
+                        <th class="hide">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.shopProduct.fields.id') }}
                         </th>
                         <th>
                             {{ trans('cruds.shopProduct.fields.name') }}
@@ -56,85 +49,28 @@
                         <th>
                             &nbsp;
                         </th>
+                        <th>
+                            &nbsp;
+                        </th>
+                        <th>
+                            &nbsp;
+                        </th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($shopProducts as $key => $shopProduct)
-                    <tr data-entry-id="{{ $shopProduct->id }}">
-                        <td>
+                <tbody id="sortable">
 
-                        </td>
-                        <td>
-                            {{ $shopProduct->id ?? '' }}
-                        </td>
-                        <td>
-                            {{ $shopProduct->name ?? '' }}
-                        </td>
-                        <td>
-                            {{ $shopProduct->reference ?? '' }}
-                        </td>
-                        <td>
-                            @foreach($shopProduct->photos as $key => $media)
-                            <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                <img src="{{ $media->getUrl('thumb') }}">
-                            </a>
-                            @endforeach
-                        </td>
-                        <td>
-                            @foreach($shopProduct->shop_product_categories as $key => $item)
-                            <span class="badge badge-info">{{ $item->name }}</span>
-                            @endforeach
-                        </td>
-                        <td>
-                            {{ $shopProduct->price ?? '' }}
-                        </td>
-                        <td>
-                            {{ $shopProduct->tax->name ?? '' }}
-                        </td>
-                        <td>
-                            {{ $shopProduct->tax->tax ?? '' }}
-                        </td>
-                        <td>
-                            <span style="display:none">{{ $shopProduct->state ?? '' }}</span>
-                            <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
-                        </td>
-                        <td>
-                            @if (Gate::allows('shop_product_edit') || Gate::allows('my_product_access'))
-                            <a class="btn btn-xs btn-info"
-                                href="/admin/my-products/edit/{{ $shopProduct->id }}">
-                                {{ trans('global.edit') }}
-                            </a>
-                            @endif
-
-                            @if (Gate::allows('shop_product_delete') || Gate::allows('my_product_access'))
-                            <form action="{{ route('admin.shop-products.destroy', $shopProduct->id) }}" method="POST"
-                                onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                style="display: inline-block;">
-                                <input type="hidden" name="shopProduct" value="1">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                            </form>
-                            @endif
-
-                        </td>
-
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-
-
 @endsection
 @section('scripts')
 @parent
 <script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+    loadDatatable = () => {
+    let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('shop_product_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
@@ -167,16 +103,65 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 10, 'desc' ]],
     pageLength: 100,
+    ordering: false,
   });
-  let table = $('.datatable-ShopProduct:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-ShopProduct:not(.ajaxTable)').DataTable({ 
+    buttons: dtButtons,
+ })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
-})
-
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+</script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    $(() => {
+        productList();
+        $("#sortable").sortable({
+            stop: () => {
+                let products = $('tbody > tr');
+                let firstPosition = $(products[0]).data('position');
+                let lastPosition = products.length;
+                let data = [];
+                $.each(products, function(index, value){
+                    let product_id = $(value).data('product_id');
+                    data.push({
+                        product_id: product_id,
+                    });
+                });
+                $.ajax({
+                    url: '/admin/my-products/position',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        data: JSON.stringify(data),
+                        firstPosition: firstPosition,
+                        lastPosition: lastPosition,
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    });
+    productList = () => {
+        $.LoadingOverlay('show');
+        $.get('/admin/my-products/product-list').then((resp) => {
+            $.LoadingOverlay('hide');
+            $('.datatable-ShopProduct > tbody').html(resp);
+            loadDatatable();
+        });
+    }
 </script>
 @endsection

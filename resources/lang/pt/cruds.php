@@ -419,6 +419,8 @@ return [
             'attachment_name_helper'             => ' ',
             'attachment'                         => 'Anexo',
             'attachment_helper'                  => ' ',
+            'position'                           => 'Position',
+            'position_helper'                    => ' ',
         ],
     ],
     'shopProductVariation' => [

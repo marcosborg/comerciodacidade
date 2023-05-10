@@ -62,6 +62,9 @@
                             {{ trans('cruds.shopProduct.fields.attachment') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopProduct.fields.position') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -123,6 +126,9 @@
                                         {{ trans('global.view_file') }}
                                     </a>
                                 @endif
+                            </td>
+                            <td>
+                                {{ $shopProduct->position ?? '' }}
                             </td>
                             <td>
                                 @can('shop_product_show')
@@ -195,7 +201,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 14, 'asc' ]],
     pageLength: 100,
   });
   let table = $('.datatable-ShopProduct:not(.ajaxTable)').DataTable({ buttons: dtButtons })

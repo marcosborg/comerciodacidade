@@ -20,13 +20,7 @@ class MyProductController extends Controller
     {
         abort_if(Gate::denies('my_product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $company = User::where('id', auth()->user()->id)->with('company')->first()->company[0];
-
-        $shopProducts = ShopProduct::whereHas('shop_product_categories', function ($query) use ($company) {
-            $query->where('company_id', $company->id);
-        })->with(['shop_product_categories', 'tax', 'media'])->get();
-
-        return view('admin.myProducts.index', compact('shopProducts'));
+        return view('admin.myProducts.index');
     }
 
     public function create()
@@ -113,12 +107,41 @@ class MyProductController extends Controller
     public function updateShopProductVariationPrices(Request $request)
     {
         $data = json_decode($request->data);
-        
+
         foreach ($data as $variation) {
             $shopProductVariation = ShopProductVariation::find($variation->shop_product_variation_id);
             $shopProductVariation->price = $variation->price;
             $shopProductVariation->save();
         }
+    }
+
+    public function productList()
+    {
+        $company = User::where('id', auth()->user()->id)->with('company')->first()->company[0];
+
+        $shopProducts = ShopProduct::whereHas('shop_product_categories', function ($query) use ($company) {
+            $query->where('company_id', $company->id);
+        })->with(['shop_product_categories', 'tax', 'media'])
+            ->orderBy('position')
+            ->get();
+
+        return view('admin.myProducts.productList', compact('shopProducts'));
+    }
+
+    public function position(Request $request)
+    {
+        $data = json_decode($request->data);
+        $index = 0;
+
+        for ($i = $request->firstPosition; $i < $request->lastPosition; $i++) {
+            $shopProduct = ShopProduct::find($data[$index]->product_id);
+            $shopProduct->position = $i;
+            $shopProduct->save();
+            $index++;
+        }
+
+        return [];
+
     }
 
 }

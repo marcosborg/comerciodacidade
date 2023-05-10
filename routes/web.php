@@ -164,7 +164,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::post('new-shop-product-variation', 'MyProductController@newShopProductVariation');
         Route::get('shop-product-variation-list/{shop_product_id}', 'MyProductController@shopProductVariationList');
         Route::get('delete-shop-product-variation/{shop_product_variation_id}', 'MyProductController@deleteShopProductVariation');
-        ROute::post('update-shop-product-variation-prices', 'MyProductController@updateShopProductVariationPrices');
+        Route::post('update-shop-product-variation-prices', 'MyProductController@updateShopProductVariationPrices');
+        Route::get('product-list', 'MyProductController@productList');
+        Route::post('position', 'MyProductController@position');
     });
 
 });

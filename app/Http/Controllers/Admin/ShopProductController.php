@@ -45,6 +45,10 @@ class ShopProductController extends Controller
     public function store(StoreShopProductRequest $request)
     {
         $shopProduct = ShopProduct::create($request->all());
+
+        $shopProduct->position = $shopProduct->count() -1;
+        $shopProduct->save();
+
         $shopProduct->shop_product_categories()->sync($request->input('shop_product_categories', []));
         $shopProduct->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         foreach ($request->input('photos', []) as $file) {
