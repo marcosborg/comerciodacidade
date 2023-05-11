@@ -125,26 +125,30 @@
                     </div>
                     <div class="form-group">
                         <label for="youtube">{{ trans('cruds.shopProduct.fields.youtube') }}</label>
-                        <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text" name="youtube" id="youtube" value="{{ old('youtube', $shopProduct->youtube) }}">
+                        <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text"
+                            name="youtube" id="youtube" value="{{ old('youtube', $shopProduct->youtube) }}">
                         @if($errors->has('youtube'))
-                            <span class="text-danger">{{ $errors->first('youtube') }}</span>
+                        <span class="text-danger">{{ $errors->first('youtube') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.shopProduct.fields.youtube_helper') }}</span>
                     </div>
                     <div class="form-group">
                         <label for="attachment_name">{{ trans('cruds.shopProduct.fields.attachment_name') }}</label>
-                        <input class="form-control {{ $errors->has('attachment_name') ? 'is-invalid' : '' }}" type="text" name="attachment_name" id="attachment_name" value="{{ old('attachment_name', $shopProduct->attachment_name) }}">
+                        <input class="form-control {{ $errors->has('attachment_name') ? 'is-invalid' : '' }}"
+                            type="text" name="attachment_name" id="attachment_name"
+                            value="{{ old('attachment_name', $shopProduct->attachment_name) }}">
                         @if($errors->has('attachment_name'))
-                            <span class="text-danger">{{ $errors->first('attachment_name') }}</span>
+                        <span class="text-danger">{{ $errors->first('attachment_name') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.shopProduct.fields.attachment_name_helper') }}</span>
                     </div>
                     <div class="form-group">
                         <label for="attachment">{{ trans('cruds.shopProduct.fields.attachment') }}</label>
-                        <div class="needsclick dropzone {{ $errors->has('attachment') ? 'is-invalid' : '' }}" id="attachment-dropzone">
+                        <div class="needsclick dropzone {{ $errors->has('attachment') ? 'is-invalid' : '' }}"
+                            id="attachment-dropzone">
                         </div>
                         @if($errors->has('attachment'))
-                            <span class="text-danger">{{ $errors->first('attachment') }}</span>
+                        <span class="text-danger">{{ $errors->first('attachment') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.shopProduct.fields.attachment_helper') }}</span>
                     </div>
@@ -169,21 +173,60 @@
                 </form>
             </div>
             <div class="col-md-6">
-                <form action="/admin/my-products/new-shop-product-feature" method="post" id="shop_product_feature_form">
-                    @csrf
-                    <input type="hidden" name="shop_product_id" value="{{ $shopProduct->id }}">
-                    <div class="form-group">
-                        <label>Caracteristicas do produto</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Nova caracteristica" name="name"
-                                required autocomplete="off">
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary" type="submit" id="button-addon2">Inserir
-                                    caracteristica</button>
+                <label>Caracteristicas do produto</label>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-toggle="tab" data-target="#new-feature-tab" type="button"
+                            role="tab">Criar nova</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-toggle="tab" data-target="#all-feature-tab" type="button"
+                            role="tab" id="new-feature-tab-button">Selecionar existentes</button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="new-feature-tab" role="tabpanel">
+                        <form action="/admin/my-products/new-shop-product-feature" method="post"
+                            id="shop_product_feature_form">
+                            @csrf
+                            <input type="hidden" name="shop_product_id" value="{{ $shopProduct->id }}">
+                            <div class="form-group mt-4">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Nova caracteristica"
+                                        name="name" required autocomplete="off">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit" id="button-addon2">Inserir
+                                            caracteristica</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="all-feature-tab" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="shop_product_feature_id">Procurar e selecionar</label>
+                                    <div style="padding-bottom: 4px">
+                                        <span class="btn btn-info btn-xs"
+                                            style="border-radius: 0" onclick="selectAllFeatures()">{{
+                                            trans('global.select_all') }}</span>
+                                        <span class="btn btn-info btn-xs"
+                                            style="border-radius: 0" onclick="deselectAllFeatures()">{{
+                                            trans('global.deselect_all') }}</span>
+                                    </div>
+                                    <select name="shop_product_feature_id" id="shop_product_feature_id"
+                                        class="form-control" multiple>
+                                        @foreach ($shopProductFeatures as $key => $feature)
+                                        <option value="{{ $feature->name }}">{{ $feature->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button class="btn btn-secondary">Inserir caracteristicas selecionadas</button>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
                 <ul class="list-group" id="shop_product_feature_list"></ul>
                 <form action="/admin/my-products/new-shop-product-variation" method="post"
                     id="shop_product_variation_form">
@@ -192,7 +235,8 @@
                     <div class="form-group mt-4">
                         <label>Variações do produto</label>
                         <div class="input-group mb-3">
-                            <input type="text" autocomplete="off" class="form-control" placeholder="Nova variação" name="name" required>
+                            <input type="text" autocomplete="off" class="form-control" placeholder="Nova variação"
+                                name="name" required>
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="submit" id="button-addon2">Inserir
                                     variação</button>
@@ -200,9 +244,7 @@
                         </div>
                     </div>
                 </form>
-                <ul class="list-group list-group-flush" id="shop_product_variation_list">
-
-                </ul>
+                <ul class="list-group list-group-flush" id="shop_product_variation_list"></ul>
                 <button type="button" class="btn btn-secondary mt-4 float-right"
                     onclick="updateShopProductVariationPrices()">Gravar alterações às variações</button>
             </div>
@@ -411,7 +453,24 @@ Dropzone.options.photosDropzone = {
             console.log(error);
         }
     });
+    $('#new-feature-tab-button').on('shown.bs.tab', function(){
+        $('#shop_product_feature_id').select2();
+    });
+    
 });
+selectAllFeatures = () => {
+    $('#shop_product_feature_id').select2('destroy');
+    $('#shop_product_feature_id').val($('#shop_product_feature_id option').map(function() {
+        return this.value;
+    }));
+    $('#shop_product_feature_id').select2();
+}
+deselectAllFeatures = () => {
+    $('#shop_product_feature_id').select2('destroy');
+    $('#shop_product_feature_id').val([]);
+    $('#shop_product_feature_id').trigger('change');
+    $('#shop_product_feature_id').select2();
+}
 shopProductVariationList = () => {
     $.LoadingOverlay('show');
     let shop_product_id = {!! $shopProduct->id !!};

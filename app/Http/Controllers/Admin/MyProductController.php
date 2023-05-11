@@ -48,16 +48,26 @@ class MyProductController extends Controller
     {
         abort_if(Gate::denies('my_product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $company = User::where('id', auth()->user()->id)->with('company')->first()->company[0];
+
         $shop_product_categories = ShopProductCategory::pluck('name', 'id');
 
         $shop_product_sub_categories = ShopProductSubCategory::pluck('name', 'id');
 
         $taxes = ShopTax::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $shopProductFeatures = ShopProductFeature::with('shop_product.shop_product_categories')
+            ->whereHas('shop_product', function ($query) use ($company) {
+                $query->whereHas('shop_product_categories', function($q) use ($company) {
+                    $q->where('company_id', $company->id);
+                });
+            })
+            ->get();
+
         $shopProduct = ShopProduct::where('id', $request->id)
             ->first();
 
-        return view('admin.myProducts.edit', compact('shopProduct', 'shop_product_categories', 'shop_product_sub_categories', 'taxes'));
+        return view('admin.myProducts.edit', compact('shopProduct', 'shop_product_categories', 'shop_product_sub_categories', 'taxes', 'shopProductFeatures'));
     }
 
     public function newShopProductFeature(Request $request)
