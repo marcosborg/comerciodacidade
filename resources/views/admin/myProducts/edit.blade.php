@@ -233,22 +233,40 @@
                     </div>
                 </div>
                 <ul class="list-group" id="shop_product_feature_list" style="cursor: move;"></ul>
-                <form action="/admin/my-products/new-shop-product-variation" method="post"
-                    id="shop_product_variation_form">
-                    @csrf
-                    <input type="hidden" name="shop_product_id" value="{{ $shopProduct->id }}">
-                    <div class="form-group mt-4">
-                        <label>Variações do produto</label>
-                        <div class="input-group mb-3">
-                            <input type="text" autocomplete="off" class="form-control" placeholder="Nova variação"
-                                name="name" required>
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary" type="submit" id="button-addon2">Inserir
-                                    variação</button>
+                <hr>
+                <label>Variações do produto</label>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-toggle="tab" data-target="#new-variation-tab" type="button"
+                            role="tab">Criar nova</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-toggle="tab" data-target="#all-variation-tab" type="button"
+                            role="tab" id="new-variation-tab-button">Selecionar existentes</button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="new-variation-tab" role="tabpanel">
+                        <form action="/admin/my-products/new-shop-product-variation" method="post"
+                            id="shop_product_variation_form">
+                            @csrf
+                            <input type="hidden" name="shop_product_id" value="{{ $shopProduct->id }}">
+                            <div class="form-group mt-4">
+                                <div class="input-group mb-3">
+                                    <input type="text" autocomplete="off" class="form-control"
+                                        placeholder="Nova variação" name="name" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit" id="button-addon2">Inserir
+                                            variação</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                    <div class="tab-pane fade" id="all-variation-tab" role="tabpanel">
+                        
+                    </div>
+                </div>
                 <ul class="list-group list-group-flush" id="shop_product_variation_list"></ul>
                 <button type="button" class="btn btn-secondary mt-4 float-right"
                     onclick="updateShopProductVariationPrices()">Gravar alterações às variações</button>
