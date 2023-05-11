@@ -23,6 +23,9 @@
 
                         </th>
                         <th>
+                            &nbsp;
+                        </th>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.name') }}
                         </th>
                         <th>
@@ -49,12 +52,9 @@
                         <th>
                             &nbsp;
                         </th>
-                        <th>
-                            &nbsp;
-                        </th>
                     </tr>
                 </thead>
-                <tbody id="sortable">
+                <tbody id="sortable" style="cursor: move;">
 
                 </tbody>
             </table>

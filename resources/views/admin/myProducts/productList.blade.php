@@ -2,6 +2,9 @@
 <tr data-product_id="{{ $shopProduct->id }}" data-position="{{ $shopProduct->position }}">
     <td class="hide"></td>
     <td>
+        <img src="/theme/assets/img/arrows.svg" style="width: 10px; margin: 0 20px;">
+    </td>
+    <td>
         {{ $shopProduct->name ?? '' }}
     </td>
     <td>
@@ -31,10 +34,6 @@
     <td>
         <span style="display:none">{{ $shopProduct->state ?? '' }}</span>
         <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
-    </td>
-    <td class="text-muted">
-        <i class="right fa fa-fw fa-arrow-up"></i>
-        <i class="right fa fa-fw fa-arrow-down"></i>
     </td>
     <td>
         @if (Gate::allows('shop_product_edit') || Gate::allows('my_product_access'))
