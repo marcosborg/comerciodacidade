@@ -80,7 +80,7 @@ class MyProductController extends Controller
 
     public function shopProductFeatureList(Request $request)
     {
-        $shopProductFeatures = ShopProductFeature::where('shop_product_id', $request->shop_product_id)->get();
+        $shopProductFeatures = ShopProductFeature::where('shop_product_id', $request->shop_product_id)->orderBy('position')->get();
 
         return view('admin.myProducts.featureList', compact('shopProductFeatures'));
     }
@@ -168,6 +168,16 @@ class MyProductController extends Controller
             ]);
         }
         return $data;
+    }
+
+    public function shopProductFeaturePositionUpdate(Request $request)
+    {
+        $data = json_decode($request->data);
+        foreach ($data as $key => $id) {
+            $shopProductFeature = ShopProductFeature::find($id);
+            $shopProductFeature->position = $key;
+            $shopProductFeature->save();
+        }
     }
 
 }

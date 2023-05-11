@@ -232,7 +232,7 @@
                         </div>
                     </div>
                 </div>
-                <ul class="list-group" id="shop_product_feature_list"></ul>
+                <ul class="list-group" id="shop_product_feature_list" style="cursor: move;"></ul>
                 <form action="/admin/my-products/new-shop-product-variation" method="post"
                     id="shop_product_variation_form">
                     @csrf
@@ -468,7 +468,26 @@ Dropzone.options.photosDropzone = {
     $('#new-feature-tab-button').on('shown.bs.tab', function(){
         $('#shop_product_feature_id').select2();
     });
-    $('#shop_product_feature_list').sortable();
+    $('#shop_product_feature_list').sortable({
+        stop: () => {
+            let shopProductFeatureList = $('#shop_product_feature_list > li');
+            let array = [];
+            $.each(shopProductFeatureList, function() {
+                let shopProductFeature_id = $(this).data('shop-product-feature');
+                array.push(shopProductFeature_id);
+            });
+            $.post({
+                url: '/admin/my-products/shop-product-feature-position-update',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    data: JSON.stringify(array)
+                }
+            });
+        }
+    });
 });
 selectAllFeatures = () => {
     $('#shop_product_feature_id').select2('destroy');
