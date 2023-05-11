@@ -58,7 +58,7 @@ class MyProductController extends Controller
 
         $shopProductFeatures = ShopProductFeature::with('shop_product.shop_product_categories')
             ->whereHas('shop_product', function ($query) use ($company) {
-                $query->whereHas('shop_product_categories', function($q) use ($company) {
+                $query->whereHas('shop_product_categories', function ($q) use ($company) {
                     $q->where('company_id', $company->id);
                 });
             })
@@ -152,6 +152,22 @@ class MyProductController extends Controller
 
         return [];
 
+    }
+
+    public function shopProductFeatureAdd(Request $request)
+    {
+        $data = [];
+        foreach ($request->shop_product_feature_id as $name) {
+            $data[] = [
+                'name' => $name,
+                'shop_product_id' => $request->shop_product_id
+            ];
+            ShopProductFeature::firstOrCreate([
+                'name' => $name,
+                'shop_product_id' => $request->shop_product_id
+            ]);
+        }
+        return $data;
     }
 
 }

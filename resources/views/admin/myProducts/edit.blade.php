@@ -9,8 +9,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <form method="POST" action="{{ route("admin.shop-products.update", [$shopProduct->id]) }}"
-                    enctype="multipart/form-data">
+                <form method="POST" action="/admin/shop-products/{{ $shopProduct->id }}" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <input type="hidden" name="myProduct" value="1">
@@ -205,24 +204,30 @@
                     <div class="tab-pane fade" id="all-feature-tab" role="tabpanel">
                         <div class="card">
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label for="shop_product_feature_id">Procurar e selecionar</label>
-                                    <div style="padding-bottom: 4px">
-                                        <span class="btn btn-info btn-xs"
-                                            style="border-radius: 0" onclick="selectAllFeatures()">{{
-                                            trans('global.select_all') }}</span>
-                                        <span class="btn btn-info btn-xs"
-                                            style="border-radius: 0" onclick="deselectAllFeatures()">{{
-                                            trans('global.deselect_all') }}</span>
+                                <form action="/admin/my-products/shop-product-feature-add" method="post"
+                                    id="shop_product_feature_add">
+                                    @csrf
+                                    <input type="hidden" name="shop_product_id" value="{{ $shopProduct->id }}">
+                                    <div class="form-group">
+                                        <label for="shop_product_feature_id">Procurar e selecionar</label>
+                                        <div style="padding-bottom: 4px">
+                                            <span class="btn btn-info btn-xs" style="border-radius: 0"
+                                                onclick="selectAllFeatures()">{{
+                                                trans('global.select_all') }}</span>
+                                            <span class="btn btn-info btn-xs" style="border-radius: 0"
+                                                onclick="deselectAllFeatures()">{{
+                                                trans('global.deselect_all') }}</span>
+                                        </div>
+                                        <select name="shop_product_feature_id[]" id="shop_product_feature_id"
+                                            class="form-control" multiple>
+                                            @foreach ($shopProductFeatures as $key => $feature)
+                                            <option value="{{ $feature->name }}">{{ $feature->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <select name="shop_product_feature_id" id="shop_product_feature_id"
-                                        class="form-control" multiple>
-                                        @foreach ($shopProductFeatures as $key => $feature)
-                                        <option value="{{ $feature->name }}">{{ $feature->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button class="btn btn-secondary">Inserir caracteristicas selecionadas</button>
+                                    <button type="submit" class="btn btn-secondary">Inserir caracteristicas
+                                        selecionadas</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -382,6 +387,7 @@ Dropzone.options.photosDropzone = {
 
 </script>
 <script src="https://malsup.github.io/jquery.form.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
 </script>
@@ -396,10 +402,16 @@ Dropzone.options.photosDropzone = {
                 $.LoadingOverlay('hide');
                 $('#shop_product_feature_form input[name=name]').val('');
                 shopProductFeatureList();
+            }
+        });
+        $('#shop_product_feature_add').ajaxForm({
+            beforeSubmit: () => {
+                $.LoadingOverlay('show');
             },
-            error: (error) => {
+            success: () => {
                 $.LoadingOverlay('hide');
-                console.log(error);
+                shopProductFeatureList();
+                deselectAllFeatures();
             }
         });
     });
@@ -456,7 +468,7 @@ Dropzone.options.photosDropzone = {
     $('#new-feature-tab-button').on('shown.bs.tab', function(){
         $('#shop_product_feature_id').select2();
     });
-    
+    $('#shop_product_feature_list').sortable();
 });
 selectAllFeatures = () => {
     $('#shop_product_feature_id').select2('destroy');
