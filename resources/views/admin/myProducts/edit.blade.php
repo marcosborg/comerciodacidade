@@ -264,7 +264,34 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="all-variation-tab" role="tabpanel">
-                        
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="/admin/my-products/shop-product-variation-add" method="post"
+                                    id="shop_product_variation_add">
+                                    @csrf
+                                    <input type="hidden" name="shop_product_id" value="{{ $shopProduct->id }}">
+                                    <div class="form-group">
+                                        <label for="shop_product_variation_id">Procurar e selecionar</label>
+                                        <div style="padding-bottom: 4px">
+                                            <span class="btn btn-info btn-xs" style="border-radius: 0"
+                                                onclick="selectAllVariations()">{{
+                                                trans('global.select_all') }}</span>
+                                            <span class="btn btn-info btn-xs" style="border-radius: 0"
+                                                onclick="deselectAllVariations()">{{
+                                                trans('global.deselect_all') }}</span>
+                                        </div>
+                                        <select name="shop_product_variation_id[]" id="shop_product_variation_id"
+                                            class="form-control" multiple>
+                                            @foreach ($shopProductVariations as $key => $variation)
+                                            <option value="{{ $variation->name }}">{{ $variation->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary">Inserir variações
+                                        selecionadas</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <ul class="list-group list-group-flush" id="shop_product_variation_list"></ul>
@@ -432,6 +459,29 @@ Dropzone.options.photosDropzone = {
                 deselectAllFeatures();
             }
         });
+        $('#shop_product_feature_list').sortable({
+            stop: () => {
+                let shopProductFeatureList = $('#shop_product_feature_list > li');
+                let array = [];
+                $.each(shopProductFeatureList, function() {
+                    let shopProductFeature_id = $(this).data('shop-product-feature');
+                    array.push(shopProductFeature_id);
+                });
+                $.post({
+                    url: '/admin/my-products/shop-product-feature-position-update',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        data: JSON.stringify(array)
+                    }
+                });
+            }
+        });
+        $('#new-feature-tab-button').on('shown.bs.tab', function(){
+            $('#shop_product_feature_id').select2();
+        });
     });
     shopProductFeatureList = () => {
         $.LoadingOverlay('show');
@@ -468,45 +518,55 @@ Dropzone.options.photosDropzone = {
 </script>
 <script>
     $(() => {
-    shopProductVariationList();
-    $('#shop_product_variation_form').ajaxForm({
-        beforeSubmit: () => {
-            $.LoadingOverlay('show');
-        },
-        success: () => {
-            $.LoadingOverlay('hide');
-            $('#shop_product_variation_form input[name=name]').val('');
-            shopProductVariationList();
-        },
-        error: (error) => {
-            $.LoadingOverlay('hide');
-            console.log(error);
-        }
+        shopProductVariationList();
+        $('#shop_product_variation_form').ajaxForm({
+            beforeSubmit: () => {
+                $.LoadingOverlay('show');
+            },
+            success: () => {
+                $.LoadingOverlay('hide');
+                $('#shop_product_variation_form input[name=name]').val('');
+                shopProductVariationList();
+            },
+            error: (error) => {
+                $.LoadingOverlay('hide');
+                console.log(error);
+            }
+        });
+        $('#new-variation-tab-button').on('shown.bs.tab', function(){
+            $('#shop_product_variation_id').select2();
+        });
+        $('#shop_product_variation_add').ajaxForm({
+            beforeSubmit: () => {
+                $.LoadingOverlay('show');
+            },
+            success: () => {
+                $.LoadingOverlay('hide');
+                shopProductVariationList();
+                deselectAllVariations();
+            }
+        });
+        $('#shop_product_variation_list').sortable({
+            stop: () => {
+                let shopProductVariationList = $('#shop_product_variation_list > li');
+                let array = [];
+                $.each(shopProductVariationList, function() {
+                    let shopProductVariation_id = $(this).data('shop-product-variation');
+                    array.push(shopProductVariation_id);
+                });
+                $.post({
+                    url: '/admin/my-products/shop-product-variation-position-update',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        data: JSON.stringify(array)
+                    }
+                });
+            }
+        });
     });
-    $('#new-feature-tab-button').on('shown.bs.tab', function(){
-        $('#shop_product_feature_id').select2();
-    });
-    $('#shop_product_feature_list').sortable({
-        stop: () => {
-            let shopProductFeatureList = $('#shop_product_feature_list > li');
-            let array = [];
-            $.each(shopProductFeatureList, function() {
-                let shopProductFeature_id = $(this).data('shop-product-feature');
-                array.push(shopProductFeature_id);
-            });
-            $.post({
-                url: '/admin/my-products/shop-product-feature-position-update',
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    data: JSON.stringify(array)
-                }
-            });
-        }
-    });
-});
 selectAllFeatures = () => {
     $('#shop_product_feature_id').select2('destroy');
     $('#shop_product_feature_id').val($('#shop_product_feature_id option').map(function() {
@@ -519,6 +579,19 @@ deselectAllFeatures = () => {
     $('#shop_product_feature_id').val([]);
     $('#shop_product_feature_id').trigger('change');
     $('#shop_product_feature_id').select2();
+}
+selectAllVariations = () => {
+    $('#shop_product_variation_id').select2('destroy');
+    $('#shop_product_variation_id').val($('#shop_product_variation_id option').map(function() {
+        return this.value;
+    }));
+    $('#shop_product_variation_id').select2();
+}
+deselectAllVariations = () => {
+    $('#shop_product_variation_id').select2('destroy');
+    $('#shop_product_variation_id').val([]);
+    $('#shop_product_variation_id').trigger('change');
+    $('#shop_product_variation_id').select2();
 }
 shopProductVariationList = () => {
     $.LoadingOverlay('show');

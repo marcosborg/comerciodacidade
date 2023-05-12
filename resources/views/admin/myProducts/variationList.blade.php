@@ -1,8 +1,11 @@
 @foreach ($shopProductVariations as $shopProductVariation)
-<li class="list-group-item">
+<li class="list-group-item" data-shop-product-variation="{{ $shopProductVariation->id }}">
     <div class="row">
         <div class="col-md-5">
-            {{ $shopProductVariation->name }}
+            <div>
+                <img src="/theme/assets/img/arrows.svg" style="width: 10px; margin-right: 20px;">{{
+                $shopProductVariation->name }}
+            </div>
         </div>
         <div class="col-md-5">
             <input type="text" name="price" data-shop_product_variation_id="{{ $shopProductVariation->id }}"

@@ -169,6 +169,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::post('position', 'MyProductController@position');
         Route::post('shop-product-feature-add', 'MyProductController@shopProductFeatureAdd');
         Route::post('shop-product-feature-position-update', 'MyProductController@shopProductFeaturePositionUpdate');
+        Route::post('shop-product-variation-add', 'MyProductController@shopProductVariationAdd');
+        Route::post('shop-product-variation-position-update', 'MyProductController@shopProductVariationPositionUpdate');
     });
 
 });
