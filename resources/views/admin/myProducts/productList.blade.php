@@ -32,6 +32,9 @@
         {{ $shopProduct->tax->tax ?? '' }}
     </td>
     <td>
+        {{ $shopProduct->stock }}
+    </td>
+    <td>
         <span style="display:none">{{ $shopProduct->state ?? '' }}</span>
         <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
     </td>

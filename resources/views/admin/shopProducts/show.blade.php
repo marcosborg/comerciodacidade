@@ -139,6 +139,14 @@
                             {{ $shopProduct->position }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopProduct.fields.stock') }}
+                        </th>
+                        <td>
+                            {{ $shopProduct->stock }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

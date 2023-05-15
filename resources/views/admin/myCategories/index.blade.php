@@ -133,7 +133,3 @@
 
 </script>
 @endsection
-
-<script>
-    console.log({!! $shopProductCategories !!})
-</script>

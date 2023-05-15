@@ -23,6 +23,7 @@ class ShopProductVariation extends Model
         'shop_product_id',
         'name',
         'price',
+        'stock',
         'created_at',
         'updated_at',
         'deleted_at',

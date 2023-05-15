@@ -58,8 +58,4 @@
         </form>
     </div>
 </div>
-
-
-
 @endsection
-<script>console.log({!! $subscription_types !!})</script>

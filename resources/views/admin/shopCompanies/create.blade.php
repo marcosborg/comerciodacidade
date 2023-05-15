@@ -172,7 +172,6 @@ Dropzone.options.photosDropzone = {
       uploadedPhotosMap[file.name] = response.name
     },
     removedfile: function (file) {
-      console.log(file)
       file.previewElement.remove()
       var name = ''
       if (typeof file.file_name !== 'undefined') {

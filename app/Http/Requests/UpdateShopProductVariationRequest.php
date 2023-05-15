@@ -25,6 +25,12 @@ class UpdateShopProductVariationRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'stock' => [
+                'nullable',
+                'integer',
+                'min:-2147483648',
+                'max:2147483647',
+            ],
         ];
     }
 }

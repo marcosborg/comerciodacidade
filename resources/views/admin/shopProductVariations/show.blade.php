@@ -47,6 +47,14 @@
                             {{ $shopProductVariation->price }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopProductVariation.fields.stock') }}
+                        </th>
+                        <td>
+                            {{ $shopProductVariation->stock }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

@@ -133,6 +133,7 @@ class MyProductController extends Controller
         foreach ($data as $variation) {
             $shopProductVariation = ShopProductVariation::find($variation->shop_product_variation_id);
             $shopProductVariation->price = $variation->price;
+            $shopProductVariation->stock = $variation->stock;
             $shopProductVariation->save();
         }
     }

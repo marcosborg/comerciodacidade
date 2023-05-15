@@ -37,6 +37,7 @@ class ShopProduct extends Model implements HasMedia
         'attachment_name',
         'state',
         'position',
+        'stock',
         'created_at',
         'updated_at',
         'deleted_at',

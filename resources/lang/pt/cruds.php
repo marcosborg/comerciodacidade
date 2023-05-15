@@ -421,6 +421,8 @@ return [
             'attachment_helper'                  => ' ',
             'position'                           => 'Position',
             'position_helper'                    => ' ',
+            'stock'                              => 'Stock',
+            'stock_helper'                       => ' ',
         ],
     ],
     'shopProductVariation' => [
@@ -441,6 +443,8 @@ return [
             'updated_at_helper'   => ' ',
             'deleted_at'          => 'Deleted at',
             'deleted_at_helper'   => ' ',
+            'stock'               => 'Stock',
+            'stock_helper'        => ' ',
         ],
     ],
     'shopProductFeature' => [

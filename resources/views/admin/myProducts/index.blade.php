@@ -47,6 +47,9 @@
                             {{ trans('cruds.shopTax.fields.tax') }}
                         </th>
                         <th>
+                            Stock
+                        </th>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.state') }}
                         </th>
                         <th>
@@ -142,12 +145,6 @@
                         firstPosition: firstPosition,
                         lastPosition: lastPosition,
                     },
-                    success: function(response) {
-                        console.log(response);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
                 });
             }
         });

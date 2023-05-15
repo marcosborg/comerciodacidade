@@ -133,6 +133,3 @@
 
 </script>
 @endsection
-<script>
-    console.log({!! $category_id !!})
-</script>

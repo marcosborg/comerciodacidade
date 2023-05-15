@@ -22,14 +22,29 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.shopProduct.fields.name_helper') }}</span>
                     </div>
-                    <div class="form-group">
-                        <label for="reference">{{ trans('cruds.shopProduct.fields.reference') }}</label>
-                        <input class="form-control {{ $errors->has('reference') ? 'is-invalid' : '' }}" type="text"
-                            name="reference" id="reference" value="{{ old('reference', $shopProduct->reference) }}">
-                        @if($errors->has('reference'))
-                        <span class="text-danger">{{ $errors->first('reference') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.shopProduct.fields.reference_helper') }}</span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="reference">{{ trans('cruds.shopProduct.fields.reference') }}</label>
+                                <input class="form-control {{ $errors->has('reference') ? 'is-invalid' : '' }}" type="text"
+                                    name="reference" id="reference" value="{{ old('reference', $shopProduct->reference) }}">
+                                @if($errors->has('reference'))
+                                <span class="text-danger">{{ $errors->first('reference') }}</span>
+                                @endif
+                                <span class="help-block">{{ trans('cruds.shopProduct.fields.reference_helper') }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="stock">{{ trans('cruds.shopProduct.fields.stock') }}</label>
+                                <input class="form-control {{ $errors->has('stock') ? 'is-invalid' : '' }}" type="text"
+                                    name="stock" id="stock" value="{{ old('stock', $shopProduct->stock) }}">
+                                @if($errors->has('stock'))
+                                <span class="text-danger">{{ $errors->first('stock') }}</span>
+                                @endif
+                                <span class="help-block">{{ trans('cruds.shopProduct.fields.stock_helper') }}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="description">{{ trans('cruds.shopProduct.fields.description') }}</label>
@@ -390,7 +405,6 @@ Dropzone.options.photosDropzone = {
       uploadedPhotosMap[file.name] = response.name
     },
     removedfile: function (file) {
-      console.log(file)
       file.previewElement.remove()
       var name = ''
       if (typeof file.file_name !== 'undefined') {
@@ -627,12 +641,12 @@ deleteShopProductVariation = (shop_product_variation_id) => {
 }
 updateShopProductVariationPrices = () => {
     data = [];
-    $('#shop_product_variation_list input[name=price]').each(function(){
+    $('.shop_product_variation_list').each(function(){
         data.push({
-            shop_product_variation_id: $(this).data('shop_product_variation_id'),
-            price: $(this).val()
+            shop_product_variation_id: $(this).find('input[name="shop_product_variation_id"]').val(),
+            price: $(this).find('input[name="price"]').val(),
+            stock: $(this).find('input[name="stock"]').val()
         });
-        console.log();
     });
     $.ajax({
         url: '/admin/my-products/update-shop-product-variation-prices',

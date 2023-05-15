@@ -113,10 +113,6 @@
     </div>
 </div>
 
-<script>console.log({!! $subscriptionPayments !!})</script>
-
-
-
 @endsection
 @section('scripts')
 @parent

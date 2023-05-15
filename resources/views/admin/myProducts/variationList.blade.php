@@ -1,15 +1,18 @@
 @foreach ($shopProductVariations as $shopProductVariation)
-<li class="list-group-item" data-shop-product-variation="{{ $shopProductVariation->id }}">
+<li class="list-group-item shop_product_variation_list" data-shop-product-variation="{{ $shopProductVariation->id }}">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div>
                 <img src="/theme/assets/img/arrows.svg" style="width: 10px; margin-right: 20px;">{{
                 $shopProductVariation->name }}
             </div>
         </div>
-        <div class="col-md-5">
-            <input type="text" name="price" data-shop_product_variation_id="{{ $shopProductVariation->id }}"
-                class="form-control" value="{{ $shopProductVariation->price }}">
+        <input type="hidden" name="shop_product_variation_id" value="{{ $shopProductVariation->id }}">
+        <div class="col-md-3">
+            <input type="text" name="price" class="form-control" value="{{ $shopProductVariation->price }}" placeholder="Preço">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="stock" class="form-control" value="{{ $shopProductVariation->stock }}" placeholder="Stock">
         </div>
         <div class="col-md-2 text-right">
             <button onclick="deleteShopProductVariation({{ $shopProductVariation->id }})" type="button"

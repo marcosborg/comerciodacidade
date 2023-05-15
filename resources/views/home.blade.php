@@ -293,7 +293,6 @@
                     Swal.fire('Verifique o seu telemovel').then(() => {
                         location.reload();
                     });
-                    console.log(resp);
                 },
                 error: (error) => {
                     $.LoadingOverlay('hide');
@@ -304,6 +303,3 @@
     }
 </script>
 @endsection
-<script>
-    console.log({!! $user !!})
-</script>
