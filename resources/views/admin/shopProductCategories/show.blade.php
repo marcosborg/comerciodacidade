@@ -39,6 +39,18 @@
                             {{ $shopProductCategory->name }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopProductCategory.fields.image') }}
+                        </th>
+                        <td>
+                            @if($shopProductCategory->image)
+                                <a href="{{ $shopProductCategory->image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $shopProductCategory->image->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

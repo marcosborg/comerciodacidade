@@ -105,6 +105,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Shop Product Category
     Route::delete('shop-product-categories/destroy', 'ShopProductCategoryController@massDestroy')->name('shop-product-categories.massDestroy');
+    Route::post('shop-product-categories/media', 'ShopProductCategoryController@storeMedia')->name('shop-product-categories.storeMedia');
+    Route::post('shop-product-categories/ckmedia', 'ShopProductCategoryController@storeCKEditorImages')->name('shop-product-categories.storeCKEditorImages');
     Route::resource('shop-product-categories', 'ShopProductCategoryController');
 
     // Shop Product

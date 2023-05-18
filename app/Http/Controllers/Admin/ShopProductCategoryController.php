@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyShopProductCategoryRequest;
 use App\Http\Requests\StoreShopProductCategoryRequest;
 use App\Http\Requests\UpdateShopProductCategoryRequest;
@@ -10,15 +11,19 @@ use App\Models\Company;
 use App\Models\ShopProductCategory;
 use Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
 class ShopProductCategoryController extends Controller
 {
+
+    use MediaUploadingTrait;
+
     public function index()
     {
         abort_if(Gate::denies('shop_product_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $shopProductCategories = ShopProductCategory::with(['company'])->get();
+        $shopProductCategories = ShopProductCategory::with(['company', 'media'])->get();
 
         return view('admin.shopProductCategories.index', compact('shopProductCategories'));
     }
@@ -35,6 +40,14 @@ class ShopProductCategoryController extends Controller
     public function store(StoreShopProductCategoryRequest $request)
     {
         $shopProductCategory = ShopProductCategory::create($request->all());
+
+        if ($request->input('image', false)) {
+            $shopProductCategory->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))->toMediaCollection('image');
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $shopProductCategory->id]);
+        }
 
         return redirect()->route('admin.shop-product-categories.index');
     }
@@ -53,6 +66,17 @@ class ShopProductCategoryController extends Controller
     public function update(UpdateShopProductCategoryRequest $request, ShopProductCategory $shopProductCategory)
     {
         $shopProductCategory->update($request->all());
+
+        if ($request->input('image', false)) {
+            if (! $shopProductCategory->image || $request->input('image') !== $shopProductCategory->image->file_name) {
+                if ($shopProductCategory->image) {
+                    $shopProductCategory->image->delete();
+                }
+                $shopProductCategory->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))->toMediaCollection('image');
+            }
+        } elseif ($shopProductCategory->image) {
+            $shopProductCategory->image->delete();
+        }
 
         return redirect()->route('admin.shop-product-categories.index');
     }
@@ -84,5 +108,17 @@ class ShopProductCategoryController extends Controller
         }
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('shop_product_category_create') && Gate::denies('shop_product_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new ShopProductCategory();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }
