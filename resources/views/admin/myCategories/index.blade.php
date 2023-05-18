@@ -29,6 +29,9 @@
                             {{ trans('cruds.shopProductCategory.fields.name') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopProductCategory.fields.image') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -44,6 +47,13 @@
                         </td>
                         <td>
                             {{ $shopProductCategory->name ?? '' }}
+                        </td>
+                        <td>
+                            @if($shopProductCategory->image)
+                                <a href="{{ $shopProductCategory->image->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $shopProductCategory->image->getUrl('thumb') }}">
+                                </a>
+                            @endif
                         </td>
                         <td>
                             @if(Gate::allows('shop_product_category_show') || Gate::allows('my_category_access'))

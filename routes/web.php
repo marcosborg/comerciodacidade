@@ -131,9 +131,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::prefix('my-categories')->group(function () {
         Route::get('/', 'MyCategoriesController@index')->name('my-categories.index');
         Route::get('create', 'MyCategoriesController@create')->name('my-categories.create');
-        Route::post('store', 'MyCategoriesController@store')->name('my-categories.store');
         Route::get('edit/{id}', 'MyCategoriesController@edit')->name('my-categories.edit');
-        Route::put('update', 'MyCategoriesController@update')->name('my-categories.update');
         Route::post('destroy', 'MyCategoriesController@destroy')->name('my-categories.destroy');
     });
 

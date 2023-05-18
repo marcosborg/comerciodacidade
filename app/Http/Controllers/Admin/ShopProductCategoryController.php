@@ -49,7 +49,12 @@ class ShopProductCategoryController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $shopProductCategory->id]);
         }
 
-        return redirect()->route('admin.shop-product-categories.index');
+        if ($request->shopProductCategory) {
+            return redirect('/admin/my-categories')->with('message', 'Criado com sucesso.');
+        } else {
+            return redirect()->route('admin.shop-product-categories.index');
+        }
+
     }
 
     public function edit(ShopProductCategory $shopProductCategory)
@@ -68,7 +73,7 @@ class ShopProductCategoryController extends Controller
         $shopProductCategory->update($request->all());
 
         if ($request->input('image', false)) {
-            if (! $shopProductCategory->image || $request->input('image') !== $shopProductCategory->image->file_name) {
+            if (!$shopProductCategory->image || $request->input('image') !== $shopProductCategory->image->file_name) {
                 if ($shopProductCategory->image) {
                     $shopProductCategory->image->delete();
                 }
@@ -78,7 +83,12 @@ class ShopProductCategoryController extends Controller
             $shopProductCategory->image->delete();
         }
 
-        return redirect()->route('admin.shop-product-categories.index');
+        if ($request->shopProductCategory) {
+            return redirect('/admin/my-categories/edit/' . $request->id)->with('message', 'Atualizado com sucesso.');
+        } else {
+            return redirect()->route('admin.shop-product-categories.index');
+        }
+
     }
 
     public function show(ShopProductCategory $shopProductCategory)
@@ -114,10 +124,10 @@ class ShopProductCategoryController extends Controller
     {
         abort_if(Gate::denies('shop_product_category_create') && Gate::denies('shop_product_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $model         = new ShopProductCategory();
-        $model->id     = $request->input('crud_id', 0);
+        $model = new ShopProductCategory();
+        $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }

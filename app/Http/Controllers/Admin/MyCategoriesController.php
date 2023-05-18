@@ -37,13 +37,6 @@ class MyCategoriesController extends Controller
         return view('admin.myCategories.create', compact('company'));
     }
 
-    public function store(StoreShopProductCategoryRequest $request)
-    {
-        $shopProductCategory = ShopProductCategory::create($request->all());
-
-        return redirect()->route('admin.my-categories.index');
-    }
-
     public function edit(Request $request)
     {
         abort_if(Gate::denies('my_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -53,15 +46,6 @@ class MyCategoriesController extends Controller
         $shopProductCategory = ShopProductCategory::find($request->id);
 
         return view('admin.myCategories.edit', compact('company', 'shopProductCategory'));
-    }
-
-    public function update(Request $request)
-    {
-        $shopProductCategory = ShopProductCategory::find($request->id);
-        $shopProductCategory->name = $request->name;
-        $shopProductCategory->save();
-
-        return redirect()->route('admin.my-categories.index');
     }
 
     public function destroy(Request $request)
