@@ -177,6 +177,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('shop-company-schedules/destroy', 'ShopCompanyScheduleController@massDestroy')->name('shop-company-schedules.massDestroy');
     Route::resource('shop-company-schedules', 'ShopCompanyScheduleController');
 
+    // Service Duration
+    Route::delete('service-durations/destroy', 'ServiceDurationController@massDestroy')->name('service-durations.massDestroy');
+    Route::resource('service-durations', 'ServiceDurationController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

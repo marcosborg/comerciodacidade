@@ -577,5 +577,23 @@ return [
             'deleted_at_helper'                  => ' ',
         ],
     ],
+    'serviceDuration' => [
+        'title'          => 'Service Duration',
+        'title_singular' => 'Service Duration',
+        'fields'         => [
+            'id'                => 'ID',
+            'id_helper'         => ' ',
+            'name'              => 'Name',
+            'name_helper'       => ' ',
+            'minutes'           => 'Minutes',
+            'minutes_helper'    => ' ',
+            'created_at'        => 'Created at',
+            'created_at_helper' => ' ',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => ' ',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => ' ',
+        ],
+    ],
 
 ];
