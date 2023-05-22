@@ -70,4 +70,5 @@ class Company extends Model implements HasMedia
     {
         return $this->hasOne(ShopCompany::class);
     }
+
 }

@@ -73,4 +73,9 @@ class ShopCompany extends Model implements HasMedia
 
         return $files;
     }
+
+    public function shop_company_schedules()
+    {
+        return $this->hasOne(ShopCompanySchedule::class);
+    }
 }

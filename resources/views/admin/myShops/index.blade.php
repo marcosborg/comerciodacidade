@@ -2,100 +2,434 @@
 @section('content')
 
 <div class="card">
+  <div class="card-header">
+    {{ trans('cruds.myShop.title') }}
+  </div>
+  @if ($user->company[0]->shop_company)
+  <div class="card">
     <div class="card-header">
-        {{ trans('cruds.myShop.title') }}
+      {{ trans('global.edit') }} {{ trans('cruds.myShop.title_singular') }}
     </div>
-    @if ($user->company[0]->shop_company)
-    <div class="card">
-        <div class="card-header">
-            {{ trans('global.edit') }} {{ trans('cruds.myShop.title_singular') }}
-        </div>
 
-        <div class="card-body">
-            <form method="POST" action="{{ route("admin.my-shops.update", [$user->company[0]->shop_company->id]) }}"
-                enctype="multipart/form-data">
-                @method('PUT')
-                @csrf
-                <input type="hidden" name="company_id" value="{{ $user->company[0]->id }}">
-                <input type="hidden" name="id" value="{{ $user->company[0]->shop_company->id }}">
-                <input type="hidden" name="shop_company_id" value="{{ $user->company[0]->shop_company->id }}">
-                <div class="form-group">
-                    <label for="about">{{ trans('cruds.shopCompany.fields.about') }}</label>
-                    <textarea class="form-control ckeditor {{ $errors->has('about') ? 'is-invalid' : '' }}" name="about"
-                        id="about">{!! old('about', $user->company[0]->shop_company->about) !!}</textarea>
-                    @if($errors->has('about'))
-                    <span class="text-danger">{{ $errors->first('about') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.shopCompany.fields.about_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label class="required" for="shop_location_id">{{ trans('cruds.shopCompany.fields.shop_location')
-                        }}</label>
-                    <select class="form-control select2 {{ $errors->has('shop_location') ? 'is-invalid' : '' }}"
-                        name="shop_location_id" id="shop_location_id" required>
-                        @foreach($shop_locations as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('shop_location_id') ? old('shop_location_id') : $user->company[0]->shop_company->
-                            shop_location->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('shop_location'))
-                    <span class="text-danger">{{ $errors->first('shop_location') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_location_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="shop_categories">{{ trans('cruds.shopCompany.fields.shop_categories') }}</label>
-                    <div style="padding-bottom: 4px">
-                        <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{
-                            trans('global.select_all') }}</span>
-                        <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{
-                            trans('global.deselect_all') }}</span>
-                    </div>
-                    <select class="form-control select2 {{ $errors->has('shop_categories') ? 'is-invalid' : '' }}"
-                        name="shop_categories[]" id="shop_categories" multiple>
-                        @foreach($shop_categories as $id => $shop_category)
-                        <option value="{{ $id }}" {{ (in_array($id, old('shop_categories', [])) || $user->company[0]->shop_company->
-                            shop_categories->contains($id)) ? 'selected' : '' }}>{{ $shop_category }}</option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('shop_categories'))
-                    <span class="text-danger">{{ $errors->first('shop_categories') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_categories_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="contacts">{{ trans('cruds.shopCompany.fields.contacts') }}</label>
-                    <textarea class="form-control {{ $errors->has('contacts') ? 'is-invalid' : '' }}" name="contacts"
-                        id="contacts">{{ old('contacts', $user->company[0]->shop_company->contacts) }}</textarea>
-                    @if($errors->has('contacts'))
-                    <span class="text-danger">{{ $errors->first('contacts') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.shopCompany.fields.contacts_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="photos">{{ trans('cruds.shopCompany.fields.photos') }}</label>
-                    <div class="needsclick dropzone {{ $errors->has('photos') ? 'is-invalid' : '' }}"
-                        id="photos-dropzone">
-                    </div>
-                    @if($errors->has('photos'))
-                    <span class="text-danger">{{ $errors->first('photos') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.shopCompany.fields.photos_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-danger" type="submit">
-                        {{ trans('global.save') }}
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    @else
     <div class="card-body">
-        <h3>Parabens! O seu plano está ativo. Pode criar a sua loja.</h3>
-        <a href="/admin/my-shops/create" class="btn btn-lg btn-success">Criar loja</a>
+      <form method="POST" action="{{ route("admin.my-shops.update", [$user->company[0]->shop_company->id]) }}"
+        enctype="multipart/form-data">
+        @method('PUT')
+        @csrf
+        <input type="hidden" name="company_id" value="{{ $user->company[0]->id }}">
+        <input type="hidden" name="id" value="{{ $user->company[0]->shop_company->id }}">
+        <input type="hidden" name="shop_company_id" value="{{ $user->company[0]->shop_company->id }}">
+        <div class="form-group">
+          <label for="about">{{ trans('cruds.shopCompany.fields.about') }}</label>
+          <textarea class="form-control ckeditor {{ $errors->has('about') ? 'is-invalid' : '' }}" name="about"
+            id="about">{!! old('about', $user->company[0]->shop_company->about) !!}</textarea>
+          @if($errors->has('about'))
+          <span class="text-danger">{{ $errors->first('about') }}</span>
+          @endif
+          <span class="help-block">{{ trans('cruds.shopCompany.fields.about_helper') }}</span>
+        </div>
+        <div class="form-group">
+          <label class="required" for="shop_location_id">{{ trans('cruds.shopCompany.fields.shop_location')
+            }}</label>
+          <select class="form-control select2 {{ $errors->has('shop_location') ? 'is-invalid' : '' }}"
+            name="shop_location_id" id="shop_location_id" required>
+            @foreach($shop_locations as $id => $entry)
+            <option value="{{ $id }}" {{ (old('shop_location_id') ? old('shop_location_id') : $user->
+              company[0]->shop_company->
+              shop_location->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+            @endforeach
+          </select>
+          @if($errors->has('shop_location'))
+          <span class="text-danger">{{ $errors->first('shop_location') }}</span>
+          @endif
+          <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_location_helper') }}</span>
+        </div>
+        <div class="form-group">
+          <label for="shop_categories">{{ trans('cruds.shopCompany.fields.shop_categories') }}</label>
+          <div style="padding-bottom: 4px">
+            <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{
+              trans('global.select_all') }}</span>
+            <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{
+              trans('global.deselect_all') }}</span>
+          </div>
+          <select class="form-control select2 {{ $errors->has('shop_categories') ? 'is-invalid' : '' }}"
+            name="shop_categories[]" id="shop_categories" multiple>
+            @foreach($shop_categories as $id => $shop_category)
+            <option value="{{ $id }}" {{ (in_array($id, old('shop_categories', [])) || $user->company[0]->shop_company->
+              shop_categories->contains($id)) ? 'selected' : '' }}>{{ $shop_category }}</option>
+            @endforeach
+          </select>
+          @if($errors->has('shop_categories'))
+          <span class="text-danger">{{ $errors->first('shop_categories') }}</span>
+          @endif
+          <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_categories_helper') }}</span>
+        </div>
+        <div class="form-group">
+          <label for="contacts">{{ trans('cruds.shopCompany.fields.contacts') }}</label>
+          <textarea class="form-control {{ $errors->has('contacts') ? 'is-invalid' : '' }}" name="contacts"
+            id="contacts">{{ old('contacts', $user->company[0]->shop_company->contacts) }}</textarea>
+          @if($errors->has('contacts'))
+          <span class="text-danger">{{ $errors->first('contacts') }}</span>
+          @endif
+          <span class="help-block">{{ trans('cruds.shopCompany.fields.contacts_helper') }}</span>
+        </div>
+        <div class="form-group">
+          <label for="photos">{{ trans('cruds.shopCompany.fields.photos') }}</label>
+          <div class="needsclick dropzone {{ $errors->has('photos') ? 'is-invalid' : '' }}" id="photos-dropzone">
+          </div>
+          @if($errors->has('photos'))
+          <span class="text-danger">{{ $errors->first('photos') }}</span>
+          @endif
+          <span class="help-block">{{ trans('cruds.shopCompany.fields.photos_helper') }}</span>
+        </div>
+        <label>Horários da loja</label>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card bg-primary mb-3">
+              <div class="card-header">
+                <p class="card-title">Segunda</p>
+              </div>
+              <div class="card-body">
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da manhã</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="monday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_morning_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="monday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_morning_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da tarde</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="monday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_afternoon_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="monday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_afternoon_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card bg-primary mb-3">
+              <div class="card-header">
+                <p class="card-title">Terça</p>
+              </div>
+              <div class="card-body">
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da manhã</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="tuesday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="tuesday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da tarde</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="tuesday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="tuesday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card bg-primary mb-3">
+              <div class="card-header">
+                <p class="card-title">Quarta</p>
+              </div>
+              <div class="card-body">
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da manhã</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="wednesday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="wednesday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da tarde</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="wednesday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="wednesday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card bg-primary mb-3">
+              <div class="card-header">
+                <p class="card-title">Quinta</p>
+              </div>
+              <div class="card-body">
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da manhã</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="thursday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_morning_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="thursday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_morning_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da tarde</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="thursday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_afternoon_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="thursday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_afternoon_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card bg-primary mb-3">
+              <div class="card-header">
+                <p class="card-title">Sexta</p>
+              </div>
+              <div class="card-body">
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da manhã</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="friday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_morning_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="friday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_morning_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da tarde</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="friday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_afternoon_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="friday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_afternoon_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card bg-success mb-3">
+              <div class="card-header">
+                <p class="card-title">Sábado</p>
+              </div>
+              <div class="card-body">
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da manhã</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="saturday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_morning_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="saturday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_morning_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da tarde</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="saturday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_afternoon_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="saturday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_afternoon_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card bg-success mb-3">
+              <div class="card-header">
+                <p class="card-title">Domingo</p>
+              </div>
+              <div class="card-body">
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da manhã</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="sunday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_morning_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="sunday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_morning_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card text-dark">
+                  <div class="card-body">
+                    <label>Período da tarde</label>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Abertura</label>
+                          <input type="time" name="sunday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_afternoon_opening }}">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Encerramento</label>
+                          <input type="time" name="sunday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_afternoon_closing }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-danger" type="submit">
+            {{ trans('global.save') }}
+          </button>
+        </div>
+      </form>
     </div>
-    @endif
+  </div>
+  @else
+  <div class="card-body">
+    <h3>Parabens! O seu plano está ativo. Pode criar a sua loja.</h3>
+    <a href="/admin/my-shops/create" class="btn btn-lg btn-success">Criar loja</a>
+  </div>
+  @endif
 
 </div>
 
@@ -105,7 +439,7 @@
 
 @section('scripts')
 <script>
-    $(document).ready(function () {
+  $(document).ready(function () {
   function SimpleUploadAdapter(editor) {
     editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
       return {
@@ -169,7 +503,7 @@
 </script>
 
 <script>
-    var uploadedPhotosMap = {}
+  var uploadedPhotosMap = {}
 Dropzone.options.photosDropzone = {
     url: '{{ route('admin.shop-companies.storeMedia') }}',
     maxFilesize: 2, // MB
@@ -229,3 +563,4 @@ Dropzone.options.photosDropzone = {
 
 </script>
 @endsection
+<script>console.log({!! $user->company[0]->shop_company->shop_company_schedules !!})</script>

@@ -23,7 +23,7 @@ class ShopCompanySchedule extends Model
         'shop_company_id',
         'monday_morning_opening',
         'monday_morning_closing',
-        'moday_afternoon_opening',
+        'monday_afternoon_opening',
         'monday_afternoon_closing',
         'tuesday_morning_opening',
         'tuesday_morning_closing',
