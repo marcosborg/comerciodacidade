@@ -181,6 +181,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('service-durations/destroy', 'ServiceDurationController@massDestroy')->name('service-durations.massDestroy');
     Route::resource('service-durations', 'ServiceDurationController');
 
+    // Service
+    Route::delete('services/destroy', 'ServiceController@massDestroy')->name('services.massDestroy');
+    Route::post('services/media', 'ServiceController@storeMedia')->name('services.storeMedia');
+    Route::post('services/ckmedia', 'ServiceController@storeCKEditorImages')->name('services.storeCKEditorImages');
+    Route::resource('services', 'ServiceController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
