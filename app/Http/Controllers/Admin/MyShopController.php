@@ -25,6 +25,13 @@ class MyShopController extends Controller
     {
         abort_if(Gate::denies('my_shop_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $shopCompany = User::where('id', auth()->user()->id)
+            ->with('company.shop_company')->first()->company[0]->shop_company;
+
+        $shopCompanySchedule = ShopCompanySchedule::where('shop_company_id', $shopCompany->id)->firstOrNew();
+        $shopCompanySchedule->shop_company_id = $shopCompany->id;
+        $shopCompanySchedule->save();
+
         $user = User::where('id', auth()->user()->id)
             ->with([
                 'subscription.subscription_type.plan',
@@ -65,6 +72,10 @@ class MyShopController extends Controller
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $shopCompany->id]);
         }
+
+        $shopCompanySchedule = new ShopCompanySchedule;
+        $shopCompanySchedule->shop_company_id = $shopCompany->id;
+        $shopCompany->save();
 
         return redirect()->route('admin.my-shops.index');
     }
