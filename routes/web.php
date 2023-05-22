@@ -173,6 +173,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::post('shop-product-variation-position-update', 'MyProductController@shopProductVariationPositionUpdate');
     });
 
+    // Shop Company Schedule
+    Route::delete('shop-company-schedules/destroy', 'ShopCompanyScheduleController@massDestroy')->name('shop-company-schedules.massDestroy');
+    Route::resource('shop-company-schedules', 'ShopCompanyScheduleController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
