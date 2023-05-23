@@ -377,6 +377,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('shop_schedule_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.shop-schedules.index") }}" class="nav-link {{ request()->is("admin/shop-schedules") || request()->is("admin/shop-schedules/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-calendar-check">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.shopSchedule.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('my_shop_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.my-shops.index") }}" class="nav-link {{ request()->is("admin/my-shops") || request()->is("admin/my-shops/*") ? "active" : "" }}">

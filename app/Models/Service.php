@@ -18,6 +18,7 @@ class Service extends Model implements HasMedia
 
     protected $appends = [
         'photos',
+        'attachment',
     ];
 
     protected $dates = [
@@ -27,11 +28,16 @@ class Service extends Model implements HasMedia
     ];
 
     protected $fillable = [
-        'name',
         'shop_company_id',
-        'price',
+        'name',
+        'reference',
         'description',
         'service_duration_id',
+        'price',
+        'tax_id',
+        'youtube',
+        'attachment_name',
+        'state',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -53,11 +59,6 @@ class Service extends Model implements HasMedia
         return $this->belongsTo(ShopCompany::class, 'shop_company_id');
     }
 
-    public function service_duration()
-    {
-        return $this->belongsTo(ServiceDuration::class, 'service_duration_id');
-    }
-
     public function getPhotosAttribute()
     {
         $files = $this->getMedia('photos');
@@ -68,5 +69,30 @@ class Service extends Model implements HasMedia
         });
 
         return $files;
+    }
+
+    public function service_duration()
+    {
+        return $this->belongsTo(ServiceDuration::class, 'service_duration_id');
+    }
+
+    public function shop_product_categories()
+    {
+        return $this->belongsToMany(ShopProductCategory::class);
+    }
+
+    public function shop_product_sub_categories()
+    {
+        return $this->belongsToMany(ShopProductSubCategory::class);
+    }
+
+    public function tax()
+    {
+        return $this->belongsTo(ShopTax::class, 'tax_id');
+    }
+
+    public function getAttachmentAttribute()
+    {
+        return $this->getMedia('attachment')->last();
     }
 }

@@ -26,22 +26,46 @@
                             {{ trans('cruds.service.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.service.fields.name') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.service.fields.shop_company') }}
                         </th>
                         <th>
-                            {{ trans('cruds.service.fields.price') }}
+                            {{ trans('cruds.service.fields.name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.service.fields.reference') }}
                         </th>
                         <th>
                             {{ trans('cruds.service.fields.description') }}
                         </th>
                         <th>
+                            {{ trans('cruds.service.fields.photos') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.service.fields.service_duration') }}
                         </th>
                         <th>
-                            {{ trans('cruds.service.fields.photos') }}
+                            {{ trans('cruds.service.fields.shop_product_categories') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.service.fields.shop_product_sub_categories') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.service.fields.price') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.service.fields.tax') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.service.fields.youtube') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.service.fields.attachment_name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.service.fields.attachment') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.service.fields.state') }}
                         </th>
                         <th>
                             &nbsp;
@@ -58,19 +82,16 @@
                                 {{ $service->id ?? '' }}
                             </td>
                             <td>
-                                {{ $service->name ?? '' }}
-                            </td>
-                            <td>
                                 {{ $service->shop_company->contacts ?? '' }}
                             </td>
                             <td>
-                                {{ $service->price ?? '' }}
+                                {{ $service->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $service->reference ?? '' }}
                             </td>
                             <td>
                                 {{ $service->description ?? '' }}
-                            </td>
-                            <td>
-                                {{ $service->service_duration->name ?? '' }}
                             </td>
                             <td>
                                 @foreach($service->photos as $key => $media)
@@ -78,6 +99,42 @@
                                         <img src="{{ $media->getUrl('thumb') }}">
                                     </a>
                                 @endforeach
+                            </td>
+                            <td>
+                                {{ $service->service_duration->name ?? '' }}
+                            </td>
+                            <td>
+                                @foreach($service->shop_product_categories as $key => $item)
+                                    <span class="badge badge-info">{{ $item->name }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($service->shop_product_sub_categories as $key => $item)
+                                    <span class="badge badge-info">{{ $item->name }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                {{ $service->price ?? '' }}
+                            </td>
+                            <td>
+                                {{ $service->tax->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $service->youtube ?? '' }}
+                            </td>
+                            <td>
+                                {{ $service->attachment_name ?? '' }}
+                            </td>
+                            <td>
+                                @if($service->attachment)
+                                    <a href="{{ $service->attachment->getUrl() }}" target="_blank">
+                                        {{ trans('global.view_file') }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $service->state ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $service->state ? 'checked' : '' }}>
                             </td>
                             <td>
                                 @can('service_show')

@@ -10,6 +10,9 @@ use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 use App\Models\ServiceDuration;
 use App\Models\ShopCompany;
+use App\Models\ShopProductCategory;
+use App\Models\ShopProductSubCategory;
+use App\Models\ShopTax;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -23,7 +26,7 @@ class ServiceController extends Controller
     {
         abort_if(Gate::denies('service_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $services = Service::with(['shop_company', 'service_duration', 'media'])->get();
+        $services = Service::with(['shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax', 'media'])->get();
 
         return view('admin.services.index', compact('services'));
     }
@@ -36,15 +39,26 @@ class ServiceController extends Controller
 
         $service_durations = ServiceDuration::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.services.create', compact('service_durations', 'shop_companies'));
+        $shop_product_categories = ShopProductCategory::pluck('name', 'id');
+
+        $shop_product_sub_categories = ShopProductSubCategory::pluck('name', 'id');
+
+        $taxes = ShopTax::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.services.create', compact('service_durations', 'shop_companies', 'shop_product_categories', 'shop_product_sub_categories', 'taxes'));
     }
 
     public function store(StoreServiceRequest $request)
     {
         $service = Service::create($request->all());
-
+        $service->shop_product_categories()->sync($request->input('shop_product_categories', []));
+        $service->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         foreach ($request->input('photos', []) as $file) {
             $service->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
+        }
+
+        if ($request->input('attachment', false)) {
+            $service->addMedia(storage_path('tmp/uploads/' . basename($request->input('attachment'))))->toMediaCollection('attachment');
         }
 
         if ($media = $request->input('ck-media', false)) {
@@ -62,15 +76,22 @@ class ServiceController extends Controller
 
         $service_durations = ServiceDuration::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $service->load('shop_company', 'service_duration');
+        $shop_product_categories = ShopProductCategory::pluck('name', 'id');
 
-        return view('admin.services.edit', compact('service', 'service_durations', 'shop_companies'));
+        $shop_product_sub_categories = ShopProductSubCategory::pluck('name', 'id');
+
+        $taxes = ShopTax::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $service->load('shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax');
+
+        return view('admin.services.edit', compact('service', 'service_durations', 'shop_companies', 'shop_product_categories', 'shop_product_sub_categories', 'taxes'));
     }
 
     public function update(UpdateServiceRequest $request, Service $service)
     {
         $service->update($request->all());
-
+        $service->shop_product_categories()->sync($request->input('shop_product_categories', []));
+        $service->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         if (count($service->photos) > 0) {
             foreach ($service->photos as $media) {
                 if (! in_array($media->file_name, $request->input('photos', []))) {
@@ -85,6 +106,17 @@ class ServiceController extends Controller
             }
         }
 
+        if ($request->input('attachment', false)) {
+            if (! $service->attachment || $request->input('attachment') !== $service->attachment->file_name) {
+                if ($service->attachment) {
+                    $service->attachment->delete();
+                }
+                $service->addMedia(storage_path('tmp/uploads/' . basename($request->input('attachment'))))->toMediaCollection('attachment');
+            }
+        } elseif ($service->attachment) {
+            $service->attachment->delete();
+        }
+
         return redirect()->route('admin.services.index');
     }
 
@@ -92,7 +124,7 @@ class ServiceController extends Controller
     {
         abort_if(Gate::denies('service_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $service->load('shop_company', 'service_duration');
+        $service->load('shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax');
 
         return view('admin.services.show', compact('service'));
     }

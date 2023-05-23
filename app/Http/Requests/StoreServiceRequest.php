@@ -17,23 +17,51 @@ class StoreServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'string',
-                'required',
-            ],
             'shop_company_id' => [
                 'required',
                 'integer',
             ],
-            'price' => [
+            'name' => [
+                'string',
                 'required',
+            ],
+            'reference' => [
+                'string',
+                'nullable',
+            ],
+            'photos' => [
+                'array',
             ],
             'service_duration_id' => [
                 'required',
                 'integer',
             ],
-            'photos' => [
+            'shop_product_categories.*' => [
+                'integer',
+            ],
+            'shop_product_categories' => [
                 'array',
+            ],
+            'shop_product_sub_categories.*' => [
+                'integer',
+            ],
+            'shop_product_sub_categories' => [
+                'array',
+            ],
+            'price' => [
+                'required',
+            ],
+            'tax_id' => [
+                'required',
+                'integer',
+            ],
+            'youtube' => [
+                'string',
+                'nullable',
+            ],
+            'attachment_name' => [
+                'string',
+                'nullable',
             ],
         ];
     }

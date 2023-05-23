@@ -25,14 +25,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.service.fields.name') }}
-                        </th>
-                        <td>
-                            {{ $service->name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.service.fields.shop_company') }}
                         </th>
                         <td>
@@ -41,10 +33,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.service.fields.price') }}
+                            {{ trans('cruds.service.fields.name') }}
                         </th>
                         <td>
-                            {{ $service->price }}
+                            {{ $service->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.reference') }}
+                        </th>
+                        <td>
+                            {{ $service->reference }}
                         </td>
                     </tr>
                     <tr>
@@ -57,14 +57,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.service.fields.service_duration') }}
-                        </th>
-                        <td>
-                            {{ $service->service_duration->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.service.fields.photos') }}
                         </th>
                         <td>
@@ -73,6 +65,86 @@
                                     <img src="{{ $media->getUrl('thumb') }}">
                                 </a>
                             @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.service_duration') }}
+                        </th>
+                        <td>
+                            {{ $service->service_duration->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.shop_product_categories') }}
+                        </th>
+                        <td>
+                            @foreach($service->shop_product_categories as $key => $shop_product_categories)
+                                <span class="label label-info">{{ $shop_product_categories->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.shop_product_sub_categories') }}
+                        </th>
+                        <td>
+                            @foreach($service->shop_product_sub_categories as $key => $shop_product_sub_categories)
+                                <span class="label label-info">{{ $shop_product_sub_categories->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.price') }}
+                        </th>
+                        <td>
+                            {{ $service->price }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.tax') }}
+                        </th>
+                        <td>
+                            {{ $service->tax->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.youtube') }}
+                        </th>
+                        <td>
+                            {{ $service->youtube }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.attachment_name') }}
+                        </th>
+                        <td>
+                            {{ $service->attachment_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.attachment') }}
+                        </th>
+                        <td>
+                            @if($service->attachment)
+                                <a href="{{ $service->attachment->getUrl() }}" target="_blank">
+                                    {{ trans('global.view_file') }}
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.state') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $service->state ? 'checked' : '' }}>
                         </td>
                     </tr>
                 </tbody>
