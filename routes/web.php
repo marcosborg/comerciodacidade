@@ -195,6 +195,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('shop-schedules/destroy', 'ShopScheduleController@massDestroy')->name('shop-schedules.massDestroy');
     Route::resource('shop-schedules', 'ShopScheduleController');
 
+    // My Service
+    Route::get('my-services', 'MyServiceController@index');
+
+    // My Employees
+    Route::get('my-employees', 'MyEmployeesController@index');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

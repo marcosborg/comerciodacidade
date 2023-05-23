@@ -452,6 +452,30 @@
                         </a>
                     </li>
                 @endcan
+                @can('my_service_access')
+                    <li class="nav-item">
+                        <a href="/admin/my-services" class="nav-link {{ request()->is("admin/my-services") || request()->is("admin/my-services/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-star">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.myService.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('my_employee_access')
+                    <li class="nav-item">
+                        <a href="/admin/my-employees" class="nav-link {{ request()->is("admin/my-employees") || request()->is("admin/my-employees/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-user-tie">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.myEmployee.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
                         <li class="nav-item">

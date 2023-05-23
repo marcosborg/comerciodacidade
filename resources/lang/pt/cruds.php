@@ -677,5 +677,13 @@ return [
             'deleted_at_helper'       => ' ',
         ],
     ],
+    'myService' => [
+        'title'          => 'Serviços',
+        'title_singular' => 'Serviço',
+    ],
+    'myEmployee' => [
+        'title'          => 'Funcionários',
+        'title_singular' => 'Funcionário',
+    ],
 
 ];
