@@ -621,5 +621,23 @@ return [
             'deleted_at_helper'       => ' ',
         ],
     ],
+    'serviceEmployee' => [
+        'title'          => 'Service Employee',
+        'title_singular' => 'Service Employee',
+        'fields'         => [
+            'id'                => 'ID',
+            'id_helper'         => ' ',
+            'name'              => 'Name',
+            'name_helper'       => ' ',
+            'service'           => 'Service',
+            'service_helper'    => ' ',
+            'created_at'        => 'Created at',
+            'created_at_helper' => ' ',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => ' ',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => ' ',
+        ],
+    ],
 
 ];

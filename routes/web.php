@@ -187,6 +187,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('services/ckmedia', 'ServiceController@storeCKEditorImages')->name('services.storeCKEditorImages');
     Route::resource('services', 'ServiceController');
 
+    // Service Employee
+    Route::delete('service-employees/destroy', 'ServiceEmployeeController@massDestroy')->name('service-employees.massDestroy');
+    Route::resource('service-employees', 'ServiceEmployeeController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

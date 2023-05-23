@@ -365,6 +365,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('service_employee_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.service-employees.index") }}" class="nav-link {{ request()->is("admin/service-employees") || request()->is("admin/service-employees/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-user-tie">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.serviceEmployee.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('my_shop_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.my-shops.index") }}" class="nav-link {{ request()->is("admin/my-shops") || request()->is("admin/my-shops/*") ? "active" : "" }}">
