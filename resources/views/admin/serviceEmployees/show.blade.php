@@ -33,6 +33,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.serviceEmployee.fields.shop_company') }}
+                        </th>
+                        <td>
+                            {{ $serviceEmployee->shop_company->contacts ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.serviceEmployee.fields.service') }}
                         </th>
                         <td>

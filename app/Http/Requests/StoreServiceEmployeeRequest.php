@@ -21,6 +21,10 @@ class StoreServiceEmployeeRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'shop_company_id' => [
+                'required',
+                'integer',
+            ],
             'services.*' => [
                 'integer',
             ],

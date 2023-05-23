@@ -8,6 +8,7 @@ use App\Http\Requests\StoreServiceEmployeeRequest;
 use App\Http\Requests\UpdateServiceEmployeeRequest;
 use App\Models\Service;
 use App\Models\ServiceEmployee;
+use App\Models\ShopCompany;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,7 @@ class ServiceEmployeeController extends Controller
     {
         abort_if(Gate::denies('service_employee_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $serviceEmployees = ServiceEmployee::with(['services'])->get();
+        $serviceEmployees = ServiceEmployee::with(['shop_company', 'services'])->get();
 
         return view('admin.serviceEmployees.index', compact('serviceEmployees'));
     }
@@ -27,9 +28,11 @@ class ServiceEmployeeController extends Controller
     {
         abort_if(Gate::denies('service_employee_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $shop_companies = ShopCompany::pluck('contacts', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $services = Service::pluck('name', 'id');
 
-        return view('admin.serviceEmployees.create', compact('services'));
+        return view('admin.serviceEmployees.create', compact('services', 'shop_companies'));
     }
 
     public function store(StoreServiceEmployeeRequest $request)
@@ -44,11 +47,13 @@ class ServiceEmployeeController extends Controller
     {
         abort_if(Gate::denies('service_employee_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $shop_companies = ShopCompany::pluck('contacts', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $services = Service::pluck('name', 'id');
 
-        $serviceEmployee->load('services');
+        $serviceEmployee->load('shop_company', 'services');
 
-        return view('admin.serviceEmployees.edit', compact('serviceEmployee', 'services'));
+        return view('admin.serviceEmployees.edit', compact('serviceEmployee', 'services', 'shop_companies'));
     }
 
     public function update(UpdateServiceEmployeeRequest $request, ServiceEmployee $serviceEmployee)
@@ -63,7 +68,7 @@ class ServiceEmployeeController extends Controller
     {
         abort_if(Gate::denies('service_employee_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $serviceEmployee->load('services');
+        $serviceEmployee->load('shop_company', 'services');
 
         return view('admin.serviceEmployees.show', compact('serviceEmployee'));
     }

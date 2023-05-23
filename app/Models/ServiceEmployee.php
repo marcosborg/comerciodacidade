@@ -21,6 +21,7 @@ class ServiceEmployee extends Model
 
     protected $fillable = [
         'name',
+        'shop_company_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -29,6 +30,11 @@ class ServiceEmployee extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function shop_company()
+    {
+        return $this->belongsTo(ShopCompany::class, 'shop_company_id');
     }
 
     public function services()

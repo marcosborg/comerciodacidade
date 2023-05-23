@@ -16,3 +16,4 @@
 
 
 @endsection
+<script>console.log({!! $serviceEmployees !!})</script>

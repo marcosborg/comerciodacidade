@@ -29,6 +29,9 @@
                             {{ trans('cruds.serviceEmployee.fields.name') }}
                         </th>
                         <th>
+                            {{ trans('cruds.serviceEmployee.fields.shop_company') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.serviceEmployee.fields.service') }}
                         </th>
                         <th>
@@ -47,6 +50,9 @@
                             </td>
                             <td>
                                 {{ $serviceEmployee->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $serviceEmployee->shop_company->contacts ?? '' }}
                             </td>
                             <td>
                                 @foreach($serviceEmployee->services as $key => $item)
