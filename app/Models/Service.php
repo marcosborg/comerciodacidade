@@ -38,6 +38,7 @@ class Service extends Model implements HasMedia
         'youtube',
         'attachment_name',
         'state',
+        'position',
         'created_at',
         'updated_at',
         'deleted_at',

@@ -147,6 +147,14 @@
                             <input type="checkbox" disabled="disabled" {{ $service->state ? 'checked' : '' }}>
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.service.fields.position') }}
+                        </th>
+                        <td>
+                            {{ $service->position }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

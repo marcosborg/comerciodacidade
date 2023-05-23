@@ -68,6 +68,9 @@
                             {{ trans('cruds.service.fields.state') }}
                         </th>
                         <th>
+                            {{ trans('cruds.service.fields.position') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -135,6 +138,9 @@
                             <td>
                                 <span style="display:none">{{ $service->state ?? '' }}</span>
                                 <input type="checkbox" disabled="disabled" {{ $service->state ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                {{ $service->position ?? '' }}
                             </td>
                             <td>
                                 @can('service_show')

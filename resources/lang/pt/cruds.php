@@ -635,6 +635,8 @@ return [
             'attachment_helper'                  => ' ',
             'state'                              => 'State',
             'state_helper'                       => ' ',
+            'position'                           => 'Position',
+            'position_helper'                    => ' ',
         ],
     ],
     'serviceEmployee' => [

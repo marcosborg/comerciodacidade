@@ -156,6 +156,14 @@
                 <span class="help-block">{{ trans('cruds.service.fields.state_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="position">{{ trans('cruds.service.fields.position') }}</label>
+                <input class="form-control {{ $errors->has('position') ? 'is-invalid' : '' }}" type="number" name="position" id="position" value="{{ old('position', $service->position) }}" step="1">
+                @if($errors->has('position'))
+                    <span class="text-danger">{{ $errors->first('position') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.service.fields.position_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
