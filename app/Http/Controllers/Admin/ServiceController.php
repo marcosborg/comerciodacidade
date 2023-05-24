@@ -122,7 +122,12 @@ class ServiceController extends Controller
             $service->attachment->delete();
         }
 
-        return redirect()->route('admin.services.index');
+        if (!$request->myService) {
+            return redirect()->route('admin.services.index');
+        } else {
+            return redirect()->back()->with('message', 'Atualizado com secesso.');
+        }
+
     }
 
     public function show(Service $service)

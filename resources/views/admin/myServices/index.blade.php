@@ -104,7 +104,7 @@
                             </td>
                             <td>
                                 @can('my_service_access')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.services.edit', $service->id) }}">
+                                    <a class="btn btn-xs btn-info" href="/admin/my-services/edit/{{ $service->id }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan

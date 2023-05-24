@@ -55,7 +55,18 @@ class MyServiceController extends Controller
 
         abort_if(Gate::denies('my_service_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.myServices.edit');
+        $service_durations = ServiceDuration::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $shop_product_categories = ShopProductCategory::pluck('name', 'id');
+
+        $shop_product_sub_categories = ShopProductSubCategory::pluck('name', 'id');
+
+        $taxes = ShopTax::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $service = Service::find($request->id)->load('shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax');
+
+        return view('admin.myServices.edit', compact('service', 'service_durations', 'shop_product_categories', 'shop_product_sub_categories', 'taxes'));
+
     }
 
 }
