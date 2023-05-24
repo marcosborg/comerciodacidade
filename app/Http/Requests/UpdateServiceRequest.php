@@ -11,7 +11,11 @@ class UpdateServiceRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('service_edit');
+        $allow = false;
+        if (Gate::allows('service_edit') || Gate::allows('my_service_access')) {
+            $allow = true;
+        }
+        return $allow;
     }
 
     public function rules()

@@ -65,7 +65,12 @@ class ServiceController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $service->id]);
         }
 
-        return redirect()->route('admin.services.index');
+        if (!$request->shop_company_id) {
+            return redirect()->route('admin.services.index');
+        } else {
+            return redirect('admin/my-services');
+        }
+
     }
 
     public function edit(Service $service)
@@ -94,20 +99,20 @@ class ServiceController extends Controller
         $service->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         if (count($service->photos) > 0) {
             foreach ($service->photos as $media) {
-                if (! in_array($media->file_name, $request->input('photos', []))) {
+                if (!in_array($media->file_name, $request->input('photos', []))) {
                     $media->delete();
                 }
             }
         }
         $media = $service->photos->pluck('file_name')->toArray();
         foreach ($request->input('photos', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
+            if (count($media) === 0 || !in_array($file, $media)) {
                 $service->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photos');
             }
         }
 
         if ($request->input('attachment', false)) {
-            if (! $service->attachment || $request->input('attachment') !== $service->attachment->file_name) {
+            if (!$service->attachment || $request->input('attachment') !== $service->attachment->file_name) {
                 if ($service->attachment) {
                     $service->attachment->delete();
                 }
@@ -131,7 +136,14 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
-        abort_if(Gate::denies('service_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $allow = false;
+
+        if (Gate::allows('service_delete') || Gate::allows('my_service_access')) {
+            $allow = true;
+        }
+
+        abort_if($allow == false, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $service->delete();
 
@@ -153,10 +165,10 @@ class ServiceController extends Controller
     {
         abort_if(Gate::denies('service_create') && Gate::denies('service_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $model         = new Service();
-        $model->id     = $request->input('crud_id', 0);
+        $model = new Service();
+        $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }

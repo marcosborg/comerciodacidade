@@ -11,7 +11,11 @@ class StoreServiceRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('service_create');
+        $allow = false;
+        if (Gate::allows('service_create') || Gate::allows('my_service_access')) {
+            $allow = true;
+        }
+        return $allow;
     }
 
     public function rules()

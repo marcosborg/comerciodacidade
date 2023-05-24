@@ -196,7 +196,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('shop-schedules', 'ShopScheduleController');
 
     // My Service
-    Route::get('my-services', 'MyServiceController@index');
+    Route::prefix('my-services')->group(function () {
+        Route::get('/', 'MyServiceController@index');
+        Route::get('create', 'MyServiceController@create');
+        Route::get('edit/{id}', 'MyServiceController@edit');
+    });
+
 
     // My Employees
     Route::get('my-employees', 'MyEmployeesController@index');
