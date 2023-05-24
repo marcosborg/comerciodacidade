@@ -21,9 +21,7 @@ class MyServiceController extends Controller
     {
         abort_if(Gate::denies('my_service_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $services = Service::with(['shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax', 'media'])->get();
-
-        return view('admin.myServices.index', compact('services'));
+        return view('admin.myServices.index');
     }
 
     public function create()
@@ -66,6 +64,37 @@ class MyServiceController extends Controller
         $service = Service::find($request->id)->load('shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax');
 
         return view('admin.myServices.edit', compact('service', 'service_durations', 'shop_product_categories', 'shop_product_sub_categories', 'taxes'));
+
+    }
+
+    public function serviceList()
+    {
+        $company = User::where('id', auth()->user()->id)
+            ->with('company.shop_company')
+            ->first()->company[0];
+
+        $services = Service::where('shop_company_id', $company->shop_company->id)
+            ->with(['shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax', 'media'])
+            ->orderBy('position')
+            ->get();
+
+        return view('admin.myServices.serviceList', compact('services'));
+
+    }
+
+    public function position(Request $request)
+    {
+        $data = json_decode($request->data);
+        $index = 0;
+
+        for ($i = $request->firstPosition; $i < $request->lastPosition; $i++) {
+            $service = Service::find($data[$index]->service_id);
+            $service->position = $i;
+            $service->save();
+            $index++;
+        }
+
+        return [];
 
     }
 

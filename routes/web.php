@@ -200,6 +200,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::get('/', 'MyServiceController@index');
         Route::get('create', 'MyServiceController@create');
         Route::get('edit/{id}', 'MyServiceController@edit');
+        Route::get('service-list', 'MyServiceController@serviceList');
+        ROute::post('position', 'MyServiceController@position');
     });
 
 

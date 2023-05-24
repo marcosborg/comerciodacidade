@@ -19,11 +19,11 @@
             <table class=" table table-bordered table-striped table-hover datatable datatable-Service">
                 <thead>
                     <tr>
-                        <th width="10">
+                        <th class="hide">
 
                         </th>
                         <th>
-                            {{ trans('cruds.service.fields.id') }}
+                            
                         </th>
                         <th>
                             {{ trans('cruds.service.fields.name') }}
@@ -57,71 +57,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($services as $key => $service)
-                        <tr data-entry-id="{{ $service->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $service->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $service->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $service->reference ?? '' }}
-                            </td>
-                            <td>
-                                @foreach($service->photos as $key => $media)
-                                    <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $media->getUrl('thumb') }}">
-                                    </a>
-                                @endforeach
-                            </td>
-                            <td>
-                                {{ $service->service_duration->name ?? '' }}
-                            </td>
-                            <td>
-                                @foreach($service->shop_product_categories as $key => $item)
-                                    <span class="badge badge-info">{{ $item->name }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                @foreach($service->shop_product_sub_categories as $key => $item)
-                                    <span class="badge badge-info">{{ $item->name }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                {{ $service->price ?? '' }}
-                            </td>
-                            <td>
-                                {{ $service->tax->name ?? '' }}
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $service->state ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $service->state ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                @can('my_service_access')
-                                    <a class="btn btn-xs btn-info" href="/admin/my-services/edit/{{ $service->id }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('my_service_access')
-                                    <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
+                <tbody id="sortable" style="cursor: move;"></tbody>
             </table>
         </div>
     </div>
@@ -167,8 +103,9 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 5, 'desc' ]],
     pageLength: 100,
+    ordering: false,
   });
   let table = $('.datatable-Service:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
@@ -178,5 +115,47 @@
   
 })
 
+</script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+</script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    $(() => {
+        serviceList();
+        $('#sortable').sortable({
+            stop: () => {
+                let services = $('tbody > tr');
+                let firstPosition = $(services[0]).data('position');
+                let lastPosition = services.length;
+                let data = [];
+                $.each(services, function(index, value){
+                    let service_id = $(value).data('service_id');
+                    data.push({
+                        service_id: service_id,
+                    });
+                });
+                $.ajax({
+                    url: '/admin/my-services/position',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        data: JSON.stringify(data),
+                        firstPosition: firstPosition,
+                        lastPosition: lastPosition,
+                    },
+                });
+            }
+        });
+    });
+    serviceList = () => {
+        $.LoadingOverlay('show');
+        $.get('/admin/my-services/service-list').then((resp) => {
+            $.LoadingOverlay('hide');
+            $('#sortable').html(resp);
+            loadDatatable();
+        });
+    }
 </script>
 @endsection
