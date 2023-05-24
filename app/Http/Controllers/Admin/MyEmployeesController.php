@@ -14,7 +14,7 @@ class MyEmployeesController extends Controller
     {
         abort_if(Gate::denies('my_employee_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $serviceEmployees = ServiceEmployee::all();
+        $serviceEmployees = ServiceEmployee::with(['shop_company', 'services'])->get();
 
         return view('admin.myEmployees.index', compact('serviceEmployees'));
     }

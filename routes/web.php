@@ -206,7 +206,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 
     // My Employees
-    Route::get('my-employees', 'MyEmployeesController@index');
+    Route::prefix('my-employees')->group(function () {
+        Route::get('/', 'MyEmployeesController@index');
+    });
 
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
