@@ -476,6 +476,16 @@
                         </a>
                     </li>
                 @endcan
+                <li class="nav-item">
+                    <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is("admin/system-calendar") || request()->is("admin/system-calendar/*") ? "active" : "" }}">
+                        <i class="fas fa-fw fa-calendar nav-icon">
+
+                        </i>
+                        <p>
+                            {{ trans('global.systemCalendar') }}
+                        </p>
+                    </a>
+                </li>
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
                         <li class="nav-item">
