@@ -211,6 +211,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::get('create', 'MyEmployeesController@create');
         Route::get('edit/{id}', 'MyEmployeesController@edit');
         Route::get('schedules/{id}', 'MyEmployeesController@schedules');
+        Route::get('get-schedule/{id}', 'MyEmployeesController@getSchedule');
+        Route::get('delete-schedule/{id}', 'MyEmployeesController@deleteSchedule');
     });
 
 });

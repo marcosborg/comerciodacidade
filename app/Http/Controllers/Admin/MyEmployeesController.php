@@ -69,4 +69,18 @@ class MyEmployeesController extends Controller
         return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules'));
     }
 
+    public function getSchedule(Request $request)
+    {
+        $shop_schedule = ShopSchedule::find($request->id);
+
+        return $shop_schedule;
+    }
+
+    public function deleteSchedule(Request $request)
+    {
+        ShopSchedule::find($request->id)->delete();
+
+        return redirect()->back()->with('message', 'Apagado com sucesso.');
+    }
+
 }
