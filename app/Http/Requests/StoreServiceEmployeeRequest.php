@@ -11,7 +11,12 @@ class StoreServiceEmployeeRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('service_employee_create');
+        $allow = false;
+
+        if (Gate::allows('service_employee_create') || Gate::allows('my_employee_access')) {
+            $allow = true;
+        }
+        return $allow;
     }
 
     public function rules()

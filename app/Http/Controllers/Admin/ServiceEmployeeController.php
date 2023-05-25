@@ -40,7 +40,12 @@ class ServiceEmployeeController extends Controller
         $serviceEmployee = ServiceEmployee::create($request->all());
         $serviceEmployee->services()->sync($request->input('services', []));
 
-        return redirect()->route('admin.service-employees.index');
+        if (!$request->myEmployee) {
+            return redirect()->route('admin.service-employees.index');
+        } else {
+            return redirect('admin/my-employees');
+        }
+
     }
 
     public function edit(ServiceEmployee $serviceEmployee)
@@ -61,7 +66,12 @@ class ServiceEmployeeController extends Controller
         $serviceEmployee->update($request->all());
         $serviceEmployee->services()->sync($request->input('services', []));
 
-        return redirect()->route('admin.service-employees.index');
+        if (!$request->myEmployee) {
+            return redirect()->route('admin.service-employees.index');
+        } else {
+            return redirect()->back()->with('message', 'Atualizado com sucesso.');
+        }
+
     }
 
     public function show(ServiceEmployee $serviceEmployee)
@@ -75,7 +85,14 @@ class ServiceEmployeeController extends Controller
 
     public function destroy(ServiceEmployee $serviceEmployee)
     {
-        abort_if(Gate::denies('service_employee_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $allow = false;
+
+        if (Gate::allows('service_employee_create') || Gate::allows('my_employee_access')) {
+            $allow = true;
+        }
+
+        abort_if($allow == false, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $serviceEmployee->delete();
 

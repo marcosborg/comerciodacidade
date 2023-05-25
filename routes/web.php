@@ -208,6 +208,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // My Employees
     Route::prefix('my-employees')->group(function () {
         Route::get('/', 'MyEmployeesController@index');
+        Route::get('create', 'MyEmployeesController@create');
+        Route::get('edit/{id}', 'MyEmployeesController@edit');
     });
 
 });

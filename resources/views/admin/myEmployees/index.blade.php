@@ -24,11 +24,8 @@
                 <table class="table table-bordered table-striped table-hover datatable datatable-ServiceEmployee">
                     <thead>
                         <tr>
-                            <th width="10">
+                            <th class="hide">
 
-                            </th>
-                            <th>
-                                {{ trans('cruds.serviceEmployee.fields.id') }}
                             </th>
                             <th>
                                 {{ trans('cruds.serviceEmployee.fields.name') }}
@@ -44,11 +41,8 @@
                     <tbody>
                         @foreach($serviceEmployees as $key => $serviceEmployee)
                         <tr data-entry-id="{{ $serviceEmployee->id }}">
-                            <td>
+                            <td class="hide">
 
-                            </td>
-                            <td>
-                                {{ $serviceEmployee->id ?? '' }}
                             </td>
                             <td>
                                 {{ $serviceEmployee->name ?? '' }}
@@ -61,7 +55,7 @@
                             <td>
                                 @can('my_employee_access')
                                 <a class="btn btn-xs btn-info"
-                                    href="{{ route('admin.service-employees.edit', $serviceEmployee->id) }}">
+                                    href="/admin/my-employees/edit/{{ $serviceEmployee->id }}">
                                     {{ trans('global.edit') }}
                                 </a>
                                 @endcan
