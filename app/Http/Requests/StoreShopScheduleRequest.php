@@ -11,7 +11,11 @@ class StoreShopScheduleRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('shop_schedule_create');
+        $allow = false;
+        if (Gate::allows('my_employee_access') || Gate::allows('shop_schedule_create')) {
+            $allow = true;
+        }
+        return $allow;
     }
 
     public function rules()

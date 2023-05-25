@@ -11,7 +11,11 @@ class UpdateShopScheduleRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('shop_schedule_edit');
+        $allow = false;
+        if (Gate::allows('my_employee_access') || Gate::allows('shop_schedule_edit')) {
+            $allow = true;
+        }
+        return $allow;
     }
 
     public function rules()

@@ -61,6 +61,13 @@
                                 @endcan
 
                                 @can('my_employee_access')
+                                <a class="btn btn-xs btn-success"
+                                    href="/admin/my-employees/schedules/{{ $serviceEmployee->id }}">
+                                    Horários
+                                </a>
+                                @endcan
+
+                                @can('my_employee_access')
                                 <form action="{{ route('admin.service-employees.destroy', $serviceEmployee->id) }}"
                                     method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                     style="display: inline-block;">

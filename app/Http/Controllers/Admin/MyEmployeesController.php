@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\ServiceEmployee;
 use App\Models\ShopCompany;
+use App\Models\ShopSchedule;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -51,6 +52,21 @@ class MyEmployeesController extends Controller
 
         return view('admin.myEmployees.edit', compact('serviceEmployee', 'services', 'shop_company'));
 
+    }
+
+    public function schedules(Request $request)
+    {
+
+        $shop_schedules = ShopSchedule::where([
+            'service_employee_id' => $request->id,
+        ])
+            ->get()->load('service');
+
+        $service_employee = ServiceEmployee::find($request->id);
+
+        $services = Service::where('shop_company_id', $service_employee->shop_company_id)->get();
+
+        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules'));
     }
 
 }

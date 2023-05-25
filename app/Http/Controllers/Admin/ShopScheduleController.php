@@ -39,7 +39,12 @@ class ShopScheduleController extends Controller
     {
         $shopSchedule = ShopSchedule::create($request->all());
 
-        return redirect()->route('admin.shop-schedules.index');
+        if(!$request->mySchedules){
+            return redirect()->route('admin.shop-schedules.index');
+        } else {
+            return redirect()->back()->with('message', 'Criado com sucesso');
+        }
+        
     }
 
     public function edit(ShopSchedule $shopSchedule)

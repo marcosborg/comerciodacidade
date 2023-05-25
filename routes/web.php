@@ -210,6 +210,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::get('/', 'MyEmployeesController@index');
         Route::get('create', 'MyEmployeesController@create');
         Route::get('edit/{id}', 'MyEmployeesController@edit');
+        Route::get('schedules/{id}', 'MyEmployeesController@schedules');
     });
 
 });
