@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateShopScheduleRequest;
 use App\Models\Service;
 use App\Models\ServiceEmployee;
 use App\Models\ShopSchedule;
+use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,9 +36,34 @@ class ShopScheduleController extends Controller
         return view('admin.shopSchedules.create', compact('service_employees', 'services'));
     }
 
-    public function store(StoreShopScheduleRequest $request)
+    public function store(Request $request)
     {
-        $shopSchedule = ShopSchedule::create($request->all());
+
+        $service = Service::find($request->service_id)->load('service_duration');
+
+        $start_time = Carbon::parse($request->start_time);
+        $end_time = Carbon::parse($request->start_time)->addMinutes($service->service_duration->minutes);
+
+        $exist = ShopSchedule::where('service_employee_id', $request->service_employee_id)
+            ->where(function ($query) use ($start_time, $end_time) {
+                $query->whereBetween('start_time', [$start_time, $end_time])
+                    ->orWhereBetween('end_time', [$start_time, $end_time])
+                    ->orWhere(function ($query) use ($start_time, $end_time) {
+                        $query->where('start_time', '<=', $start_time)
+                            ->where('end_time', '>=', $end_time);
+                    });
+            })->exists();
+
+        if ($exist) {
+            return redirect()->back()->with('error', 'Já existe marcação para essa hora. Verifique no calendário.');
+        } else {
+            $shopSchedule = new ShopSchedule;
+            $shopSchedule->service_employee_id = $request->service_employee_id;
+            $shopSchedule->start_time = $start_time->format('Y-m-d H:i:s');
+            $shopSchedule->end_time = $end_time->format('Y-m-d H:i:s');
+            $shopSchedule->service_id = $request->service_id;
+            $shopSchedule->save();
+        }
 
         if (!$request->mySchedules) {
             return redirect()->route('admin.shop-schedules.index');

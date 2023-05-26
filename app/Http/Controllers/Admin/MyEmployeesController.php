@@ -64,9 +64,39 @@ class MyEmployeesController extends Controller
 
         $service_employee = ServiceEmployee::find($request->id);
 
-        $services = Service::where('shop_company_id', $service_employee->shop_company_id)->get();
+        $services = Service::where('shop_company_id', $service_employee->shop_company_id)
+        ->with('service_duration')
+        ->get();
 
-        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules'));
+        $sources = [
+            [
+                'model'      => '\App\Models\ShopSchedule',
+                'date_field' => 'start_time',
+                'field'      => 'id',
+                'prefix'     => 'Cliente',
+                'suffix'     => 'tem marcação',
+                'route'      => 'admin.shop-schedules.edit',
+            ],
+        ];
+
+        $events = [];
+        foreach ($sources as $source) {
+            foreach ($source['model']::all() as $model) {
+                $crudFieldValue = $model->getAttributes()[$source['date_field']];
+
+                if (! $crudFieldValue) {
+                    continue;
+                }
+
+                $events[] = [
+                    'title' => trim($source['prefix'] . ' ' . $model->{$source['field']} . ' ' . $source['suffix']),
+                    'start' => $crudFieldValue,
+                    'url'   => route($source['route'], $model->id),
+                ];
+            }
+        }
+
+        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules', 'events'));
     }
 
     public function getSchedule(Request $request)

@@ -1,8 +1,21 @@
 @extends('layouts.admin')
 @section('content')
+@section('styles')
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
+@endsection
 <h3 class="text-center">Agenda de {{ $service_employee->name }}</h3>
 <div class="row">
-    <div class="col">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Calendário
+            </div>
+            <div class="card-body">
+                <div id='calendar'></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
         <div class="card">
             <div class="card-header">
                 Horários
@@ -49,7 +62,8 @@
                                     <button class="btn btn-xs btn-info"
                                         onclick="editSchedule({{ $shop_schedule->id }})">Editar</button>
                                     <a class="btn btn-xs btn-danger"
-                                        href="/admin/my-employees/delete-schedule/{{ $shop_schedule->id }}" onclick="return confirm('{{ trans('global.areYouSure') }}');">
+                                        href="/admin/my-employees/delete-schedule/{{ $shop_schedule->id }}"
+                                        onclick="return confirm('{{ trans('global.areYouSure') }}');">
                                         {{ trans('global.delete') }}
                                     </a>
                                 </td>
@@ -79,12 +93,16 @@
                         <label>Fim do serviço</label>
                         <input type="text" class="form-control datetime" name="end_time">
                     </div>
+                    <script>
+                        console.log({!! $services !!})
+                    </script>
                     <div class="form-group">
                         <label>Serviço</label>
                         <select name="service_id" class="form-control">
                             <option selected disabled>Selecionar</option>
                             @foreach ($services as $service)
-                            <option value="{{ $service->id }}">{{ $service->name }}</option>
+                            <option value="{{ $service->id }}">{{ $service->name }} - {{
+                                $service->service_duration->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -138,6 +156,9 @@
 </div>
 @endsection
 @section('scripts')
+@parent
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -166,5 +187,17 @@
             $('#editSchedule').modal('show');
         });
     }
+</script>
+<script>
+    $(document).ready(function () {
+            // page is now ready, initialize the calendar...
+            events={!! json_encode($events) !!};
+            $('#calendar').fullCalendar({
+                // put your options and callbacks here
+                events: events,
+
+
+            })
+        });
 </script>
 @endsection
