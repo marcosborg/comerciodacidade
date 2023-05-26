@@ -4,110 +4,144 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
 @endsection
 <h3 class="text-center">Agenda de {{ $service_employee->name }}</h3>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                Calendário
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="tab1" data-toggle="tab" data-target="#tab-content-1" type="button"
+            role="tab" aria-controls="tab1" aria-selected="true">Calendário</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab2" data-toggle="tab" data-target="#tab-content-2" type="button" role="tab"
+            aria-controls="tab2" aria-selected="false">Marcações</button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="tab-content-1" role="tabpanel" aria-labelledby="tab-content-1">
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        Calendário
+                    </div>
+                    <div class="card-body">
+                        <div id='calendar'></div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <div id='calendar'></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-5">
-        <div class="card">
-            <div class="card-header">
-                Horários
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover datatable">
-                        <thead>
-                            <tr>
-                                <th class="hide">
-
-                                </th>
-                                <th>
-                                    Dia
-                                </th>
-                                <th>
-                                    Hora
-                                </th>
-                                <th>
-                                    Serviço
-                                </th>
-                                <th>
-
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($shop_schedules as $shop_schedule)
-                            <tr>
-                                <td class="hide">
-
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($shop_schedule->start_time)->format('d-m-Y') }}
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($shop_schedule->start_time)->format('H:m') }} - {{
-                                    \Carbon\Carbon::parse($shop_schedule->end_time)->format('H:m') }}
-                                </td>
-                                <td>
-                                    {{ $shop_schedule->service->name }}
-                                </td>
-                                <td>
-                                    <button class="btn btn-xs btn-info"
-                                        onclick="editSchedule({{ $shop_schedule->id }})">Editar</button>
-                                    <a class="btn btn-xs btn-danger"
-                                        href="/admin/my-employees/delete-schedule/{{ $shop_schedule->id }}"
-                                        onclick="return confirm('{{ trans('global.areYouSure') }}');">
-                                        {{ trans('global.delete') }}
-                                    </a>
-                                </td>
-                            </tr>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Para hoje
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            @foreach ($today_shop_schedules as $today_shop_schedule)
+                            <li class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Nome do cliente</h5>
+                                    <small>{{ \Carbon\Carbon::parse($today_shop_schedule->start_time)->format('H:i') }}
+                                        - {{
+                                        \Carbon\Carbon::parse($today_shop_schedule->end_time)->format('H:i') }}</small>
+                                </div>
+                                <p class="mb-1">{{ $today_shop_schedule->service->name }}</p>
+                            </li>
                             @endforeach
-                        </tbody>
-                    </table>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col">
-        <div class="card">
-            <div class="card-header">
-                Criar marcação
+    <div class="tab-pane fade" id="tab-content-2" role="tabpanel" aria-labelledby="tab-content-2">
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        Horários
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="hide">
+
+                                        </th>
+                                        <th>
+                                            Dia
+                                        </th>
+                                        <th>
+                                            Hora
+                                        </th>
+                                        <th>
+                                            Serviço
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($shop_schedules as $shop_schedule)
+                                    <tr>
+                                        <td class="hide">
+
+                                        </td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($shop_schedule->start_time)->format('d-m-Y') }}
+                                        </td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($shop_schedule->start_time)->format('H:i') }} - {{
+                                            \Carbon\Carbon::parse($shop_schedule->end_time)->format('H:i') }}
+                                        </td>
+                                        <td>
+                                            {{ $shop_schedule->service->name }}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-xs btn-info"
+                                                onclick="editSchedule({{ $shop_schedule->id }})">Editar</button>
+                                            <a class="btn btn-xs btn-danger"
+                                                href="/admin/my-employees/delete-schedule/{{ $shop_schedule->id }}"
+                                                onclick="return confirm('{{ trans('global.areYouSure') }}');">
+                                                {{ trans('global.delete') }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <form action="{{ route("admin.shop-schedules.store") }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="mySchedules" value="1">
-                    <input type="hidden" name="service_employee_id" value="{{ $service_employee->id }}">
-                    <div class="form-group">
-                        <label>Início do serviço</label>
-                        <input type="text" class="form-control datetime" name="start_time">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Criar marcação
                     </div>
-                    <div class="form-group">
-                        <label>Fim do serviço</label>
-                        <input type="text" class="form-control datetime" name="end_time">
+                    <div class="card-body">
+                        <form action="{{ route("admin.shop-schedules.store") }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="mySchedules" value="1">
+                            <input type="hidden" name="service_employee_id" value="{{ $service_employee->id }}">
+                            <div class="form-group">
+                                <label>Início do serviço</label>
+                                <input type="text" class="form-control datetime" name="start_time">
+                            </div>
+                            <input type="hidden" name="end_time" value="">
+                            <div class="form-group">
+                                <label>Serviço</label>
+                                <select name="service_id" class="form-control">
+                                    <option selected disabled>Selecionar</option>
+                                    @foreach ($services as $service)
+                                    <option value="{{ $service->id }}">{{ $service->name }} - {{
+                                        $service->service_duration->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Criar</button>
+                        </form>
                     </div>
-                    <script>
-                        console.log({!! $services !!})
-                    </script>
-                    <div class="form-group">
-                        <label>Serviço</label>
-                        <select name="service_id" class="form-control">
-                            <option selected disabled>Selecionar</option>
-                            @foreach ($services as $service)
-                            <option value="{{ $service->id }}">{{ $service->name }} - {{
-                                $service->service_duration->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Criar</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -134,7 +168,7 @@
                     </div>
                     <div class="form-group">
                         <label>Fim do serviço</label>
-                        <input type="text" class="form-control datetime" name="end_time">
+                        <input type="text" class="form-control datetime" name="">
                     </div>
                     <div class="form-group">
                         <label class="required" for="service_id">{{ trans('cruds.shopSchedule.fields.service')
@@ -175,12 +209,15 @@
                 location.reload();
             }
         });
+        $('#tab2').on('shown.bs.tab', function() {
+            $('.datatable').DataTable().destroy();
+            $('.datatable').DataTable();
+        });
     });
     editSchedule = (id) => {
         $.LoadingOverlay('show');
         $.get('/admin/my-employees/get-schedule/' + id).then((resp) => {
             $.LoadingOverlay('hide');
-            console.log(resp);
             $('#editSchedule input[name=start_time]').val(resp.start_time);
             $('#editSchedule input[name=end_time]').val(resp.end_time);
             $('#editSchedule select[name=service_id]').val(resp.service_id);

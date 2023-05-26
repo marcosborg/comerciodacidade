@@ -8,6 +8,7 @@ use App\Models\ServiceEmployee;
 use App\Models\ShopCompany;
 use App\Models\ShopSchedule;
 use App\Models\User;
+use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,6 +63,12 @@ class MyEmployeesController extends Controller
         ])
             ->get()->load('service');
 
+        $today = Carbon::today();
+
+        $today_shop_schedules = $shop_schedules->filter(function ($event) use ($today) {
+            return Carbon::parse($event->start_time)->isToday();
+        });
+
         $service_employee = ServiceEmployee::find($request->id);
 
         $services = Service::where('shop_company_id', $service_employee->shop_company_id)
@@ -96,7 +103,7 @@ class MyEmployeesController extends Controller
             }
         }
 
-        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules', 'events'));
+        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules', 'events', 'today_shop_schedules'));
     }
 
     public function getSchedule(Request $request)

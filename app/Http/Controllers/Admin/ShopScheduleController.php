@@ -39,6 +39,21 @@ class ShopScheduleController extends Controller
     public function store(Request $request)
     {
 
+        $request->validate([
+            'service_employee_id' => [
+                'required',
+                'integer',
+            ],
+            'start_time' => [
+                'required',
+                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            ],
+            'service_id' => [
+                'required',
+                'integer',
+            ],
+        ]);
+
         $service = Service::find($request->service_id)->load('service_duration');
 
         $start_time = Carbon::parse($request->start_time);
