@@ -44,6 +44,10 @@ class ShopScheduleController extends Controller
                 'required',
                 'integer',
             ],
+            'client' => [
+                'string',
+                'required',
+            ],
             'start_time' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
@@ -74,6 +78,7 @@ class ShopScheduleController extends Controller
         } else {
             $shopSchedule = new ShopSchedule;
             $shopSchedule->service_employee_id = $request->service_employee_id;
+            $shopSchedule->client = $request->client;
             $shopSchedule->start_time = $start_time->format('Y-m-d H:i:s');
             $shopSchedule->end_time = $end_time->format('Y-m-d H:i:s');
             $shopSchedule->service_id = $request->service_id;

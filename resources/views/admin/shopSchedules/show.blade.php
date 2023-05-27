@@ -33,6 +33,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.shopSchedule.fields.client') }}
+                        </th>
+                        <td>
+                            {{ $shopSchedule->client }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.shopSchedule.fields.start_time') }}
                         </th>
                         <td>

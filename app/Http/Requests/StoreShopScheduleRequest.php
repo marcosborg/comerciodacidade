@@ -25,6 +25,10 @@ class StoreShopScheduleRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            'client' => [
+                'string',
+                'required',
+            ],
             'start_time' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),

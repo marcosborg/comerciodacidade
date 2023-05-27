@@ -679,6 +679,8 @@ return [
             'updated_at_helper'       => ' ',
             'deleted_at'              => 'Deleted at',
             'deleted_at_helper'       => ' ',
+            'client'                  => 'Client',
+            'client_helper'           => ' ',
         ],
     ],
     'myService' => [

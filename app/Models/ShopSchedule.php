@@ -24,6 +24,7 @@ class ShopSchedule extends Model
 
     protected $fillable = [
         'service_employee_id',
+        'client',
         'start_time',
         'end_time',
         'service_id',

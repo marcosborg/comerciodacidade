@@ -2,6 +2,14 @@
 @section('content')
 @section('styles')
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
+<style>
+    .list-group-item-action {
+      cursor: pointer;
+    }
+    .fc-title {
+        color: #fff;
+    }
+  </style>
 @endsection
 <h3 class="text-center">Agenda de {{ $service_employee->name }}</h3>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -33,11 +41,14 @@
                         Para hoje
                     </div>
                     <div class="card-body">
+                        @if ($today_shop_schedules->count() == 0)
+                        <div class="alert alert-info" role="alert">Não tem marcações para hoje</div>
+                        @endif
                         <ul class="list-group">
                             @foreach ($today_shop_schedules as $today_shop_schedule)
-                            <li class="list-group-item">
+                            <li class="list-group-item list-group-item-action" onclick="editSchedule({{ $today_shop_schedule->id }})">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">Nome do cliente</h5>
+                                    <h5 class="mb-1">{{ $today_shop_schedule->client }}</h5>
                                     <small>{{ \Carbon\Carbon::parse($today_shop_schedule->start_time)->format('H:i') }}
                                         - {{
                                         \Carbon\Carbon::parse($today_shop_schedule->end_time)->format('H:i') }}</small>
@@ -124,6 +135,10 @@
                             <input type="hidden" name="mySchedules" value="1">
                             <input type="hidden" name="service_employee_id" value="{{ $service_employee->id }}">
                             <div class="form-group">
+                                <label>Cliente</label>
+                                <input type="text" class="form-control" name="client">
+                            </div>
+                            <div class="form-group">
                                 <label>Início do serviço</label>
                                 <input type="text" class="form-control datetime" name="start_time">
                             </div>
@@ -163,12 +178,16 @@
                     <input type="hidden" name="mySchedules" value="1">
                     <input type="hidden" name="service_employee_id" value="{{ $service_employee->id }}">
                     <div class="form-group">
+                        <label>Cliente</label>
+                        <input type="text" class="form-control" name="client">
+                    </div>
+                    <div class="form-group">
                         <label>Início do serviço</label>
                         <input type="text" class="form-control datetime" name="start_time">
                     </div>
                     <div class="form-group">
                         <label>Fim do serviço</label>
-                        <input type="text" class="form-control datetime" name="">
+                        <input type="text" class="form-control datetime" name="end_time">
                     </div>
                     <div class="form-group">
                         <label class="required" for="service_id">{{ trans('cruds.shopSchedule.fields.service')
@@ -218,6 +237,7 @@
         $.LoadingOverlay('show');
         $.get('/admin/my-employees/get-schedule/' + id).then((resp) => {
             $.LoadingOverlay('hide');
+            $('#editSchedule input[name=client]').val(resp.client);
             $('#editSchedule input[name=start_time]').val(resp.start_time);
             $('#editSchedule input[name=end_time]').val(resp.end_time);
             $('#editSchedule select[name=service_id]').val(resp.service_id);
@@ -232,8 +252,10 @@
             $('#calendar').fullCalendar({
                 // put your options and callbacks here
                 events: events,
-
-
+                eventClick: function(calEvent, jsEvent, view) {
+                    editSchedule(calEvent.id);
+                },
+                timeFormat: 'HH:mm'
             })
         });
 </script>

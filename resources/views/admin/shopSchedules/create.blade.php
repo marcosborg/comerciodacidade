@@ -22,6 +22,14 @@
                 <span class="help-block">{{ trans('cruds.shopSchedule.fields.service_employee_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="client">{{ trans('cruds.shopSchedule.fields.client') }}</label>
+                <input class="form-control {{ $errors->has('client') ? 'is-invalid' : '' }}" type="text" name="client" id="client" value="{{ old('client', '') }}" required>
+                @if($errors->has('client'))
+                    <span class="text-danger">{{ $errors->first('client') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopSchedule.fields.client_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="start_time">{{ trans('cruds.shopSchedule.fields.start_time') }}</label>
                 <input class="form-control datetime {{ $errors->has('start_time') ? 'is-invalid' : '' }}" type="text" name="start_time" id="start_time" value="{{ old('start_time') }}" required>
                 @if($errors->has('start_time'))
