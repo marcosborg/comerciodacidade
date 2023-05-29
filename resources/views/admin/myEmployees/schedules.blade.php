@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
                         Para hoje
@@ -48,12 +48,13 @@
                             @foreach ($today_shop_schedules as $today_shop_schedule)
                             <li class="list-group-item list-group-item-action" onclick="editSchedule({{ $today_shop_schedule->id }})">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">{{ $today_shop_schedule->client }}</h5>
+                                    <h5 class="mb-1">{{ $today_shop_schedule->client ? $today_shop_schedule->client->name : '' }}</h5>
                                     <small>{{ \Carbon\Carbon::parse($today_shop_schedule->start_time)->format('H:i') }}
                                         - {{
                                         \Carbon\Carbon::parse($today_shop_schedule->end_time)->format('H:i') }}</small>
                                 </div>
                                 <p class="mb-1">{{ $today_shop_schedule->service->name }}</p>
+                                <p class="text-muted">{{ $today_shop_schedule->notes }}</p>
                             </li>
                             @endforeach
                         </ul>
@@ -124,7 +125,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
                         Criar marcação
@@ -136,7 +137,12 @@
                             <input type="hidden" name="service_employee_id" value="{{ $service_employee->id }}">
                             <div class="form-group">
                                 <label>Cliente</label>
-                                <input type="text" class="form-control" name="client">
+                                <select name="client_id" class="form-control select2">
+                                    <option selected disabled>Selecione</option>
+                                    @foreach ($clients as $client)
+                                        <option value="{{ $client->id }}">{{ $client->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>Início do serviço</label>
@@ -152,6 +158,10 @@
                                         $service->service_duration->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Anotações</label>
+                                <textarea name="notes" class="form-control"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Criar</button>
                         </form>
@@ -228,9 +238,10 @@
                 location.reload();
             }
         });
-        $('#tab2').on('shown.bs.tab', function() {
+        $('#tab2').on('shown.bs.tab', function(e) {
             $('.datatable').DataTable().destroy();
             $('.datatable').DataTable();
+            $('.select2').select2();
         });
     });
     editSchedule = (id) => {

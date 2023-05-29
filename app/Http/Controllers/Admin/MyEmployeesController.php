@@ -71,6 +71,8 @@ class MyEmployeesController extends Controller
 
         $service_employee = ServiceEmployee::find($request->id);
 
+        $clients = User::all();
+
         $services = Service::where('shop_company_id', $service_employee->shop_company_id)
             ->with('service_duration')
             ->get();
@@ -80,7 +82,7 @@ class MyEmployeesController extends Controller
         foreach ($shop_schedules as $shop_schedule) {
 
             $events[] = [
-                'title' => $shop_schedule->client,
+                'title' => $shop_schedule->client ? $shop_schedule->client->name : $shop_schedule->notes,
                 'start' => $shop_schedule->start_time,
                 'end' => $shop_schedule->end_time,
                 'id' => $shop_schedule->id,
@@ -88,7 +90,7 @@ class MyEmployeesController extends Controller
         }
 
 
-        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules', 'events', 'today_shop_schedules'));
+        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules', 'events', 'today_shop_schedules', 'clients'));
     }
 
     public function getSchedule(Request $request)

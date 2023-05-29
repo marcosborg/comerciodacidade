@@ -51,10 +51,6 @@ class ShopScheduleController extends Controller
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
-            'end_time' => [
-                'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-            ],
             'service_id' => [
                 'required',
                 'integer',
