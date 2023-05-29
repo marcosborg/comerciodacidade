@@ -83,6 +83,30 @@
                         </a>
                     </li>
                 @endcan
+                @can('address_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.addresses.index") }}" class="nav-link {{ request()->is("admin/addresses") || request()->is("admin/addresses/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-address-book">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.address.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('country_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.countries.index") }}" class="nav-link {{ request()->is("admin/countries") || request()->is("admin/countries/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-flag">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.country.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('newsletter_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.newsletters.index") }}" class="nav-link {{ request()->is("admin/newsletters") || request()->is("admin/newsletters/*") ? "active" : "" }}">

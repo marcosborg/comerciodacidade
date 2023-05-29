@@ -215,6 +215,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::get('delete-schedule/{id}', 'MyEmployeesController@deleteSchedule');
     });
 
+    // Address
+    Route::delete('addresses/destroy', 'AddressController@massDestroy')->name('addresses.massDestroy');
+    Route::resource('addresses', 'AddressController');
+
+    // Countries
+    Route::delete('countries/destroy', 'CountriesController@massDestroy')->name('countries.massDestroy');
+    Route::resource('countries', 'CountriesController');
+
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 
 });
