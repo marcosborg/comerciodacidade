@@ -24,10 +24,11 @@ class ShopSchedule extends Model
 
     protected $fillable = [
         'service_employee_id',
-        'client',
+        'client_id',
         'start_time',
         'end_time',
         'service_id',
+        'notes',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -66,5 +67,10 @@ class ShopSchedule extends Model
     public function service()
     {
         return $this->belongsTo(Service::class, 'service_id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id');
     }
 }

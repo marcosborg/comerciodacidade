@@ -29,9 +29,6 @@
                             {{ trans('cruds.shopSchedule.fields.service_employee') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopSchedule.fields.client') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.shopSchedule.fields.start_time') }}
                         </th>
                         <th>
@@ -39,6 +36,12 @@
                         </th>
                         <th>
                             {{ trans('cruds.shopSchedule.fields.service') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.shopSchedule.fields.client') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.shopSchedule.fields.notes') }}
                         </th>
                         <th>
                             &nbsp;
@@ -58,9 +61,6 @@
                                 {{ $shopSchedule->service_employee->name ?? '' }}
                             </td>
                             <td>
-                                {{ $shopSchedule->client ?? '' }}
-                            </td>
-                            <td>
                                 {{ $shopSchedule->start_time ?? '' }}
                             </td>
                             <td>
@@ -68,6 +68,12 @@
                             </td>
                             <td>
                                 {{ $shopSchedule->service->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopSchedule->client->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopSchedule->notes ?? '' }}
                             </td>
                             <td>
                                 @can('shop_schedule_show')

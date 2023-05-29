@@ -681,6 +681,8 @@ return [
             'deleted_at_helper'       => ' ',
             'client'                  => 'Client',
             'client_helper'           => ' ',
+            'notes'                   => 'Notes',
+            'notes_helper'            => ' ',
         ],
     ],
     'myService' => [

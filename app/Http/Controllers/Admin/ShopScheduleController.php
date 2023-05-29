@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateShopScheduleRequest;
 use App\Models\Service;
 use App\Models\ServiceEmployee;
 use App\Models\ShopSchedule;
+use App\Models\User;
 use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ShopScheduleController extends Controller
     {
         abort_if(Gate::denies('shop_schedule_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $shopSchedules = ShopSchedule::with(['service_employee', 'service'])->get();
+        $shopSchedules = ShopSchedule::with(['service_employee', 'service', 'client'])->get();
 
         return view('admin.shopSchedules.index', compact('shopSchedules'));
     }
@@ -33,7 +34,9 @@ class ShopScheduleController extends Controller
 
         $services = Service::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.shopSchedules.create', compact('service_employees', 'services'));
+        $clients = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.shopSchedules.create', compact('clients', 'service_employees', 'services'));
     }
 
     public function store(Request $request)
@@ -44,11 +47,11 @@ class ShopScheduleController extends Controller
                 'required',
                 'integer',
             ],
-            'client' => [
-                'string',
-                'required',
-            ],
             'start_time' => [
+                'required',
+                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            ],
+            'end_time' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
@@ -78,7 +81,8 @@ class ShopScheduleController extends Controller
         } else {
             $shopSchedule = new ShopSchedule;
             $shopSchedule->service_employee_id = $request->service_employee_id;
-            $shopSchedule->client = $request->client;
+            $shopSchedule->client_id = $request->client_id;
+            $shopSchedule->notes = $request->notes;
             $shopSchedule->start_time = $start_time->format('Y-m-d H:i:s');
             $shopSchedule->end_time = $end_time->format('Y-m-d H:i:s');
             $shopSchedule->service_id = $request->service_id;
@@ -101,9 +105,11 @@ class ShopScheduleController extends Controller
 
         $services = Service::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $clients = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $shopSchedule->load('service_employee', 'service');
 
-        return view('admin.shopSchedules.edit', compact('service_employees', 'services', 'shopSchedule'));
+        return view('admin.shopSchedules.edit', compact('clients', 'service_employees', 'services', 'shopSchedule'));
     }
 
     public function update(UpdateShopScheduleRequest $request, ShopSchedule $shopSchedule)
@@ -122,7 +128,7 @@ class ShopScheduleController extends Controller
     {
         abort_if(Gate::denies('shop_schedule_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $shopSchedule->load('service_employee', 'service');
+        $shopSchedule->load('service_employee', 'service', 'client');
 
         return view('admin.shopSchedules.show', compact('shopSchedule'));
     }
