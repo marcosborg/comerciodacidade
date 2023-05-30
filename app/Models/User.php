@@ -96,4 +96,9 @@ class User extends Authenticatable
         return $this->hasOne(Address::class);
     }
 
+    public function shop_schedules()
+    {
+        return $this->hasMany(ShopSchedule::class, 'client_id');
+    }
+
 }

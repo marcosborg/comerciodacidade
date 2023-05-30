@@ -152,7 +152,6 @@
                                     <ul class="list-group position-absolute" id="client_list"
                                         style="top: 40px; width: 100%;"></ul>
                                 </div>
-                                <div id="client_selected"></div>
                             </div>
                             <div class="form-group">
                                 <label>Início do serviço</label>

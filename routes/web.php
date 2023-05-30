@@ -225,6 +225,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('countries/destroy', 'CountriesController@massDestroy')->name('countries.massDestroy');
     Route::resource('countries', 'CountriesController');
 
+    // Client
+    Route::prefix('clients')->group(function () {
+        Route::get('/', 'ClientController@index');
+        ROute::post('new-client', 'ClientController@newClient');
+    });
+
+
+    // System Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 
 });

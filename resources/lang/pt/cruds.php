@@ -737,5 +737,9 @@ return [
             'deleted_at_helper' => ' ',
         ],
     ],
+    'client' => [
+        'title'          => 'Clientes',
+        'title_singular' => 'Cliente',
+    ],
 
 ];
