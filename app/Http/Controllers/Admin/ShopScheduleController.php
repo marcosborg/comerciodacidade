@@ -77,7 +77,7 @@ class ShopScheduleController extends Controller
         } else {
             $shopSchedule = new ShopSchedule;
             $shopSchedule->service_employee_id = $request->service_employee_id;
-            $shopSchedule->client_id = $request->client_id;
+            $shopSchedule->client_id = $request->user_id;
             $shopSchedule->notes = $request->notes;
             $shopSchedule->start_time = $start_time->format('Y-m-d H:i:s');
             $shopSchedule->end_time = $end_time->format('Y-m-d H:i:s');

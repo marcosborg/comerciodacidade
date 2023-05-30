@@ -91,4 +91,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Company::class)->limit(1);
     }
 
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
 }

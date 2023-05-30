@@ -4,12 +4,13 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
 <style>
     .list-group-item-action {
-      cursor: pointer;
+        cursor: pointer;
     }
+
     .fc-title {
         color: #fff;
     }
-  </style>
+</style>
 @endsection
 <h3 class="text-center">Agenda de {{ $service_employee->name }}</h3>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -46,9 +47,11 @@
                         @endif
                         <ul class="list-group">
                             @foreach ($today_shop_schedules as $today_shop_schedule)
-                            <li class="list-group-item list-group-item-action" onclick="editSchedule({{ $today_shop_schedule->id }})">
+                            <li class="list-group-item list-group-item-action"
+                                onclick="editSchedule({{ $today_shop_schedule->id }})">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">{{ $today_shop_schedule->client ? $today_shop_schedule->client->name : '' }}</h5>
+                                    <h5 class="mb-1">{{ $today_shop_schedule->client ?
+                                        $today_shop_schedule->client->name : '' }}</h5>
                                     <small>{{ \Carbon\Carbon::parse($today_shop_schedule->start_time)->format('H:i') }}
                                         - {{
                                         \Carbon\Carbon::parse($today_shop_schedule->end_time)->format('H:i') }}</small>
@@ -135,14 +138,21 @@
                             @csrf
                             <input type="hidden" name="mySchedules" value="1">
                             <input type="hidden" name="service_employee_id" value="{{ $service_employee->id }}">
+                            <input type="hidden" name="user_id" value="">
                             <div class="form-group">
                                 <label>Cliente</label>
-                                <select name="client_id" class="form-control select2">
-                                    <option selected disabled>Selecione</option>
-                                    @foreach ($clients as $client)
-                                        <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="input-group mb-3" id="input_search_group">
+                                    <input type="text" class="form-control"
+                                        placeholder="Pesquisar por email ou telefone" id="search">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-success" type="button" onclick="searchUsers()"><i
+                                                class="fas fa-fw fa-search">
+                                            </i></button>
+                                    </div>
+                                    <ul class="list-group position-absolute" id="client_list"
+                                        style="top: 40px; width: 100%;"></ul>
+                                </div>
+                                <div id="client_selected"></div>
                             </div>
                             <div class="form-group">
                                 <label>Início do serviço</label>
@@ -241,7 +251,6 @@
         $('#tab2').on('shown.bs.tab', function(e) {
             $('.datatable').DataTable().destroy();
             $('.datatable').DataTable();
-            $('.select2').select2();
         });
     });
     editSchedule = (id) => {
@@ -254,6 +263,52 @@
             $('#editSchedule select[name=service_id]').val(resp.service_id);
             $('#editSchedule').modal('show');
         });
+    }
+    searchUsers = () => {
+        let search = $('#search').val();
+        if(search.length > 6) {
+            let data = {
+            search: search,
+        }
+        $.post({
+            url: '/admin/my-employees/search-users',
+            type: 'POST',
+            data: data,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: (resp) => {
+                let html = '';
+                if(resp.length > 0) {
+                        $.each(resp, (i, v) => {
+                        html += '<li class="list-group-item list-group-item-action list-group-item-primary" onclick="selectClient(' + v.id + ')">' + v.name + '</li>';
+                    });
+                } else {
+                    html += '<li class="list-group-item list-group-item-warning">Sem resultados. <button type="button" class="btn btn-primary btn-sm float-right" onclick="createClient()">Criar cliente</button></li>';
+                }
+                $('#client_list').html(html);
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }};
+    selectClient = (user_id) => {
+        $.get('/admin/my-employees/get-client/' + user_id).then((resp) => {
+            $('#client_list').html('');
+            $('#input_search_group').addClass('hide');
+            $('#client_selected').html('<li class="list-group-item list-group-item-primary">' + resp.name + '<button type="button" class="btn btn-link btn-sm float-right" onclick="restart()">X</button></li>');
+            $('input[name=user_id').val(resp.id);
+            $('#search').val('');
+        });
+    }
+    createClient = () => {
+        console.log('createClient');
+    }
+    restart = () => {
+        $('#input_search_group').removeClass('hide');
+        $('#client_selected').html('');
+        $('input[name=user_id').val('');
     }
 </script>
 <script>

@@ -71,8 +71,6 @@ class MyEmployeesController extends Controller
 
         $service_employee = ServiceEmployee::find($request->id);
 
-        $clients = User::all();
-
         $services = Service::where('shop_company_id', $service_employee->shop_company_id)
             ->with('service_duration')
             ->get();
@@ -90,7 +88,7 @@ class MyEmployeesController extends Controller
         }
 
 
-        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules', 'events', 'today_shop_schedules', 'clients'));
+        return view('admin.myEmployees.schedules', compact('service_employee', 'services', 'shop_schedules', 'events', 'today_shop_schedules'));
     }
 
     public function getSchedule(Request $request)
@@ -105,6 +103,28 @@ class MyEmployeesController extends Controller
         ShopSchedule::find($request->id)->delete();
 
         return redirect()->back()->with('message', 'Apagado com sucesso.');
+    }
+
+    public function searchUsers(Request $request)
+    {
+
+        $search = $request->search;
+
+        $clients = User::where(function ($query) use ($search) {
+            $query->where('email', 'LIKE', "%{$search}%")
+                ->orWhereHas('address', function ($query) use ($search) {
+                    $query->where('phone', 'LIKE', "%{$search}%");
+                });
+        })
+            ->get();
+
+        return $clients;
+    }
+
+    public function getClient(Request $request)
+    {
+        $client = User::find($request->id);
+        return $client;
     }
 
 }
