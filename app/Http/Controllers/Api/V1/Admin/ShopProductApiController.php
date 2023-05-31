@@ -44,7 +44,20 @@ class ShopProductApiController extends Controller
             ->whereHas('shop_product_categories', function ($query) use ($request) {
                 $query->where('id', $request->id);
             })
-            ->get();
+            ->paginate(10);
+
+        return $products;
+    }
+
+    public function shopProductsBySubcategoryProduct(Request $request)
+    {
+        $products = ShopProduct::with([
+            'shop_product_categories'
+        ])
+            ->whereHas('shop_product_sub_categories', function ($query) use ($request) {
+                $query->where('id', $request->id);
+            })
+            ->paginate(10);
 
         return $products;
     }
