@@ -63,4 +63,118 @@ class ShopCompanySchedule extends Model
     {
         return $this->belongsTo(ShopCompany::class, 'shop_company_id');
     }
+
+    public function getMondayMorningOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getMondayMorningClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getMondayAfternoonOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getMondayAfternoonClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getTuesdayMorningOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getTuesdayMorningClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getTuesdayAfternoonOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getTuesdayAfternoonClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getWednesdayMorningOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getWednesdayMorningClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getWednesdayAfternoonOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getWednesdayAfternoonClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getThursdayMorningOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getThursdayMorningClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getThursdayAfternoonOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getThursdayAfternoonClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getFridayMorningOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getFridayMorningClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getFridayAfternoonOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getFridayAfternoonClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getSaturdayMorningOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getSaturdayMorningClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getSaturdayAfternoonOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getSaturdayAfternoonClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getSundayMorningOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getSundayMorningClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getSundayAfternoonOpeningAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+    public function getSundayAfternoonClosingAttribute($value)
+    {
+        return substr($value, 0, 5);
+    }
+
 }
