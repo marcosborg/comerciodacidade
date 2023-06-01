@@ -40,6 +40,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::post('services/media', 'ServiceApiController@storeMedia')->name('services.storeMedia');
     Route::apiResource('services', 'ServiceApiController');
     Route::get('shopServicesByCategoryProduct/{id}', 'ServiceApiController@shopServicesByCategoryProduct');
+    Route::get('shopServicesBySubcategoryProduct/{id}', 'ServiceApiController@shopServicesBySubcategoryProduct');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {

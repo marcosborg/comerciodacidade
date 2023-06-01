@@ -97,7 +97,20 @@ class ServiceApiController extends Controller
         $services = Service::whereHas('shop_product_categories', function ($service) use ($request) {
             $service->where('id', $request->id);
         })
-            ->paginate(2);
+            ->paginate(10);
+        return $services;
+    }
+
+    public function shopServicesBySubcategoryProduct(Request $request)
+    {
+        $services = Service::with([
+            'shop_product_categories'
+        ])
+            ->whereHas('shop_product_sub_categories', function ($query) use ($request) {
+                $query->where('id', $request->id);
+            })
+            ->paginate(10);
+
         return $services;
     }
 }
