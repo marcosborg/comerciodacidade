@@ -59,10 +59,42 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.shopCompany.fields.address') }}
+                        </th>
+                        <td>
+                            {{ $shopCompany->address }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.latitude') }}
+                        </th>
+                        <td>
+                            {{ $shopCompany->latitude }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.longitude') }}
+                        </th>
+                        <td>
+                            {{ $shopCompany->longitude }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.shopCompany.fields.contacts') }}
                         </th>
                         <td>
                             {{ $shopCompany->contacts }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.youtube') }}
+                        </th>
+                        <td>
+                            {{ $shopCompany->youtube }}
                         </td>
                     </tr>
                     <tr>

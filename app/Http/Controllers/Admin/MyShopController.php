@@ -86,6 +86,10 @@ class MyShopController extends Controller
         $shopCompanyUpdate = ShopCompany::find($request->id);
         $shopCompanyUpdate->about = $request->about;
         $shopCompanyUpdate->contacts = $request->contacts;
+        $shopCompanyUpdate->youtube = $request->youtube;
+        $shopCompanyUpdate->address = $request->address;
+        $shopCompanyUpdate->latitude = $request->latitude;
+        $shopCompanyUpdate->longitude = $request->longitude;
 
         $shopCompanyUpdate->shop_categories()->sync($request->shop_categories);
 

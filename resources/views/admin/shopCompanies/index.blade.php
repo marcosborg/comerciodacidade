@@ -38,7 +38,19 @@
                             {{ trans('cruds.shopCompany.fields.shop_categories') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopCompany.fields.address') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.latitude') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.longitude') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.shopCompany.fields.contacts') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.youtube') }}
                         </th>
                         <th>
                             {{ trans('cruds.shopCompany.fields.photos') }}
@@ -72,7 +84,19 @@
                                 @endforeach
                             </td>
                             <td>
+                                {{ $shopCompany->address ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopCompany->latitude ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopCompany->longitude ?? '' }}
+                            </td>
+                            <td>
                                 {{ $shopCompany->contacts ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopCompany->youtube ?? '' }}
                             </td>
                             <td>
                                 @foreach($shopCompany->photos as $key => $media)

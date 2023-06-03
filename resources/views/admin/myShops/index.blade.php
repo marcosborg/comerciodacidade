@@ -29,22 +29,6 @@
           <span class="help-block">{{ trans('cruds.shopCompany.fields.about_helper') }}</span>
         </div>
         <div class="form-group">
-          <label class="required" for="shop_location_id">{{ trans('cruds.shopCompany.fields.shop_location')
-            }}</label>
-          <select class="form-control select2 {{ $errors->has('shop_location') ? 'is-invalid' : '' }}"
-            name="shop_location_id" id="shop_location_id" required>
-            @foreach($shop_locations as $id => $entry)
-            <option value="{{ $id }}" {{ (old('shop_location_id') ? old('shop_location_id') : $user->
-              company[0]->shop_company->
-              shop_location->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-            @endforeach
-          </select>
-          @if($errors->has('shop_location'))
-          <span class="text-danger">{{ $errors->first('shop_location') }}</span>
-          @endif
-          <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_location_helper') }}</span>
-        </div>
-        <div class="form-group">
           <label for="shop_categories">{{ trans('cruds.shopCompany.fields.shop_categories') }}</label>
           <div style="padding-bottom: 4px">
             <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{
@@ -64,6 +48,74 @@
           @endif
           <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_categories_helper') }}</span>
         </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="required" for="shop_location_id">{{ trans('cruds.shopCompany.fields.shop_location')
+                }}</label>
+              <select class="form-control select2 {{ $errors->has('shop_location') ? 'is-invalid' : '' }}"
+                name="shop_location_id" id="shop_location_id" required>
+                @foreach($shop_locations as $id => $entry)
+                <option value="{{ $id }}" {{ (old('shop_location_id') ? old('shop_location_id') : $user->
+                  company[0]->shop_company->
+                  shop_location->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                @endforeach
+              </select>
+              @if($errors->has('shop_location'))
+              <span class="text-danger">{{ $errors->first('shop_location') }}</span>
+              @endif
+              <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_location_helper') }}</span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="youtube">{{ trans('cruds.shopCompany.fields.youtube') }}</label>
+              <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text" name="youtube"
+                id="youtube" value="{{ old('youtube', $shopCompany->youtube) }}">
+              @if($errors->has('youtube'))
+              <span class="text-danger">{{ $errors->first('youtube') }}</span>
+              @endif
+              <span class="help-block">{{ trans('cruds.shopCompany.fields.youtube_helper') }}</span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="address">{{ trans('cruds.shopCompany.fields.address') }}</label>
+              <input class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" type="text" name="address"
+                id="address" value="{{ old('address', $shopCompany->address) }}">
+              @if($errors->has('address'))
+              <span class="text-danger">{{ $errors->first('address') }}</span>
+              @endif
+              <span class="help-block">{{ trans('cruds.shopCompany.fields.address_helper') }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="latitude">{{ trans('cruds.shopCompany.fields.latitude') }}</label>
+              <input class="form-control {{ $errors->has('latitude') ? 'is-invalid' : '' }}" type="text" name="latitude"
+                id="latitude" value="{{ old('latitude', $shopCompany->latitude) }}">
+              @if($errors->has('latitude'))
+              <span class="text-danger">{{ $errors->first('latitude') }}</span>
+              @endif
+              <span class="help-block">{{ trans('cruds.shopCompany.fields.latitude_helper') }}</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="longitude">{{ trans('cruds.shopCompany.fields.longitude') }}</label>
+              <input class="form-control {{ $errors->has('longitude') ? 'is-invalid' : '' }}" type="text"
+                name="longitude" id="longitude" value="{{ old('longitude', $shopCompany->longitude) }}">
+              @if($errors->has('longitude'))
+              <span class="text-danger">{{ $errors->first('longitude') }}</span>
+              @endif
+              <span class="help-block">{{ trans('cruds.shopCompany.fields.longitude_helper') }}</span>
+            </div>
+          </div>
+        </div>
+
+
         <div class="form-group">
           <label for="contacts">{{ trans('cruds.shopCompany.fields.contacts') }}</label>
           <textarea class="form-control {{ $errors->has('contacts') ? 'is-invalid' : '' }}" name="contacts"
@@ -97,13 +149,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="monday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_morning_opening }}">
+                          <input type="time" name="monday_morning_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_morning_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="monday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_morning_closing }}">
+                          <input type="time" name="monday_morning_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_morning_closing }}">
                         </div>
                       </div>
                     </div>
@@ -116,13 +170,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="monday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_afternoon_opening }}">
+                          <input type="time" name="monday_afternoon_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_afternoon_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="monday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_afternoon_closing }}">
+                          <input type="time" name="monday_afternoon_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->monday_afternoon_closing }}">
                         </div>
                       </div>
                     </div>
@@ -144,13 +200,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="tuesday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_opening }}">
+                          <input type="time" name="tuesday_morning_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="tuesday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_closing }}">
+                          <input type="time" name="tuesday_morning_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_closing }}">
                         </div>
                       </div>
                     </div>
@@ -163,13 +221,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="tuesday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_opening }}">
+                          <input type="time" name="tuesday_afternoon_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="tuesday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_closing }}">
+                          <input type="time" name="tuesday_afternoon_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_closing }}">
                         </div>
                       </div>
                     </div>
@@ -191,13 +251,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="wednesday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_opening }}">
+                          <input type="time" name="wednesday_morning_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="wednesday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_closing }}">
+                          <input type="time" name="wednesday_morning_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_morning_closing }}">
                         </div>
                       </div>
                     </div>
@@ -210,13 +272,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="wednesday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_opening }}">
+                          <input type="time" name="wednesday_afternoon_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="wednesday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_closing }}">
+                          <input type="time" name="wednesday_afternoon_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->tuesday_afternoon_closing }}">
                         </div>
                       </div>
                     </div>
@@ -238,13 +302,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="thursday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_morning_opening }}">
+                          <input type="time" name="thursday_morning_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_morning_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="thursday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_morning_closing }}">
+                          <input type="time" name="thursday_morning_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_morning_closing }}">
                         </div>
                       </div>
                     </div>
@@ -257,13 +323,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="thursday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_afternoon_opening }}">
+                          <input type="time" name="thursday_afternoon_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_afternoon_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="thursday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_afternoon_closing }}">
+                          <input type="time" name="thursday_afternoon_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->thursday_afternoon_closing }}">
                         </div>
                       </div>
                     </div>
@@ -285,13 +353,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="friday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_morning_opening }}">
+                          <input type="time" name="friday_morning_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_morning_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="friday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_morning_closing }}">
+                          <input type="time" name="friday_morning_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_morning_closing }}">
                         </div>
                       </div>
                     </div>
@@ -304,13 +374,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="friday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_afternoon_opening }}">
+                          <input type="time" name="friday_afternoon_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_afternoon_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="friday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_afternoon_closing }}">
+                          <input type="time" name="friday_afternoon_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->friday_afternoon_closing }}">
                         </div>
                       </div>
                     </div>
@@ -334,13 +406,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="saturday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_morning_opening }}">
+                          <input type="time" name="saturday_morning_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_morning_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="saturday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_morning_closing }}">
+                          <input type="time" name="saturday_morning_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_morning_closing }}">
                         </div>
                       </div>
                     </div>
@@ -353,13 +427,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="saturday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_afternoon_opening }}">
+                          <input type="time" name="saturday_afternoon_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_afternoon_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="saturday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_afternoon_closing }}">
+                          <input type="time" name="saturday_afternoon_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->saturday_afternoon_closing }}">
                         </div>
                       </div>
                     </div>
@@ -381,13 +457,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="sunday_morning_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_morning_opening }}">
+                          <input type="time" name="sunday_morning_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_morning_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="sunday_morning_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_morning_closing }}">
+                          <input type="time" name="sunday_morning_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_morning_closing }}">
                         </div>
                       </div>
                     </div>
@@ -400,13 +478,15 @@
                       <div class="col">
                         <div class="form-group">
                           <label>Abertura</label>
-                          <input type="time" name="sunday_afternoon_opening" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_afternoon_opening }}">
+                          <input type="time" name="sunday_afternoon_opening" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_afternoon_opening }}">
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-group">
                           <label>Encerramento</label>
-                          <input type="time" name="sunday_afternoon_closing" class="form-control" value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_afternoon_closing }}">
+                          <input type="time" name="sunday_afternoon_closing" class="form-control"
+                            value="{{ $user->company[0]->shop_company->shop_company_schedules->sunday_afternoon_closing }}">
                         </div>
                       </div>
                     </div>
@@ -563,4 +643,6 @@ Dropzone.options.photosDropzone = {
 
 </script>
 @endsection
-<script>console.log({!! $user->company[0]->shop_company->shop_company_schedules !!})</script>
+<script>
+  console.log({!! $user->company[0]->shop_company->shop_company_schedules !!})
+</script>

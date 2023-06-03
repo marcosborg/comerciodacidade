@@ -59,12 +59,44 @@
                 <span class="help-block">{{ trans('cruds.shopCompany.fields.shop_categories_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="address">{{ trans('cruds.shopCompany.fields.address') }}</label>
+                <input class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" type="text" name="address" id="address" value="{{ old('address', $shopCompany->address) }}">
+                @if($errors->has('address'))
+                    <span class="text-danger">{{ $errors->first('address') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.address_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="latitude">{{ trans('cruds.shopCompany.fields.latitude') }}</label>
+                <input class="form-control {{ $errors->has('latitude') ? 'is-invalid' : '' }}" type="text" name="latitude" id="latitude" value="{{ old('latitude', $shopCompany->latitude) }}">
+                @if($errors->has('latitude'))
+                    <span class="text-danger">{{ $errors->first('latitude') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.latitude_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="longitude">{{ trans('cruds.shopCompany.fields.longitude') }}</label>
+                <input class="form-control {{ $errors->has('longitude') ? 'is-invalid' : '' }}" type="text" name="longitude" id="longitude" value="{{ old('longitude', $shopCompany->longitude) }}">
+                @if($errors->has('longitude'))
+                    <span class="text-danger">{{ $errors->first('longitude') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.longitude_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="contacts">{{ trans('cruds.shopCompany.fields.contacts') }}</label>
                 <textarea class="form-control {{ $errors->has('contacts') ? 'is-invalid' : '' }}" name="contacts" id="contacts">{{ old('contacts', $shopCompany->contacts) }}</textarea>
                 @if($errors->has('contacts'))
                     <span class="text-danger">{{ $errors->first('contacts') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.shopCompany.fields.contacts_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="youtube">{{ trans('cruds.shopCompany.fields.youtube') }}</label>
+                <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text" name="youtube" id="youtube" value="{{ old('youtube', $shopCompany->youtube) }}">
+                @if($errors->has('youtube'))
+                    <span class="text-danger">{{ $errors->first('youtube') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.youtube_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="photos">{{ trans('cruds.shopCompany.fields.photos') }}</label>
@@ -173,6 +205,7 @@ Dropzone.options.photosDropzone = {
       uploadedPhotosMap[file.name] = response.name
     },
     removedfile: function (file) {
+      console.log(file)
       file.previewElement.remove()
       var name = ''
       if (typeof file.file_name !== 'undefined') {

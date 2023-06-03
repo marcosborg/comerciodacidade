@@ -37,6 +37,22 @@ class StoreShopCompanyRequest extends FormRequest
             'shop_categories' => [
                 'array',
             ],
+            'address' => [
+                'string',
+                'nullable',
+            ],
+            'youtube' => [
+                'string',
+                'nullable',
+            ],
+            'latitude' => [
+                'string',
+                'nullable',
+            ],
+            'longitude' => [
+                'string',
+                'nullable',
+            ],
             'photos' => [
                 'array',
             ],
