@@ -63,9 +63,9 @@ class ShopProduct extends Model implements HasMedia
     {
         $files = $this->getMedia('photos');
         $files->each(function ($item) {
-            $item->url       = $item->getUrl();
+            $item->url = $item->getUrl();
             $item->thumbnail = $item->getUrl('thumb');
-            $item->preview   = $item->getUrl('preview');
+            $item->preview = $item->getUrl('preview');
         });
 
         return $files;
@@ -91,5 +91,15 @@ class ShopProduct extends Model implements HasMedia
         return $this->getMedia('attachment')->last();
     }
 
-    
+    public function shop_product_features()
+    {
+        return $this->hasMany(ShopProductFeature::class);
+    }
+
+    public function shop_product_variations()
+    {
+        return $this->hasMany(ShopProductVariation::class);
+    }
+
+
 }
