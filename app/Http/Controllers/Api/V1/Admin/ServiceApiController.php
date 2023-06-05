@@ -18,7 +18,7 @@ class ServiceApiController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('service_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('service_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ServiceResource(Service::with(['shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax'])->get());
     }
@@ -43,7 +43,7 @@ class ServiceApiController extends Controller
 
     public function show(Service $service)
     {
-        abort_if(Gate::denies('service_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('service_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ServiceResource($service->load(['shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax']));
     }
