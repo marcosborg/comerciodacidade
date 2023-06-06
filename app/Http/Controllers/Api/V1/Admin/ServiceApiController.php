@@ -20,7 +20,7 @@ class ServiceApiController extends Controller
     {
         //abort_if(Gate::denies('service_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ServiceResource(Service::with(['shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax'])->get());
+        return new ServiceResource(Service::with(['shop_company.company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax'])->get());
     }
 
     public function store(StoreServiceRequest $request)
@@ -45,7 +45,7 @@ class ServiceApiController extends Controller
     {
         //abort_if(Gate::denies('service_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ServiceResource($service->load(['shop_company', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax']));
+        return new ServiceResource($service->load(['shop_company.company', 'shop_company.shop_company_schedules', 'shop_company.shop_location', 'service_duration', 'shop_product_categories', 'shop_product_sub_categories', 'tax']));
     }
 
     public function update(UpdateServiceRequest $request, Service $service)
