@@ -113,4 +113,10 @@ class ServiceApiController extends Controller
 
         return $services;
     }
+
+    public function randomServices()
+    {
+        $services = Service::inRandomOrder()->take(20)->get();
+        return $services;
+    }
 }

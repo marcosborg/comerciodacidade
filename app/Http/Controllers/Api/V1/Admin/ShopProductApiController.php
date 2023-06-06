@@ -109,4 +109,10 @@ class ShopProductApiController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function randomShopProducts()
+    {
+        $products = ShopProduct::inRandomOrder()->take(20)->get();
+        return $products;
+    }
 }

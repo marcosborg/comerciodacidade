@@ -35,12 +35,14 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('shop-products', 'ShopProductApiController');
     Route::get('shopProductsByCategoryProduct/{id}', 'ShopProductApiController@shopProductsByCategoryProduct');
     Route::get('shopProductsBySubcategoryProduct/{id}', 'ShopProductApiController@shopProductsBySubcategoryProduct');
+    Route::get('randomShopProducts', 'ShopProductApiController@randomShopProducts');
 
     // Service
     Route::post('services/media', 'ServiceApiController@storeMedia')->name('services.storeMedia');
     Route::apiResource('services', 'ServiceApiController');
     Route::get('shopServicesByCategoryProduct/{id}', 'ServiceApiController@shopServicesByCategoryProduct');
     Route::get('shopServicesBySubcategoryProduct/{id}', 'ServiceApiController@shopServicesBySubcategoryProduct');
+    Route::get('randomServices', 'ServiceApiController@randomServices');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {

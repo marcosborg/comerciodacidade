@@ -84,7 +84,7 @@
             </div>
             <div class="form-group">
                 <label for="contacts">{{ trans('cruds.shopCompany.fields.contacts') }}</label>
-                <textarea class="form-control {{ $errors->has('contacts') ? 'is-invalid' : '' }}" name="contacts" id="contacts">{{ old('contacts', $shopCompany->contacts) }}</textarea>
+                <textarea class="form-control ckeditor {{ $errors->has('contacts') ? 'is-invalid' : '' }}" name="contacts" id="contacts">{!! old('contacts', $shopCompany->contacts) !!}</textarea>
                 @if($errors->has('contacts'))
                     <span class="text-danger">{{ $errors->first('contacts') }}</span>
                 @endif

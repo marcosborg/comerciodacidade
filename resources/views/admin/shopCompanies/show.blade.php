@@ -86,7 +86,7 @@
                             {{ trans('cruds.shopCompany.fields.contacts') }}
                         </th>
                         <td>
-                            {{ $shopCompany->contacts }}
+                            {!! $shopCompany->contacts !!}
                         </td>
                     </tr>
                     <tr>
