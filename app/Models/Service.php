@@ -64,9 +64,9 @@ class Service extends Model implements HasMedia
     {
         $files = $this->getMedia('photos');
         $files->each(function ($item) {
-            $item->url       = $item->getUrl();
+            $item->url = $item->getUrl();
             $item->thumbnail = $item->getUrl('thumb');
-            $item->preview   = $item->getUrl('preview');
+            $item->preview = $item->getUrl('preview');
         });
 
         return $files;
@@ -96,4 +96,11 @@ class Service extends Model implements HasMedia
     {
         return $this->getMedia('attachment')->last();
     }
+
+    public function service_employees()
+    {
+        return $this->belongsToMany(ServiceEmployee::class, 'service_service_employee', 'service_id', 'service_employee_id');
+    }
+
+
 }

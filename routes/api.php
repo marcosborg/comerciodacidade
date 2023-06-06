@@ -43,6 +43,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::get('shopServicesByCategoryProduct/{id}', 'ServiceApiController@shopServicesByCategoryProduct');
     Route::get('shopServicesBySubcategoryProduct/{id}', 'ServiceApiController@shopServicesBySubcategoryProduct');
     Route::get('randomServices', 'ServiceApiController@randomServices');
+
+    // Service Employee
+    Route::apiResource('service-employees', 'ServiceEmployeeApiController');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {
