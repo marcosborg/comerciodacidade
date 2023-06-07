@@ -46,6 +46,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Service Employee
     Route::apiResource('service-employees', 'ServiceEmployeeApiController');
+    Route::post('serviceEmployeeSchedules', 'ServiceEmployeeApiController@serviceEmployeeSchedules');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {

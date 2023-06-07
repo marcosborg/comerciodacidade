@@ -7,6 +7,7 @@ use App\Http\Requests\StoreServiceEmployeeRequest;
 use App\Http\Requests\UpdateServiceEmployeeRequest;
 use App\Http\Resources\Admin\ServiceEmployeeResource;
 use App\Models\ServiceEmployee;
+use App\Models\ShopSchedule;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,5 +55,16 @@ class ServiceEmployeeApiController extends Controller
         $serviceEmployee->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function serviceEmployeeSchedules(Request $request)
+    {
+        $shop_schedules = ShopSchedule::where([
+            'service_employee_id' => $request->employee_id
+        ])
+        ->whereDate('start_time', $request->date)
+        ->get();
+
+        return $shop_schedules;
     }
 }
