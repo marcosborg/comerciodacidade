@@ -33,7 +33,7 @@ class ServiceEmployeeApiController extends Controller
 
     public function show(ServiceEmployee $serviceEmployee)
     {
-        abort_if(Gate::denies('service_employee_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('service_employee_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ServiceEmployeeResource($serviceEmployee->load(['shop_company', 'services']));
     }

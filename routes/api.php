@@ -5,6 +5,10 @@ Route::post('register', 'Api\\AuthController@register');
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
 
+    // Page
+    Route::post('pages/media', 'PageApiController@storeMedia')->name('pages.storeMedia');
+    Route::apiResource('pages', 'PageApiController');
+    
     // Company
     Route::post('companies/media', 'CompanyApiController@storeMedia')->name('companies.storeMedia');
     Route::apiResource('companies', 'CompanyApiController');
