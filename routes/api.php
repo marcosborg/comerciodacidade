@@ -51,6 +51,10 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Service Employee
     Route::apiResource('service-employees', 'ServiceEmployeeApiController');
     Route::post('serviceEmployeeSchedules', 'ServiceEmployeeApiController@serviceEmployeeSchedules');
+
+    // Shop Schedule
+    Route::apiResource('shop-schedules', 'ShopScheduleApiController');
+    Route::post('saveSchedule', 'ShopScheduleApiController@saveSchedule');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {
