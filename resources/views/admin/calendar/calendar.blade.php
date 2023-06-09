@@ -1,4 +1,16 @@
 @extends('layouts.admin')
+@section('styles')
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
+<style>
+    .list-group-item-action {
+        cursor: pointer;
+    }
+
+    .fc-title {
+        color: #fff;
+    }
+</style>
+@endsection
 @section('content')
 <h3 class="page-title">{{ trans('global.systemCalendar') }}</h3>
 <div class="card">
@@ -28,8 +40,10 @@
             $('#calendar').fullCalendar({
                 // put your options and callbacks here
                 events: events,
-
-
+                eventClick: function(calEvent, jsEvent, view) {
+                    editSchedule(calEvent.id);
+                },
+                timeFormat: 'HH:mm'
             })
         });
 </script>

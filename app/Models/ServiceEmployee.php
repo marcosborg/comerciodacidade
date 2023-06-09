@@ -41,4 +41,5 @@ class ServiceEmployee extends Model
     {
         return $this->belongsToMany(Service::class);
     }
+
 }
