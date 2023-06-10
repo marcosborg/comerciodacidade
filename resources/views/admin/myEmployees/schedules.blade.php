@@ -10,6 +10,10 @@
     .fc-title {
         color: #fff;
     }
+
+    .fc-event-container a {
+        cursor: pointer;
+    }
 </style>
 @endsection
 <h3 class="text-center">Agenda de {{ $service_employee->name }}</h3>
@@ -190,15 +194,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route("admin.shop-schedules.update", [1]) }}" method="POST">
+            <form action="/admin/my-employees/update-schedule" method="POST">
                 <div class="modal-body">
-                    @method('PUT')
                     @csrf
-                    <input type="hidden" name="mySchedules" value="1">
+                    <input type="hidden" name="id">
                     <input type="hidden" name="service_employee_id" value="{{ $service_employee->id }}">
                     <div class="form-group">
                         <label>Cliente</label>
-                        <input type="text" class="form-control" name="client">
+                        <input type="text" class="form-control" name="client" disabled>
                     </div>
                     <div class="form-group">
                         <label>Início do serviço</label>
@@ -244,7 +247,13 @@
             },
             success: (resp) => {
                 $.LoadingOverlay('hide');
-                location.reload();
+                Swal.fire(
+                    'Sucesso!',
+                    'A marcação foi atualizada!',
+                    'success'
+                ).then(() => {
+                    location.reload()
+                });
             }
         });
         $('#tab2').on('shown.bs.tab', function(e) {
@@ -256,7 +265,8 @@
         $.LoadingOverlay('show');
         $.get('/admin/my-employees/get-schedule/' + id).then((resp) => {
             $.LoadingOverlay('hide');
-            $('#editSchedule input[name=client]').val(resp.client);
+            $('#editSchedule input[name=id]').val(resp.id);
+            $('#editSchedule input[name=client]').val(resp.client.name);
             $('#editSchedule input[name=start_time]').val(resp.start_time);
             $('#editSchedule input[name=end_time]').val(resp.end_time);
             $('#editSchedule select[name=service_id]').val(resp.service_id);

@@ -93,7 +93,7 @@ class MyEmployeesController extends Controller
 
     public function getSchedule(Request $request)
     {
-        $shop_schedule = ShopSchedule::find($request->id);
+        $shop_schedule = ShopSchedule::find($request->id)->load('client');
 
         return $shop_schedule;
     }
@@ -125,6 +125,15 @@ class MyEmployeesController extends Controller
     {
         $client = User::find($request->id);
         return $client;
+    }
+
+    public function updateSchedule(Request $request)
+    {
+        $shop_schedule = ShopSchedule::find($request->id);
+        $shop_schedule->end_time = $request->end_time;
+        $shop_schedule->start_time = $request->start_time;
+        $shop_schedule->service_id = $request->service_id;
+        $shop_schedule->save();
     }
 
 }

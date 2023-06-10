@@ -4,29 +4,26 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Service;
 use App\Models\ServiceEmployee;
 use App\Models\ShopSchedule;
 use Carbon\Carbon;
 
 class SystemCalendarController extends Controller
 {
-    public $sources = [
-        [
-            'model' => '\App\Models\ShopSchedule',
-            'date_field' => 'start_time',
-            'field' => 'id',
-            'prefix' => 'Cliente',
-            'suffix' => 'tem marcação',
-            'route' => 'admin.shop-schedules.edit',
-        ],
-    ];
-
     public function index()
     {
 
         $company = Company::whereHas('users', function ($query) {
             $query->where('id', auth()->user()->id);
         })->first()->load('shop_company');
+
+        $service_employees = ServiceEmployee::where('shop_company_id', $company->shop_company->id)
+            ->get();
+
+        $services = Service::where('shop_company_id', $company->shop_company->id)
+            ->with('service_duration')
+            ->get();
 
         $shop_schedules = ShopSchedule::whereHas('service_employee.shop_company', function ($query) use ($company) {
             $query->where('id', $company->shop_company->id);
@@ -46,6 +43,6 @@ class SystemCalendarController extends Controller
             ];
         }
 
-        return view('admin.calendar.calendar', compact('events'));
+        return view('admin.calendar.calendar', compact('events', 'service_employees', 'services'));
     }
 }

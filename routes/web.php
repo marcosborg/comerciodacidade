@@ -215,6 +215,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::get('delete-schedule/{id}', 'MyEmployeesController@deleteSchedule');
         Route::post('search-users', 'MyEmployeesController@searchUsers');
         Route::get('get-client/{id}', 'MyEmployeesController@getClient');
+        Route::post('update-schedule', 'MyEmployeesController@updateSchedule');
     });
 
     // Address
