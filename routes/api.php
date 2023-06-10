@@ -55,6 +55,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Shop Schedule
     Route::apiResource('shop-schedules', 'ShopScheduleApiController');
     Route::post('saveSchedule', 'ShopScheduleApiController@saveSchedule');
+
+    // Purchases
+    Route::get('purchases', 'PurchasesApiController@purchases');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {
