@@ -8,7 +8,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Page
     Route::post('pages/media', 'PageApiController@storeMedia')->name('pages.storeMedia');
     Route::apiResource('pages', 'PageApiController');
-    
+
     // Company
     Route::post('companies/media', 'CompanyApiController@storeMedia')->name('companies.storeMedia');
     Route::apiResource('companies', 'CompanyApiController');
@@ -58,6 +58,15 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Purchases
     Route::get('purchases', 'PurchasesApiController@purchases');
+
+    // Users
+    Route::prefix('users')->group(function () {
+        Route::get('user', 'UserApiController@user');
+        Route::post('update', 'UserApiController@update');
+    });
+
+    // Countries
+    Route::apiResource('countries', 'CountriesApiController');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {
