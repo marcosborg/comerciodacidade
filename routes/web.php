@@ -229,7 +229,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Client
     Route::prefix('clients')->group(function () {
         Route::get('/', 'ClientController@index');
-        ROute::post('new-client', 'ClientController@newClient');
+        Route::post('new-client', 'ClientController@newClient');
+        Route::get('details/{client_id}', 'ClientController@details');
     });
 
 

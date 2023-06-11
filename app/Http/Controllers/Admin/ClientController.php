@@ -87,4 +87,13 @@ class ClientController extends Controller
 
     }
 
+    public function details(Request $request)
+    {
+        
+        $client = User::find($request->client_id)->load('address.country');
+
+        return $client;
+
+    }
+
 }
