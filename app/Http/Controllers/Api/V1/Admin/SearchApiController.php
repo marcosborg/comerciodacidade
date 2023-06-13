@@ -39,7 +39,7 @@ class SearchApiController extends Controller
                 'type' => 'product',
                 'id' => $product->id,
                 'name' => $product->name,
-                'more' => $product->description,
+                'more' => '€' . $product->price,
                 'image' => count($product->photos) > 0 ? $product->photos[0]->thumbnail : null,
             ]);
         }
@@ -54,7 +54,7 @@ class SearchApiController extends Controller
                 'type' => 'service',
                 'id' => $service->id,
                 'name' => $service->name,
-                'more' => $service->description,
+                'more' => '€' . $service->price,
                 'image' => count($service->photos) > 0 ? $service->photos[0]->thumbnail : null,
             ]);
         }

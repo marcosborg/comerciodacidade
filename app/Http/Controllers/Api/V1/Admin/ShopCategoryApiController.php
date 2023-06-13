@@ -20,7 +20,7 @@ class ShopCategoryApiController extends Controller
     {
         //abort_if(Gate::denies('shop_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ShopCategoryResource(ShopCategory::all());
+        return new ShopCategoryResource(ShopCategory::inRandomOrder()->get());
     }
 
     public function store(StoreShopCategoryRequest $request)

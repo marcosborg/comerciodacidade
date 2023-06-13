@@ -40,6 +40,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::get('shopProductsByCategoryProduct/{id}', 'ShopProductApiController@shopProductsByCategoryProduct');
     Route::get('shopProductsBySubcategoryProduct/{id}', 'ShopProductApiController@shopProductsBySubcategoryProduct');
     Route::get('randomShopProducts', 'ShopProductApiController@randomShopProducts');
+    Route::post('order-product', 'ShopProductApiController@orderProduct');
 
     // Service
     Route::post('services/media', 'ServiceApiController@storeMedia')->name('services.storeMedia');
