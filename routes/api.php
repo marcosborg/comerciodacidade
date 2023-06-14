@@ -42,6 +42,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::get('randomShopProducts', 'ShopProductApiController@randomShopProducts');
     Route::post('order-product', 'ShopProductApiController@orderProduct');
 
+    // Shop Product Variations
+    Route::apiResource('shop-product-variations', 'ShopProductVariationsApiController');
+
     // Service
     Route::post('services/media', 'ServiceApiController@storeMedia')->name('services.storeMedia');
     Route::apiResource('services', 'ServiceApiController');

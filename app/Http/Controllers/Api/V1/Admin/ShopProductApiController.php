@@ -71,7 +71,7 @@ class ShopProductApiController extends Controller
         //abort_if(Gate::denies('shop_product_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ShopProductResource($shopProduct->load([
-            'shop_product_categories',
+            'shop_product_categories.company',
             'tax',
             'shop_product_features',
             'shop_product_variations'
