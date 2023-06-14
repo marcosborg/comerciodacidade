@@ -76,7 +76,10 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::post('search', 'SearchApiController@search');
 
     // Purchase
-    Route::apiResource('purchases', 'PurchaseApiController');
+    //Route::apiResource('purchases', 'PurchaseApiController');
+
+    //Checkout product
+    Route::post('checkout-product', 'CheckoutProductApiController@checkoutProduct');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {
