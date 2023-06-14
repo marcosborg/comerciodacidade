@@ -233,6 +233,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::get('details/{client_id}', 'ClientController@details');
     });
 
+    // Purchase
+    Route::delete('purchases/destroy', 'PurchaseController@massDestroy')->name('purchases.massDestroy');
+    Route::resource('purchases', 'PurchaseController');
 
     // System Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
