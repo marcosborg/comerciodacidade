@@ -79,6 +79,22 @@
                 <span class="help-block">{{ trans('cruds.purchase.fields.user_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="total">{{ trans('cruds.purchase.fields.total') }}</label>
+                <input class="form-control {{ $errors->has('total') ? 'is-invalid' : '' }}" type="number" name="total" id="total" value="{{ old('total', $purchase->total) }}" step="0.01">
+                @if($errors->has('total'))
+                    <span class="text-danger">{{ $errors->first('total') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.total_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="qty">{{ trans('cruds.purchase.fields.qty') }}</label>
+                <input class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}" type="number" name="qty" id="qty" value="{{ old('qty', $purchase->qty) }}" step="1">
+                @if($errors->has('qty'))
+                    <span class="text-danger">{{ $errors->first('qty') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.qty_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

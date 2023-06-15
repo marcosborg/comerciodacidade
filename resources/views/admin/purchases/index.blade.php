@@ -47,6 +47,12 @@
                             {{ trans('cruds.purchase.fields.user') }}
                         </th>
                         <th>
+                            {{ trans('cruds.purchase.fields.total') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.purchase.fields.qty') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -81,6 +87,12 @@
                             </td>
                             <td>
                                 {{ $purchase->user->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->total ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->qty ?? '' }}
                             </td>
                             <td>
                                 @can('purchase_show')

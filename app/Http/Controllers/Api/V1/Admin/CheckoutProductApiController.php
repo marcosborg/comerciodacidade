@@ -21,6 +21,8 @@ class CheckoutProductApiController extends Controller
         $purchase->vat = $request->tax;
         $purchase->status = $request->status;
         $purchase->user_id = $user_id;
+        $purchase->total = $request->total;
+        $purchase->qty = $request->qty;
         $purchase->save();
         
     }

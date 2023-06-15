@@ -7,8 +7,10 @@ use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
 use App\Http\Resources\Admin\PurchaseResource;
 use App\Models\Purchase;
+use App\Models\ShopSchedule;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class PurchaseApiController extends Controller
@@ -52,5 +54,27 @@ class PurchaseApiController extends Controller
         $purchase->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function lastPurchases(Request $request)
+    {
+        $client_id = Auth::guard('sanctum')->user()->id;
+
+        $shop_schedules = ShopSchedule::where('client_id', $client_id)
+            ->get()
+            ->load([
+                'service_employee.shop_company.company',
+                'service'
+            ]);
+
+        $purchases = Purchase::where([
+            'type' => 'product',
+            'user_id' => $client_id
+        ])->get()->load('product.shop_product_categories.company');
+
+        return [
+            'schedules' => $shop_schedules,
+            'purchases' => $purchases
+        ];
     }
 }

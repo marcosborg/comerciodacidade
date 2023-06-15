@@ -775,6 +775,10 @@ return [
             'updated_at_helper'   => ' ',
             'deleted_at'          => 'Deleted at',
             'deleted_at_helper'   => ' ',
+            'total'               => 'Total',
+            'total_helper'        => ' ',
+            'qty'                 => 'Qty',
+            'qty_helper'          => ' ',
         ],
     ],
 

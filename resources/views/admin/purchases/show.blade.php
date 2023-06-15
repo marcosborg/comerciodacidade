@@ -79,6 +79,22 @@
                             {{ $purchase->user->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.total') }}
+                        </th>
+                        <td>
+                            {{ $purchase->total }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.qty') }}
+                        </th>
+                        <td>
+                            {{ $purchase->qty }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
