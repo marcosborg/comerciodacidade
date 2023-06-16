@@ -500,6 +500,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('my_order_access')
+                    <li class="nav-item">
+                        <a href="/admin/my-orders" class="nav-link {{ request()->is("admin/my-orders") || request()->is("admin/my-orders/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-shopping-cart">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.myOrder.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('client_access')
                     <li class="nav-item">
                         <a href="/admin/clients" class="nav-link {{ request()->is("admin/clients") || request()->is("admin/clients/*") ? "active" : "" }}">

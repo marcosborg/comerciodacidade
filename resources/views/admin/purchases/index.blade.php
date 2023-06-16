@@ -53,6 +53,9 @@
                             {{ trans('cruds.purchase.fields.qty') }}
                         </th>
                         <th>
+                            {{ trans('cruds.purchase.fields.created_at') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -93,6 +96,9 @@
                             </td>
                             <td>
                                 {{ $purchase->qty ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->created_at ?? '' }}
                             </td>
                             <td>
                                 @can('purchase_show')

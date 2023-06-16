@@ -95,6 +95,14 @@
                             {{ $purchase->qty }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.created_at') }}
+                        </th>
+                        <td>
+                            {{ $purchase->created_at }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
