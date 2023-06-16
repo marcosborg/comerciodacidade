@@ -27,7 +27,7 @@ class PaymentsController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => '{
-                    "mbKey": "YBN-625144",
+                    "mbKey": "HEZ-354674",
                     "orderId": ' . $request->subscriptionPayment . ',
                     "amount": ' . $request->amount . '
                 }',
@@ -94,7 +94,7 @@ class PaymentsController extends Controller
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => 'https://mbway.ifthenpay.com/ifthenpaymbw.asmx/SetPedidoJSON?MbWayKey=QDY-936128&canal=03&referencia=' . $request->referencia . '&valor=' . $request->valor . '&nrtlm=' . $request->nrtlm . '&email=&descricao=ComercioDaCidade',
+                CURLOPT_URL => 'https://mbway.ifthenpay.com/ifthenpaymbw.asmx/SetPedidoJSON?MbWayKey=BGU-477297&canal=03&referencia=' . $request->referencia . '&valor=' . $request->valor . '&nrtlm=' . $request->nrtlm . '&email=&descricao=ComercioDaCidade',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
