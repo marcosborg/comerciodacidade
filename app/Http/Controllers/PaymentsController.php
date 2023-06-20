@@ -18,7 +18,7 @@ class PaymentsController extends Controller
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => 'https://ifthenpay.com/api/multibanco/reference/sandbox',
+                CURLOPT_URL => 'https://ifthenpay.com/api/multibanco/reference/init',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
