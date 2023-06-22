@@ -59,6 +59,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Shop Schedule
     Route::apiResource('shop-schedules', 'ShopScheduleApiController');
     Route::post('saveSchedule', 'ShopScheduleApiController@saveSchedule');
+    Route::get('delete-schedule/{id}', 'ShopScheduleApiController@deleteSchedule');
 
     // Users
     Route::prefix('users')->group(function () {
@@ -75,6 +76,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Purchase
     Route::apiResource('purchases', 'PurchaseApiController');
     Route::get('last-purchases', 'PurchaseApiController@lastPurchases');
+    Route::get('delete-purchase/{id}', 'PurchaseApiController@deletePurchase');
 
     //Checkout product
     Route::post('checkout-product', 'CheckoutProductApiController@checkoutProduct');

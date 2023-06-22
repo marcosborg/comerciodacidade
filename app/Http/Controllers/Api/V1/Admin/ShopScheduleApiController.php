@@ -7,7 +7,9 @@ use App\Http\Requests\StoreShopScheduleRequest;
 use App\Http\Requests\UpdateShopScheduleRequest;
 use App\Http\Resources\Admin\ShopScheduleResource;
 use App\Models\ShopSchedule;
+use App\Models\User;
 use App\Notifications\ClientScheduleNotification;
+use App\Notifications\ScheduleCancelNotification;
 use App\Notifications\ScheduleNotification;
 use Gate;
 use Illuminate\Http\Request;
@@ -36,9 +38,9 @@ class ShopScheduleApiController extends Controller
 
     public function show(ShopSchedule $shopSchedule)
     {
-        abort_if(Gate::denies('shop_schedule_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('shop_schedule_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ShopScheduleResource($shopSchedule->load(['service_employee', 'service', 'client']));
+        return new ShopScheduleResource($shopSchedule->load(['service_employee', 'service.shop_company.company', 'service.shop_company.shop_location', 'service.service_duration', 'client']));
     }
 
     public function update(UpdateShopScheduleRequest $request, ShopSchedule $shopSchedule)
@@ -110,5 +112,20 @@ class ShopScheduleApiController extends Controller
         ])
             ->notify(new ClientScheduleNotification($data));
 
+    }
+
+    public function deleteSchedule(Request $request)
+    {
+        $shop_schedule = ShopSchedule::find($request->id)->load('service_employee.shop_company.company', 'service', 'client');
+
+        //SEND EMAIL
+
+        Notification::route('mail', [
+            $shop_schedule->service_employee->shop_company->company->email => $shop_schedule->service_employee->shop_company->company->name,
+        ])->notify(new ScheduleCancelNotification($shop_schedule));
+
+        //DELETE
+
+        $shop_schedule->delete();
     }
 }
