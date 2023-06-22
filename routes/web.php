@@ -1,6 +1,8 @@
 <?php
 
 Route::get('/', 'WebsiteController@index')->name('homepage');
+Route::get('politica-de-privacidade', 'WebsiteController@politicaDePrivacidade');
+Route::get('termos-e-condicoes', 'WebsiteController@termosECondicoes');
 
 Route::prefix('forms')->group(function () {
     Route::post('contact', 'WebsiteController@contact');

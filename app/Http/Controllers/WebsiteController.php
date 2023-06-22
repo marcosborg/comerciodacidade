@@ -164,4 +164,20 @@ class WebsiteController extends Controller
 
         return [];
     }
+
+    public function politicaDePrivacidade()
+    {
+
+        $page = Page::find(2);
+
+        return view('website.pages.politica_de_privacidade', compact('page'));
+    }
+
+    public function termosECondicoes()
+    {
+
+        $page = Page::find(1);
+
+        return view('website.pages.politica_de_privacidade', compact('page'));
+    }
 }
