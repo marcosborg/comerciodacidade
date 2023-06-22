@@ -180,4 +180,20 @@ class WebsiteController extends Controller
 
         return view('website.pages.politica_de_privacidade', compact('page'));
     }
+
+    public function accountDelete()
+    {
+        return view('website.pages.account_delete');
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        return redirect()->back()->with('message', 'Eliminado com sucesso.');
+
+    }
 }

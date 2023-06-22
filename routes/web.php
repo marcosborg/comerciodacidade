@@ -3,6 +3,8 @@
 Route::get('/', 'WebsiteController@index')->name('homepage');
 Route::get('politica-de-privacidade', 'WebsiteController@politicaDePrivacidade');
 Route::get('termos-e-condicoes', 'WebsiteController@termosECondicoes');
+Route::get('eliminar-conta', 'WebsiteController@accountDelete');
+Route::post('delete-account', 'WebsiteController@deleteAccount');
 
 Route::prefix('forms')->group(function () {
     Route::post('contact', 'WebsiteController@contact');
