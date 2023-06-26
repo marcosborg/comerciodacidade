@@ -8,6 +8,7 @@ Route::post('delete-account', 'WebsiteController@deleteAccount');
 
 Route::prefix('lojas')->group(function(){
     Route::get('/', 'ShopController@index');
+    Route::get('produto/{id}/{slug}', 'ShopController@product');
 });
 
 Route::prefix('forms')->group(function () {

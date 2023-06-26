@@ -5,7 +5,12 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Comércio da Cidade</title>
+    <title>Comércio da Cidade
+        @hasSection ('description')
+        -
+        @yield('description')
+        @endif
+    </title>
     <meta content="Aplicação para estímulo do comércio tradicional" name="description">
 
     <!-- Favicons -->

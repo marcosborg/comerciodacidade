@@ -12,7 +12,7 @@
                 <li><a class="nav-link scrollto" href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#about">Sobre</a></li>
                 <li><a class="nav-link scrollto" href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#services">Serviços</a></li>
                 <li><a class="nav-link" href="/registo">Registo</a></li>
-                <li><a class="nav-link" href="/lojas">Lojas</a></li>
+                <li><a class="nav-link" href="/lojas/produto/300/rufel-mala-mariana-machado">Lojas</a></li>
                 <li><a class="nav-link scrollto" href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#contact">Contactos</a></li>
                 @if (auth()->check())
                 <li><a href="/admin" class="nav-link">Área reservada</a></li>
