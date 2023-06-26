@@ -14,7 +14,8 @@
     <div class="row">
         <div class="col-md-7">
             <!-- Slider main container -->
-            <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2" zoom="true">
+            <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2"
+                zoom="true">
                 <div class="swiper-wrapper">
                     @foreach ($product->photos as $photo)
                     <div class="swiper-slide">
@@ -38,20 +39,83 @@
             </div>
         </div>
         <div class="col-md-5">
-            <h2>{{ $product->name }}</h2>
-            <strong>{{ $product->shop_product_categories[0]->company->name }}</strong>
-            <h1 class="mt-4">€ {{ $product->price }}</h1>
-            <label class="mt-4 mb-2">Quantidade</label>
-            <div class="input-group mb-3 w-50">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="decreaseBtn">-</button>
+            <form action="/cart/add-to-cart" method="post">
+                <h2>{{ $product->name }}</h2>
+                <small><strong>Referencia: </strong>{{ $product->reference }}</small><br>
+                <strong>{{ $product->shop_product_categories[0]->company->name }}</strong>
+                <h1 class="mt-4">€ {{ $product->price }}</h1>
+                <label class="mt-4 mb-2">Quantidade</label>
+                <div class="input-group mb-3 w-50">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="decreaseBtn">-</button>
+                    </div>
+                    <input type="number" class="form-control text-center" value="1" min="1" max="10" disabled>
+                    <input type="hidden" name="qty" value="1">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="increaseBtn">+</button>
+                    </div>
                 </div>
-                <input type="number" class="form-control text-center" value="1" min="1" max="10" disabled>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="increaseBtn">+</button>
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <button type="submit" class="btn btn-orange btn-lg mt-4">Comprar</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    Descrição
+                </div>
+                <div class="card-body">
+                    {!! $product->description !!}
                 </div>
             </div>
-            <button class="btn btn-orange btn-lg mt-4">Comprar</button>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav nav-pills nav-fill" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#features"
+                                type="button" role="tab">Caracteristicas</button>
+                        </li>
+                        @if ($product->youtube)
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#video" type="button"
+                                role="tab">Vídeo</button>
+                        </li>
+                        @endif
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#others" type="button"
+                                role="tab">Outros</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="features" role="tabpanel">
+                            <ul class="list-group">
+                                @foreach ($product->shop_product_features as $feature)
+                                <li class="list-group-item">{{ $feature->name }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @if ($product->youtube)
+                        <div class="tab-pane fade" id="video" role="tabpanel">
+                            <div class="ratio ratio-16x9">
+                                <iframe src="https://www.youtube.com/embed/{{ $product->youtube }}?controls=0"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                            </div>
+
+                        </div>
+                        @endif
+                        <div class="tab-pane fade" id="others" role="tabpanel">Outros</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -74,24 +138,6 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
         z-index: -1;
-    }
-
-    .btn-orange {
-        font-family: "Poppins", sans-serif;
-        font-weight: 400;
-        font-size: 13px;
-        letter-spacing: 2px;
-        display: inline-block;
-        padding: 12px 28px;
-        border-radius: 4px;
-        transition: ease-in-out 0.3s;
-        color: #fff;
-        background: #e2742b;
-        text-transform: uppercase;
-    }
-
-    .btn-orange:hover {
-        background: #af5a21;
     }
 
     .swiper {
@@ -154,28 +200,41 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .nav-pills .nav-link.active,
+    .nav-pills .show>.nav-link {
+        color: var(--bs-nav-pills-link-active-color);
+        background-color: #e2742b;
+    }
+
+    .nav-fill .nav-item .nav-link,
+    .nav-justified .nav-item .nav-link {
+        width: 100%;
+        padding: 0px;
+    }
 </style>
 @endsection
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script>
-    console.log({!! $product !!});
     document.getElementById("decreaseBtn").addEventListener("click", function() {
       var input = document.querySelector(".form-control");
       var value = parseInt(input.value);
-
       if (value > 1) {
-        input.value = value - 1;
+        value = value - 1
+        input.value = value;
       }
+      $('input[name=qty]').val(value);
     });
 
     document.getElementById("increaseBtn").addEventListener("click", function() {
       var input = document.querySelector(".form-control");
       var value = parseInt(input.value);
-
       if (value < 10) {
-        input.value = value + 1;
+        value = value + 1;
+        input.value = value;
       }
+      $('input[name=qty]').val(value);
     });
 
     var swiper = new Swiper(".mySwiper", {
@@ -196,6 +255,27 @@
       thumbs: {
         swiper: swiper,
       },
+    });
+    $(() => {
+        $('form').ajaxForm({
+            beforeSubmit: () => {
+                $.LoadingOverlay('show');
+            },
+            success: () => {
+                $.LoadingOverlay('hide');
+                showCart();
+                Swal.fire({
+                    title: 'Quer ir para checkout?',
+                    showCancelButton: true,
+                    cancelButtonText: 'Quero continuar na loja',
+                    confirmButtonText: 'Sim!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href="/lojas/checkout";
+                    }
+                });
+            }
+        });
     });
 </script>
 @endsection

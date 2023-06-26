@@ -9,6 +9,14 @@ Route::post('delete-account', 'WebsiteController@deleteAccount');
 Route::prefix('lojas')->group(function(){
     Route::get('/', 'ShopController@index');
     Route::get('produto/{id}/{slug}', 'ShopController@product');
+    Route::get('checkout', 'ShopController@checkout');   
+});
+
+Route::prefix('cart')->group(function(){
+    Route::post('add-to-cart', 'CartController@addToCart');
+    Route::post('remove-from-cart', 'CartController@removeFromCart');
+    Route::get('delete-cart', 'CartController@deleteCart');
+    Route::get('show-cart', 'CartController@showCart');
 });
 
 Route::prefix('forms')->group(function () {

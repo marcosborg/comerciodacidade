@@ -311,4 +311,22 @@ $(() => {
       })
     }
   });
+
+  showCart();
 });
+
+showCart = function () {
+  $.get('/cart/show-cart').then((resp) => {
+    $('#inner_nav_cart').html(resp);
+  });
+}
+
+deleteCart = function () {
+  $.get('/cart/delete-cart').then(() => {
+    showCart();
+  });
+}
+
+goCart = function() {
+  window.location.href="/lojas/checkout";
+}

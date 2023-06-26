@@ -30,7 +30,7 @@
     <link href="/theme/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="/theme/assets/css/style.css" rel="stylesheet">
+    <link href="/theme/assets/css/style.css?v={{ rand() }}" rel="stylesheet">
 
     @yield('styles')
 

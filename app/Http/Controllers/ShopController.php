@@ -27,4 +27,9 @@ class ShopController extends Controller
 
         return view('website.shop.product', compact('product'));
     }
+
+    public function checkout()
+    {
+        return view('website.shop.checkout');
+    }
 }
