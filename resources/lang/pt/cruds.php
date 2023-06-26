@@ -785,5 +785,25 @@ return [
         'title'          => 'Encomendas',
         'title_singular' => 'Encomenda',
     ],
+    'ifthenPay' => [
+        'title'          => 'Ifthen Pay',
+        'title_singular' => 'Ifthen Pay',
+        'fields'         => [
+            'id'                => 'ID',
+            'id_helper'         => ' ',
+            'company'           => 'Company',
+            'company_helper'    => ' ',
+            'mb_key'            => 'Mb Key',
+            'mb_key_helper'     => ' ',
+            'mbway_key'         => 'Mbway Key',
+            'mbway_key_helper'  => ' ',
+            'created_at'        => 'Created at',
+            'created_at_helper' => ' ',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => ' ',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => ' ',
+        ],
+    ],
 
 ];

@@ -6,6 +6,10 @@ Route::get('termos-e-condicoes', 'WebsiteController@termosECondicoes');
 Route::get('eliminar-conta', 'WebsiteController@accountDelete');
 Route::post('delete-account', 'WebsiteController@deleteAccount');
 
+Route::prefix('lojas')->group(function(){
+    Route::get('/', 'ShopController@index');
+});
+
 Route::prefix('forms')->group(function () {
     Route::post('contact', 'WebsiteController@contact');
     Route::post('newsletter', 'WebsiteController@newsletter');
@@ -248,6 +252,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         ROute::post('update', 'MyOrderController@update');
     });
 
+    // Ifthen Pay
+    Route::delete('ifthen-pays/destroy', 'IfthenPayController@massDestroy')->name('ifthen-pays.massDestroy');
+    Route::resource('ifthen-pays', 'IfthenPayController');
 
     // System Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');

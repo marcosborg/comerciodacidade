@@ -536,6 +536,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('ifthen_pay_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.ifthen-pays.index") }}" class="nav-link {{ request()->is("admin/ifthen-pays") || request()->is("admin/ifthen-pays/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-university">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.ifthenPay.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is("admin/system-calendar") || request()->is("admin/system-calendar/*") ? "active" : "" }}">
                         <i class="fas fa-fw fa-calendar nav-icon">
