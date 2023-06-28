@@ -25,6 +25,7 @@ class WebsiteController extends Controller
     public function __construct()
     {
         view()->share('pages', Page::all());
+
     }
     public function index()
     {

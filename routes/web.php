@@ -31,6 +31,8 @@ Route::prefix('registo')->group(function () {
     Route::get('/{plan_id}', 'WebsiteController@selectedRegister');
 });
 
+Route::post('client-login', 'AuthController@clientLogin');
+
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home');

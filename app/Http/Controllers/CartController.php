@@ -10,7 +10,7 @@ class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
-        $product = ShopProduct::find($request->product_id);
+        $product = ShopProduct::find($request->product_id)->load('shop_product_categories.company');
 
         // Recupera o carrinho atual da sessão
         $cart = session()->get('cart', []);
@@ -20,17 +20,26 @@ class CartController extends Controller
             // Atualiza a quantidade do produto no carrinho
             $cart[$product->id]['quantity'] += $request->qty;
         } else {
+            // Verifica se o produto é de outra empresa
+            if (count($cart) > 0) {
+                foreach ($cart as $item) {
+                    if ($product->shop_product_categories[0]->company_id != $item['company_id']) {
+                        return false;
+                    }
+                }
+            }
             // Adiciona um novo produto ao carrinho
             $cart[$product->id] = [
                 'product' => $product,
                 'quantity' => $request->qty,
+                'company_id' => $product->shop_product_categories[0]->company_id
             ];
         }
 
         // Atualiza o carrinho na sessão
         session()->put('cart', $cart);
 
-        return session()->get('cart');
+        return true;
     }
 
     public function showCart()

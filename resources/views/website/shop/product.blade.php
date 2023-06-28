@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <form action="/cart/add-to-cart" method="post">
+            <form action="/cart/add-to-cart" method="post" id="cart_submit">
                 <h2>{{ $product->name }}</h2>
                 <small><strong>Referencia: </strong>{{ $product->reference }}</small><br>
                 <strong>{{ $product->shop_product_categories[0]->company->name }}</strong>
@@ -257,23 +257,40 @@
       },
     });
     $(() => {
-        $('form').ajaxForm({
+        $('#cart_submit').ajaxForm({
             beforeSubmit: () => {
                 $.LoadingOverlay('show');
             },
-            success: () => {
+            success: (resp) => {
                 $.LoadingOverlay('hide');
-                showCart();
-                Swal.fire({
-                    title: 'Quer ir para checkout?',
-                    showCancelButton: true,
-                    cancelButtonText: 'Quero continuar na loja',
-                    confirmButtonText: 'Sim!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href="/lojas/checkout";
-                    }
-                });
+                if(resp == true){
+                    showCart();
+                    Swal.fire({
+                        title: 'Quer ir para checkout?',
+                        showCancelButton: true,
+                        cancelButtonText: 'Quero continuar na loja',
+                        confirmButtonText: 'Sim!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href="/lojas/checkout";
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                            title: 'Tem a certeza?',
+                            text: "Não é possível adicionar ao carrinho produtos de outra empresa devido ao processo de pagamento final. Se confirmar, o carrinho vai ser reiniciado.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Pode reiniciar o carrinho com este produto!'
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            deleteCart();
+                            setTimeout(() => {
+                                $('#cart_submit').submit();
+                            }, 500);
+                        }
+                    });
+                }
             }
         });
     });

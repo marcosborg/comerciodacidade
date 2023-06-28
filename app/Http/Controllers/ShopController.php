@@ -30,6 +30,17 @@ class ShopController extends Controller
 
     public function checkout()
     {
-        return view('website.shop.checkout');
+
+        $products = collect(session()->get('cart'));
+
+        $total_array = [];
+        
+        foreach ($products as $product){
+            $total_array[] = $product['quantity'] * $product['product']['price'];
+        }
+
+        $total = number_format(array_sum($total_array), 2);
+
+        return view('website.shop.checkout', compact('products', 'total'));
     }
 }
