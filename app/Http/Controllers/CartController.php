@@ -52,4 +52,14 @@ class CartController extends Controller
         session()->forget('cart');
     }
 
+    public function increseQty($product_id)
+    {
+
+    }
+
+    public function decreseQty($product_id)
+    {
+
+    }
+
 }

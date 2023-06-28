@@ -6,17 +6,20 @@ Route::get('termos-e-condicoes', 'WebsiteController@termosECondicoes');
 Route::get('eliminar-conta', 'WebsiteController@accountDelete');
 Route::post('delete-account', 'WebsiteController@deleteAccount');
 
-Route::prefix('lojas')->group(function(){
+Route::prefix('lojas')->group(function () {
     Route::get('/', 'ShopController@index');
     Route::get('produto/{id}/{slug}', 'ShopController@product');
-    Route::get('checkout', 'ShopController@checkout');   
+    Route::get('checkout', 'ShopController@checkout');
+    Route::get('inner-checkout', 'ShopController@innerCheckout');
 });
 
-Route::prefix('cart')->group(function(){
+Route::prefix('cart')->group(function () {
     Route::post('add-to-cart', 'CartController@addToCart');
     Route::post('remove-from-cart', 'CartController@removeFromCart');
     Route::get('delete-cart', 'CartController@deleteCart');
     Route::get('show-cart', 'CartController@showCart');
+    Route::get('increse-qty/{product_id}', 'ShopCompanyController@increseQty');
+    Route::get('increse-qty/{product_id}', 'ShopCompanyController@increseQty');
 });
 
 Route::prefix('forms')->group(function () {

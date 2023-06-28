@@ -35,7 +35,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         @if (auth()->check())
-                        <li><a class="dropdown-item" href="/area-cliente">Área reservada</a></li>
+                        <li><a class="dropdown-item" href="/admin">Área reservada</a></li>
                         <li><a class="dropdown-item" href="#"
                                 onclick="event.preventDefault(); document.getElementById('logoutform').submit();">Logout</a>
                         </li>
