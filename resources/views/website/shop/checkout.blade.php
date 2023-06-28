@@ -47,9 +47,8 @@ Checkout
         });
     }
     updateQty = (product_id, value) => {
-        console.log({
-            product_id: product_id,
-            qty: value
+        $.get('/cart/change-qty/' + product_id + '/' + value).then((resp) => {
+            getCheckout();
         });
     }
 </script>

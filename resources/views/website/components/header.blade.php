@@ -14,7 +14,19 @@
                         href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#about">Sobre</a></li>
                 <li><a class="nav-link scrollto"
                         href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#services">Serviços</a></li>
-                <li><a class="nav-link" href="/registo">Registo</a></li>
+                @if (!auth()->check())
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Registo
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/registo">Lojista</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#create_modal">Cliente</a></li>
+                    </ul>
+                </li>
+                @endif
                 <li><a class="nav-link scrollto"
                         href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#contact">Contactos</a></li>
                 <li class="nav-item dropdown">
@@ -42,7 +54,8 @@
                         @else
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                                 data-bs-target="#login_modal">Login</a></li>
-                        <li><a class="dropdown-item" href="#">Criar conta</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#create_modal">Criar conta</a></li>
                         @endif
                     </ul>
                 </li>

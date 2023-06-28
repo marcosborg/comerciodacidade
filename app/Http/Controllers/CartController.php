@@ -52,13 +52,20 @@ class CartController extends Controller
         session()->forget('cart');
     }
 
-    public function increseQty($product_id)
+    public function changeQty($product_id, $qty)
     {
 
-    }
+        // Verifique se o item existe na sessão
+        if (session()->has('cart') && isset(session('cart')[$product_id])) {
+            // Acesse a quantidade atual do item
+            $quantidadeAtual = session('cart')[$product_id]['quantity'];
 
-    public function decreseQty($product_id)
-    {
+            // Aumente a quantidade em 1
+            $quantidadeNova = $qty;
+
+            // Atualize a quantidade na sessão
+            session(['cart.' . $product_id . '.quantity' => $quantidadeNova]);
+        }
 
     }
 

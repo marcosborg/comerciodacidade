@@ -18,8 +18,7 @@ Route::prefix('cart')->group(function () {
     Route::post('remove-from-cart', 'CartController@removeFromCart');
     Route::get('delete-cart', 'CartController@deleteCart');
     Route::get('show-cart', 'CartController@showCart');
-    Route::get('increse-qty/{product_id}', 'ShopCompanyController@increseQty');
-    Route::get('increse-qty/{product_id}', 'ShopCompanyController@increseQty');
+    Route::get('change-qty/{product_id}/{qty}', 'CartController@changeQty');
 });
 
 Route::prefix('forms')->group(function () {
@@ -35,6 +34,7 @@ Route::prefix('registo')->group(function () {
 });
 
 Route::post('client-login', 'AuthController@clientLogin');
+Route::post('create-account', 'AuthController@createAccount');
 
 Route::get('/home', function () {
     if (session('status')) {

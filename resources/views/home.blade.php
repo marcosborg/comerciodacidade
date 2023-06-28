@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="content">
+    @if ($user->subscription)
     <div class="row">
         <div class="col-md-6">
             <div class="card">
@@ -108,6 +109,8 @@
             @endif
         </div>
     </div>
+    @endif
+
 </div>
 <input type="hidden" name="amount">
 <div class="modal fade" id="payment-modal" tabindex="-1">

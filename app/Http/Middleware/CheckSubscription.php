@@ -18,7 +18,7 @@ class CheckSubscription
     {
         $user = auth()->user();
         $subscription = Subscription::where('user_id', $user->id)->first();
-        if($subscription->end_date < date('Y-m-d H:i:s')){
+        if($subscription && $subscription->end_date < date('Y-m-d H:i:s')){
             foreach ($user->roles as $role) {
                 if($role->id > 2){
                     $roleToRemove = $role->id;

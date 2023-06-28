@@ -327,6 +327,38 @@ deleteCart = function () {
   });
 }
 
-goCart = function() {
-  window.location.href="/lojas/checkout";
+goCart = function () {
+  window.location.href = "/lojas/checkout";
 }
+
+$(() => {
+  $('#create_modal form').ajaxForm({
+    beforeSubmit: () => {
+      $.LoadingOverlay('show');
+    },
+    success: (resp) => {
+      $.LoadingOverlay('hide');
+      Swal.fire(
+        'A conta foi criada!',
+        'Pode adquirir produtos e serviços ou aceder à sua área reservada.',
+        'success'
+      ).then(() => {
+        location.reload();
+      });
+    },
+    error: (error) => {
+      $.LoadingOverlay('hide');
+      let html = '';
+      $.each(JSON.parse(error.responseText).errors, (i, v) => {
+        $.each(v, (index, value) => {
+          html += value + '<br />';
+        });
+      });
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro de validação',
+        html: html,
+      });
+    }
+  });
+});
