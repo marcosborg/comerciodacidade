@@ -78,14 +78,15 @@
                 <strong>Endereço de entrega</strong>
                 <p>{{ $address->address }}<br>{{ $address->zip }} {{ $address->city }}<br>{{ $address->country->name }}
                 </p>
-                <div class="form-check form-switch">
+                <button class="btn btn-outline-dark d-block w-100" type="button">Editar</button>
+                <div class="form-check form-switch mt-4">
                     <input class="form-check-input" type="checkbox" role="switch" id="billing_same" {{
-                        $address->billing_same ? 'checked' : '' }}>
+                        $address->billing_same ? 'checked' : '' }} onchange="changeSame({{ $address->id }})">
                     <label class="form-check-label" for="billing_same">Endereço de faturação diferente do
                         endereço de entrega</label>
                 </div>
-                <hr>
                 <div class="collapse" id="billing_collapse">
+                    <hr>
                     <strong>Endereço de faturação</strong>
                     <p>{!! $address->billing_address ? $address->billing_address : '<span
                             class="placeholder w-50"></span>'
@@ -97,10 +98,7 @@
                         $address->billing_country ? $address->billing_country->name : '<span
                             class="placeholder w-25"></span>' !!}
                     </p>
-                </div>
-                <div class="row">
-                    <div class="col"><button class="btn btn-outline-dark d-block w-100" type="button">Editar</button>
-                    </div>
+                    <button class="btn btn-outline-dark d-block w-100" type="button">Editar</button>
                 </div>
             </div>
         </div>

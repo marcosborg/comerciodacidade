@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\ShopProduct;
 use Illuminate\Http\Request;
 
@@ -83,6 +84,17 @@ class CartController extends Controller
 
         // Atualizar o carrinho na sessão
         session()->put('cart', $cart);
+    }
+
+    public function changeSame($address_id)
+    {
+        $address = Address::find($address_id);
+        if ($address->billing_same == true) {
+            $address->billing_same = false;
+        } else {
+            $address->billing_same = true;
+        }
+        $address->save();
     }
 
 }

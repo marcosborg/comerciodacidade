@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\Page;
 use App\Models\ShopProduct;
 use Illuminate\Http\Request;
@@ -30,7 +31,10 @@ class ShopController extends Controller
 
     public function checkout()
     {
-        return view('website.shop.checkout');
+
+        $countries = Country::all();
+
+        return view('website.shop.checkout', compact('countries'));
     }
 
     public function innerCheckout()

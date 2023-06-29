@@ -20,6 +20,7 @@ Route::prefix('cart')->group(function () {
     Route::get('show-cart', 'CartController@showCart');
     Route::get('change-qty/{product_id}/{qty}', 'CartController@changeQty');
     Route::get('delete-product/{product_id}', 'CartController@deleteProduct');
+    ROute::get('change-same/{address_id}', 'CartController@changeSame');
 });
 
 Route::prefix('forms')->group(function () {

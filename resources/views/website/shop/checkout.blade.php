@@ -13,6 +13,46 @@ Checkout
 <div class="container p-5">
     <div class="container" id="inner_checkout"></div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="address_modal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addressModalLabel">Endereço de entrega</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Endereço</label>
+                        <input type="text" name="address" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Localidade</label>
+                        <input type="text" name="city" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Código postal</label>
+                        <input type="text" name="zip" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>País</label>
+                        <select type="text" name="country_id" class="form-control" required>
+                            @foreach ($countries as $country)
+                            <option {{ $country->id == 170 ? 'selected' : '' }} value="{{ $country->id
+                                }}">{{ $country->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @section('styles')
 <style>
@@ -40,11 +80,11 @@ Checkout
     console.log({!! collect(session()->get('cart')) !!});
     $(() => {
         getCheckout();
-        $('#billing_collapse').collapse('hide');
     });
     getCheckout = () => {
         $.get('/lojas/inner-checkout').then((resp) => {
             $('#inner_checkout').html(resp);
+            checkSame();
         });
     }
     updateQty = (product_id, value) => {
@@ -57,6 +97,19 @@ Checkout
             console.log(resp);
             getCheckout();
             showCart();
+        });
+    }
+    checkSame = () => {
+        if($('#billing_same').prop('checked') == true) {
+            $('#billing_collapse').collapse('show');
+        } else {
+            $('#billing_collapse').collapse('hide');
+        }
+    }
+    changeSame = (address_id) => {
+        console.log(address_id);
+        $.get('/cart/change-same/' + address_id).then(() => {
+            getCheckout();
         });
     }
 </script>
