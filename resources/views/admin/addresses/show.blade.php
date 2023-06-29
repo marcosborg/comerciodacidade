@@ -71,6 +71,46 @@
                             {{ $address->phone }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_same') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $address->billing_same ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_address') }}
+                        </th>
+                        <td>
+                            {{ $address->billing_address }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_city') }}
+                        </th>
+                        <td>
+                            {{ $address->billing_city }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_zip') }}
+                        </th>
+                        <td>
+                            {{ $address->billing_zip }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_country') }}
+                        </th>
+                        <td>
+                            {{ $address->billing_country->name ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

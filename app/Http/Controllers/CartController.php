@@ -69,4 +69,20 @@ class CartController extends Controller
 
     }
 
+    public function deleteProduct($product_id)
+    {
+        $cart = session()->get('cart');
+
+        // Procurar o item com o ID correspondente e removê-lo
+        foreach ($cart as $index => $item) {
+            if ($index === intval($product_id)) {
+                unset($cart[$index]);
+                break;
+            }
+        }
+
+        // Atualizar o carrinho na sessão
+        session()->put('cart', $cart);
+    }
+
 }

@@ -26,6 +26,11 @@ class Address extends Model
         'zip',
         'country_id',
         'phone',
+        'billing_same',
+        'billing_address',
+        'billing_city',
+        'billing_zip',
+        'billing_country_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -44,5 +49,10 @@ class Address extends Model
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function billing_country()
+    {
+        return $this->belongsTo(Country::class, 'billing_country_id');
     }
 }

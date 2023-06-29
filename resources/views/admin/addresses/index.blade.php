@@ -44,6 +44,21 @@
                             {{ trans('cruds.address.fields.phone') }}
                         </th>
                         <th>
+                            {{ trans('cruds.address.fields.billing_same') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_address') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_city') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_zip') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.address.fields.billing_country') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -74,6 +89,22 @@
                             </td>
                             <td>
                                 {{ $address->phone ?? '' }}
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $address->billing_same ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $address->billing_same ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                {{ $address->billing_address ?? '' }}
+                            </td>
+                            <td>
+                                {{ $address->billing_city ?? '' }}
+                            </td>
+                            <td>
+                                {{ $address->billing_zip ?? '' }}
+                            </td>
+                            <td>
+                                {{ $address->billing_country->name ?? '' }}
                             </td>
                             <td>
                                 @can('address_show')

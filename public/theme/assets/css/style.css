@@ -1579,3 +1579,24 @@ ul.dropdown-menu {
 .btn-orange:hover {
   background: #af5a21;
 }
+
+.btn-outline-orange {
+  border-color: #af5a21;
+  background-color: #ffffff;
+  color: #af5a21;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 2px;
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 4px;
+  transition: ease-in-out 0.3s;
+  text-transform: uppercase;
+}
+
+.btn-outline-orange:hover {
+  border-color: #753d17;
+  background-color: #ffffff;
+  color: #af5a21;
+}

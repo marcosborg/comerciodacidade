@@ -67,6 +67,53 @@
                 <span class="help-block">{{ trans('cruds.address.fields.phone_helper') }}</span>
             </div>
             <div class="form-group">
+                <div class="form-check {{ $errors->has('billing_same') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="billing_same" value="0">
+                    <input class="form-check-input" type="checkbox" name="billing_same" id="billing_same" value="1" {{ $address->billing_same || old('billing_same', 0) === 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="billing_same">{{ trans('cruds.address.fields.billing_same') }}</label>
+                </div>
+                @if($errors->has('billing_same'))
+                    <span class="text-danger">{{ $errors->first('billing_same') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.address.fields.billing_same_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="billing_address">{{ trans('cruds.address.fields.billing_address') }}</label>
+                <input class="form-control {{ $errors->has('billing_address') ? 'is-invalid' : '' }}" type="text" name="billing_address" id="billing_address" value="{{ old('billing_address', $address->billing_address) }}">
+                @if($errors->has('billing_address'))
+                    <span class="text-danger">{{ $errors->first('billing_address') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.address.fields.billing_address_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="billing_city">{{ trans('cruds.address.fields.billing_city') }}</label>
+                <input class="form-control {{ $errors->has('billing_city') ? 'is-invalid' : '' }}" type="text" name="billing_city" id="billing_city" value="{{ old('billing_city', $address->billing_city) }}">
+                @if($errors->has('billing_city'))
+                    <span class="text-danger">{{ $errors->first('billing_city') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.address.fields.billing_city_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="billing_zip">{{ trans('cruds.address.fields.billing_zip') }}</label>
+                <input class="form-control {{ $errors->has('billing_zip') ? 'is-invalid' : '' }}" type="text" name="billing_zip" id="billing_zip" value="{{ old('billing_zip', $address->billing_zip) }}">
+                @if($errors->has('billing_zip'))
+                    <span class="text-danger">{{ $errors->first('billing_zip') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.address.fields.billing_zip_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="billing_country_id">{{ trans('cruds.address.fields.billing_country') }}</label>
+                <select class="form-control select2 {{ $errors->has('billing_country') ? 'is-invalid' : '' }}" name="billing_country_id" id="billing_country_id">
+                    @foreach($billing_countries as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('billing_country_id') ? old('billing_country_id') : $address->billing_country->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('billing_country'))
+                    <span class="text-danger">{{ $errors->first('billing_country') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.address.fields.billing_country_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

@@ -38,6 +38,14 @@ class ShopController extends Controller
 
         $products = collect(session()->get('cart'));
 
+        $user = auth()->user();
+
+        $address = null;
+
+        if($user){
+            $address = $user->address;
+        }
+
         $total_array = [];
 
         foreach ($products as $product) {
@@ -46,7 +54,7 @@ class ShopController extends Controller
 
         $total = number_format(array_sum($total_array), 2);
 
-        return view('website.components.inner_checkout', compact('products', 'total'));
+        return view('website.components.inner_checkout', compact('products', 'total', 'user', 'address'));
     }
 
 }

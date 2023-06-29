@@ -19,7 +19,7 @@ class AddressController extends Controller
     {
         abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $addresses = Address::with(['user', 'country'])->get();
+        $addresses = Address::with(['user', 'country', 'billing_country'])->get();
 
         return view('admin.addresses.index', compact('addresses'));
     }
@@ -32,7 +32,9 @@ class AddressController extends Controller
 
         $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.addresses.create', compact('countries', 'users'));
+        $billing_countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.addresses.create', compact('billing_countries', 'countries', 'users'));
     }
 
     public function store(StoreAddressRequest $request)
@@ -50,9 +52,11 @@ class AddressController extends Controller
 
         $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $address->load('user', 'country');
+        $billing_countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.addresses.edit', compact('address', 'countries', 'users'));
+        $address->load('user', 'country', 'billing_country');
+
+        return view('admin.addresses.edit', compact('address', 'billing_countries', 'countries', 'users'));
     }
 
     public function update(UpdateAddressRequest $request, Address $address)
@@ -66,7 +70,7 @@ class AddressController extends Controller
     {
         abort_if(Gate::denies('address_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $address->load('user', 'country');
+        $address->load('user', 'country', 'billing_country');
 
         return view('admin.addresses.show', compact('address'));
     }

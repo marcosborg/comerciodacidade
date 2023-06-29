@@ -19,6 +19,7 @@ Route::prefix('cart')->group(function () {
     Route::get('delete-cart', 'CartController@deleteCart');
     Route::get('show-cart', 'CartController@showCart');
     Route::get('change-qty/{product_id}/{qty}', 'CartController@changeQty');
+    Route::get('delete-product/{product_id}', 'CartController@deleteProduct');
 });
 
 Route::prefix('forms')->group(function () {

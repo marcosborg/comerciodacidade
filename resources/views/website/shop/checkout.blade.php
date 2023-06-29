@@ -40,6 +40,7 @@ Checkout
     console.log({!! collect(session()->get('cart')) !!});
     $(() => {
         getCheckout();
+        $('#billing_collapse').collapse('hide');
     });
     getCheckout = () => {
         $.get('/lojas/inner-checkout').then((resp) => {
@@ -49,6 +50,13 @@ Checkout
     updateQty = (product_id, value) => {
         $.get('/cart/change-qty/' + product_id + '/' + value).then((resp) => {
             getCheckout();
+        });
+    }
+    deleteProduct = (product_id) => {
+        $.get('/cart/delete-product/' + product_id).then((resp) => {
+            console.log(resp);
+            getCheckout();
+            showCart();
         });
     }
 </script>

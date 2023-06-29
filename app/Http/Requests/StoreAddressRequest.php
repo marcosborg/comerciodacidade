@@ -41,6 +41,18 @@ class StoreAddressRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'billing_address' => [
+                'string',
+                'nullable',
+            ],
+            'billing_city' => [
+                'string',
+                'nullable',
+            ],
+            'billing_zip' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }
