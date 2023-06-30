@@ -97,4 +97,107 @@ class CartController extends Controller
         $address->save();
     }
 
+    public function createAddress(Request $request)
+    {
+        $request->validate([
+            'user_id' => [
+                'required',
+                'integer',
+            ],
+            'address' => [
+                'string',
+                'required',
+            ],
+            'city' => [
+                'string',
+                'required',
+            ],
+            'zip' => [
+                'string',
+                'required',
+            ],
+            'country_id' => [
+                'required',
+                'integer',
+            ],
+            'phone' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+
+        $address = new Address;
+        $address->user_id = $request->user_id;
+        $address->address = $request->address;
+        $address->zip = $request->zip;
+        $address->city = $request->city;
+        $address->country_id = $request->country_id;
+        $address->phone = $request->phone;
+        $address->save();
+    }
+
+    public function updateAddress(Request $request)
+    {
+        $request->validate([
+            'address' => [
+                'string',
+                'required',
+            ],
+            'city' => [
+                'string',
+                'required',
+            ],
+            'zip' => [
+                'string',
+                'required',
+            ],
+            'country_id' => [
+                'required',
+                'integer',
+            ],
+            'phone' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+
+        $address = Address::find($request->address_id);
+        $address->address = $request->address;
+        $address->zip = $request->zip;
+        $address->city = $request->city;
+        $address->country_id = $request->country_id;
+        $address->phone = $request->phone;
+        $address->save();
+    }
+
+    public function updateBillingAddress(Request $request)
+    {
+        $request->validate([
+            'billing_country_id' => [
+                'required',
+                'integer',
+            ],
+            'billing_address' => [
+                'string',
+                'nullable',
+            ],
+            'billing_city' => [
+                'string',
+                'nullable',
+            ],
+            'billing_zip' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+
+        $address = Address::find($request->address_id);
+        $address->billing_address = $request->billing_address;
+        $address->billing_zip = $request->billing_zip;
+        $address->billing_city = $request->billing_city;
+        $address->billing_country_id = $request->billing_country_id;
+        $address->save();
+
+    }
+
 }

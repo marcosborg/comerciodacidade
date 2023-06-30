@@ -70,15 +70,17 @@
                 </div>
             </div>
         </div>
+        @if (auth()->check())
         <div class="card shadow pt-2 mt-4">
             <div class="card-header">
                 Endereços
             </div>
             <div class="card-body">
+                @if ($address)
                 <strong>Endereço de entrega</strong>
                 <p>{{ $address->address }}<br>{{ $address->zip }} {{ $address->city }}<br>{{ $address->country->name }}
                 </p>
-                <button class="btn btn-outline-dark d-block w-100" type="button">Editar</button>
+                <button class="btn btn-outline-dark d-block w-100" type="button" onclick="editAddress()">Editar</button>
                 <div class="form-check form-switch mt-4">
                     <input class="form-check-input" type="checkbox" role="switch" id="billing_same" {{
                         $address->billing_same ? 'checked' : '' }} onchange="changeSame({{ $address->id }})">
@@ -98,10 +100,14 @@
                         $address->billing_country ? $address->billing_country->name : '<span
                             class="placeholder w-25"></span>' !!}
                     </p>
-                    <button class="btn btn-outline-dark d-block w-100" type="button">Editar</button>
+                    <button class="btn btn-outline-dark d-block w-100" type="button" onclick="editBillingAddress()">Editar</button>
                 </div>
+                @else
+                <button class="btn btn-outline-dark d-block w-100" type="button" onclick="createAddress()">Criar endereço para continuar</button>
+                @endif
             </div>
         </div>
+        @endif
     </div>
     @else
 </div>

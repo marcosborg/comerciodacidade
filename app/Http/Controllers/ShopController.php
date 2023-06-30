@@ -33,8 +33,14 @@ class ShopController extends Controller
     {
 
         $countries = Country::all();
+        $user = auth()->user();
+        $address = null;
 
-        return view('website.shop.checkout', compact('countries'));
+        if($user){
+            $address = $user->address;
+        }
+
+        return view('website.shop.checkout', compact('countries', 'user', 'address'));
     }
 
     public function innerCheckout()
