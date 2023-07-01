@@ -75,21 +75,25 @@ Checkout
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Endereço</label>
-                        <input type="text" name="address" class="form-control" required value="{{ $address->address }}">
+                        <input type="text" name="address" class="form-control" required
+                            value="{{ $address ? $address->address : '' }}">
                     </div>
                     <div class="form-group">
                         <label>Código Postal</label>
-                        <input type="text" name="zip" class="form-control" required value="{{ $address->zip }}">
+                        <input type="text" name="zip" class="form-control" required
+                            value="{{ $address ? $address->zip : '' }}">
                     </div>
                     <div class="form-group">
                         <label>Localidade</label>
-                        <input type="text" name="city" class="form-control" required value="{{ $address->city }}">
+                        <input type="text" name="city" class="form-control" required
+                            value="{{ $address ? $address->city : '' }}">
                     </div>
                     <div class="form-group">
                         <label>País</label>
                         <select name="country_id" class="form-control" required>
                             @foreach ($countries as $country)
-                            <option {{ $country->id == $address->country_id ? 'selected' : '' }} value="{{ $country->id
+                            <option {{ $address && $country->id == $address->country_id ? 'selected' : '' }} value="{{
+                                $country->id
                                 }}">{{
                                 $country->name
                                 }}</option>
@@ -98,7 +102,8 @@ Checkout
                     </div>
                     <div class="form-group">
                         <label>Telefone</label>
-                        <input type="text" name="phone" class="form-control" value="{{ $address->phone }}">
+                        <input type="text" name="phone" class="form-control"
+                            value="{{ $address ? $address->phone : '' }}">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -125,23 +130,23 @@ Checkout
                     <div class="form-group">
                         <label>Endereço</label>
                         <input type="text" name="billing_address" class="form-control" required
-                            value="{{ $address->billing_address }}">
+                            value="{{ $address ? $address->billing_address : '' }}">
                     </div>
                     <div class="form-group">
                         <label>Código Postal</label>
                         <input type="text" name="billing_zip" class="form-control" required
-                            value="{{ $address->billing_zip }}">
+                            value="{{ $address ? $address->billing_zip : '' }}">
                     </div>
                     <div class="form-group">
                         <label>Localidade</label>
                         <input type="text" name="billing_city" class="form-control" required
-                            value="{{ $address->billing_city }}">
+                            value="{{ $address ? $address->billing_city : '' }}">
                     </div>
                     <div class="form-group">
                         <label>País</label>
                         <select name="billing_country_id" class="form-control" required>
                             @foreach ($countries as $country)
-                            @if ($address->billing_country_id)
+                            @if ($address && $address->billing_country_id)
                             <option {{ $country->id == $address->billing_country_id ? 'selected' : '' }} value="{{
                                 $country->id }}">{{
                                 $country->name
@@ -161,6 +166,27 @@ Checkout
                     <button type="submit" class="btn btn-primary">Atualizar</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="payment_methods" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Pagamento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-outline-info d-block w-100">
+                    <img src="/theme/assets/img/payment/mbway-logo.png" alt="MBWay"
+                        class="img-fluid">
+                </button>
+                <button class="btn btn-outline-info d-block w-100 mt-3">
+                    <img src="/theme/assets/img/payment/mb-logo.png" alt="Multibanco"
+                        class="img-fluid">
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -324,6 +350,9 @@ Checkout
     }
     editBillingAddress = () => {
         $('#edit_billing_address_modal').modal('show');
+    }
+    paymentMethods = () => {
+        $('#payment_methods').modal('show');
     }
 </script>
 @endsection

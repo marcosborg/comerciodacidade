@@ -108,6 +108,11 @@
             </div>
         </div>
         @endif
+        <div class="card shadow pt-2 mt-4">
+            <div class="card-body">
+                <button class="btn btn-orange d-block w-100" type="button" onclick="paymentMethods()">Concluir</button>
+            </div>
+        </div>
     </div>
     @else
 </div>
