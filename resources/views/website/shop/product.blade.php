@@ -12,7 +12,7 @@
 @section('content')
 <div class="container p-5">
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-6">
             <!-- Slider main container -->
             <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2"
                 zoom="true">
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <form action="/cart/add-to-cart" method="post" id="cart_submit">
                 <h2>{{ $product->name }}</h2>
                 <small><strong>Referencia: </strong>{{ $product->reference }}</small><br>
@@ -59,26 +59,24 @@
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <button type="submit" class="btn btn-orange btn-lg mt-4">Comprar</button>
             </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-7">
-            <div class="card">
-                <div class="card-header">
+            <div class="card mt-5">
+                <div class="card-header text-center">
                     Descrição
                 </div>
                 <div class="card-body">
                     {!! $product->description !!}
                 </div>
             </div>
-        </div>
-        <div class="col-md-5">
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-header">
                     <ul class="nav nav nav-pills nav-fill" role="tablist">
                         <li class="nav-item" role="presentation">
+                            @if (!$product->youtube && !$product->attachment)
+                            Características
+                            @else
                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#features"
-                                type="button" role="tab">Caracteristicas</button>
+                                type="button" role="tab">Características</button>
+                            @endif
                         </li>
                         @if ($product->youtube)
                         <li class="nav-item" role="presentation">
@@ -86,10 +84,12 @@
                                 role="tab">Vídeo</button>
                         </li>
                         @endif
+                        @if ($product->attachment)
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#others" type="button"
                                 role="tab">Outros</button>
                         </li>
+                        @endif
                     </ul>
                 </div>
                 <div class="card-body">
@@ -112,7 +112,11 @@
 
                         </div>
                         @endif
-                        <div class="tab-pane fade" id="others" role="tabpanel">Outros</div>
+                        @if ($product->attachment)
+                        <div class="tab-pane fade" id="others" role="tabpanel">
+                            Anexo
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -217,6 +221,7 @@
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script>
+    console.log({!! $product !!})
     document.getElementById("decreaseBtn").addEventListener("click", function() {
       var input = document.querySelector(".form-control");
       var value = parseInt(input.value);

@@ -131,23 +131,28 @@
             address: {!! $address !!},
             type: type,
         }
-        var form = new FormData();
-        form.append("data", "data");
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-        var settings = {
-            "url": "/cart/generate-payments",
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+        $.LoadingOverlay('show');
+
+        $.ajax({
+            url: '/cart/generate-payments',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
             },
-            "processData": false,
-            "mimeType": "multipart/form-data",
-            "contentType": false,
-            "data": form
-        };
-        $.ajax(settings).done(function (response) {
-            console.log(response);
+            success: function(response) {
+                $.LoadingOverlay('hide');
+                // Lógica de manipulação de sucesso da resposta
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                $.LoadingOverlay('hide');
+                // Lógica de manipulação de erro
+                console.error(error);
+            }
         });
     }
 </script>
