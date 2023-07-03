@@ -12,7 +12,7 @@
         @endif
     </title>
     <meta content="Aplicação para estímulo do comércio tradicional" name="description">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicons -->
     <link href="/theme/assets/img/favicon.png" rel="icon">
     <link href="/theme/assets/img/apple-touch-icon.png" rel="apple-touch-icon">

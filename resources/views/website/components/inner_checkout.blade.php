@@ -100,10 +100,12 @@
                         $address->billing_country ? $address->billing_country->name : '<span
                             class="placeholder w-25"></span>' !!}
                     </p>
-                    <button class="btn btn-outline-dark d-block w-100" type="button" onclick="editBillingAddress()">Editar</button>
+                    <button class="btn btn-outline-dark d-block w-100" type="button"
+                        onclick="editBillingAddress()">Editar</button>
                 </div>
                 @else
-                <button class="btn btn-outline-dark d-block w-100" type="button" onclick="createAddress()">Criar endereço para continuar</button>
+                <button class="btn btn-outline-dark d-block w-100" type="button" onclick="createAddress()">Criar
+                    endereço para continuar</button>
                 @endif
             </div>
         </div>
@@ -121,5 +123,31 @@
 </div>
 @endif
 <script>
-    console.log({!! $address !!})
+    generatePayment = (type) => {
+        $('#payment_methods').modal('hide');
+        let data = {
+            cart: {!! collect(session()->get('cart')) !!},
+            user: {!! $user !!},
+            address: {!! $address !!},
+            type: type,
+        }
+        var form = new FormData();
+        form.append("data", "data");
+
+        var settings = {
+            "url": "/cart/generate-payments",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+            },
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": form
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
 </script>

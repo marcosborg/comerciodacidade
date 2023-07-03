@@ -200,4 +200,9 @@ class CartController extends Controller
 
     }
 
+    public function generatePayment(Request $request)
+    {
+        return $request;
+    }
+
 }

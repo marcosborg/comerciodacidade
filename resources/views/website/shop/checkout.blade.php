@@ -179,12 +179,12 @@ Checkout
             </div>
             <div class="modal-body">
                 <button class="btn btn-outline-info d-block w-100">
-                    <img src="/theme/assets/img/payment/mbway-logo.png" alt="MBWay"
-                        class="img-fluid">
+                    <img src="/theme/assets/img/payment/mbway-logo.png" alt="MBWay" class="img-fluid"
+                        onclick="generatePayment('mbway')">
                 </button>
                 <button class="btn btn-outline-info d-block w-100 mt-3">
-                    <img src="/theme/assets/img/payment/mb-logo.png" alt="Multibanco"
-                        class="img-fluid">
+                    <img src="/theme/assets/img/payment/mb-logo.png" alt="Multibanco" class="img-fluid"
+                        onclick="generatePayment('multibanco')">
                 </button>
             </div>
         </div>
@@ -214,7 +214,6 @@ Checkout
 @section('scripts')
 @parent
 <script>
-    console.log({!! collect(session()->get('cart')) !!});
     $(() => {
         getCheckout();
         $('#create_address_modal form').ajaxForm({
@@ -324,7 +323,6 @@ Checkout
     }
     deleteProduct = (product_id) => {
         $.get('/cart/delete-product/' + product_id).then((resp) => {
-            console.log(resp);
             getCheckout();
             showCart();
         });
