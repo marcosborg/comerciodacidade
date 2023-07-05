@@ -53,7 +53,7 @@
                         <input type="text" class="form-control" disabled value="{{ $ifthen_pay->mbway_antiphishing }}">
                     </div>
                     <div class="form-group">
-                        <label>Callback MULTIBANCO</label>
+                        <label>Callback MBWAY</label>
                         <textarea class="form-control"
                             disabled>https://comerciodacidade.pt/payments/mbway-callback?key=[ANTI_PHISHING_KEY]&orderId=[ORDER_ID]&amount=[AMOUNT]&requestId=[REQUEST_ID]&entity=[ENTITY]&reference=[REFERENCE]&payment_datetime=[PAYMENT_DATETIME]</textarea>
                     </div>
