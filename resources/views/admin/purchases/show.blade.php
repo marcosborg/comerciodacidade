@@ -137,10 +137,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.purchase.fields.company') }}
+                            {{ trans('cruds.purchase.fields.id_payment') }}
                         </th>
                         <td>
-                            {{ $purchase->company->name ?? '' }}
+                            {{ $purchase->id_payment }}
                         </td>
                     </tr>
                     <tr>

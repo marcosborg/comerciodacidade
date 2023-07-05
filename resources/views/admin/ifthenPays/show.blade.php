@@ -47,6 +47,14 @@
                             {{ $ifthenPay->mbway_key }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.ifthenPay.fields.antiphishing') }}
+                        </th>
+                        <td>
+                            {{ $ifthenPay->antiphishing }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

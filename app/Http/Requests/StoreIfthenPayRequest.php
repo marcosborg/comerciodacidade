@@ -29,6 +29,10 @@ class StoreIfthenPayRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'antiphishing' => [
+                'string',
+                'required',
+            ],
         ];
     }
 }

@@ -29,6 +29,10 @@ class UpdateIfthenPayRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'antiphishing' => [
+                'string',
+                'required',
+            ],
         ];
     }
 }

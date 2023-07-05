@@ -23,6 +23,7 @@ class IfthenPay extends Model
         'company_id',
         'mb_key',
         'mbway_key',
+        'antiphishing',
         'created_at',
         'updated_at',
         'deleted_at',

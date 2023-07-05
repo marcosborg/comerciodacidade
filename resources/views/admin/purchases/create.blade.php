@@ -137,16 +137,12 @@
                 <span class="help-block">{{ trans('cruds.purchase.fields.internal_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="company_id">{{ trans('cruds.purchase.fields.company') }}</label>
-                <select class="form-control select2 {{ $errors->has('company') ? 'is-invalid' : '' }}" name="company_id" id="company_id">
-                    @foreach($companies as $id => $entry)
-                        <option value="{{ $id }}" {{ old('company_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('company'))
-                    <span class="text-danger">{{ $errors->first('company') }}</span>
+                <label for="id_payment">{{ trans('cruds.purchase.fields.id_payment') }}</label>
+                <input class="form-control {{ $errors->has('id_payment') ? 'is-invalid' : '' }}" type="text" name="id_payment" id="id_payment" value="{{ old('id_payment', '') }}">
+                @if($errors->has('id_payment'))
+                    <span class="text-danger">{{ $errors->first('id_payment') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.purchase.fields.company_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.purchase.fields.id_payment_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

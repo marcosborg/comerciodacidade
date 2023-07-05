@@ -39,7 +39,7 @@ class Purchase extends Model
         'method',
         'payed',
         'internal',
-        'company_id',
+        'id_payment',
         'created_at',
         'updated_at',
         'deleted_at',

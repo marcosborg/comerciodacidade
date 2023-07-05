@@ -248,7 +248,7 @@ class CartController extends Controller
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => 'mbway.ifthenpay.com/ifthenpaymbw.asmx/SetPedidoJSON?MbWayKey=' . $this->MbWayKey . '&canal=03&referencia=' . $purchase->id . '&valor=1&nrtlm=' . $request->celphone . '&email=&descricao=',
+                CURLOPT_URL => 'mbway.ifthenpay.com/ifthenpaymbw.asmx/SetPedidoJSON?MbWayKey=' . $this->MbWayKey . '&canal=03&referencia=' . $purchase->id . '&valor=' . $total . '&nrtlm=' . $request->celphone . '&email=&descricao=',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,

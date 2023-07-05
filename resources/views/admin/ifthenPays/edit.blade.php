@@ -39,6 +39,14 @@
                 <span class="help-block">{{ trans('cruds.ifthenPay.fields.mbway_key_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="antiphishing">{{ trans('cruds.ifthenPay.fields.antiphishing') }}</label>
+                <input class="form-control {{ $errors->has('antiphishing') ? 'is-invalid' : '' }}" type="text" name="antiphishing" id="antiphishing" value="{{ old('antiphishing', $ifthenPay->antiphishing) }}" required>
+                @if($errors->has('antiphishing'))
+                    <span class="text-danger">{{ $errors->first('antiphishing') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.ifthenPay.fields.antiphishing_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

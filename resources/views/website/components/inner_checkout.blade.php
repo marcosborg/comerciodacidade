@@ -171,6 +171,7 @@
 
     checkMbwayPayment = (idPedido) => {
         $.get('/cart/check-mbway-payment/' + idPedido).then((resp) => {
+            console.log(resp);
             if(resp == 'Operação financeira concluída com sucesso'){
                 $('.loadingoverlay > div').html(resp);
                 setTimeout(() => {
@@ -185,6 +186,7 @@
             } else if (resp == 'Operação financeira inicializada com sucesso' || resp == 'Operação financeira não encontrada') {
                 $('.loadingoverlay > div').html('Aguardamos conclusão da operação');
             } else {
+                $('.loadingoverlay > div').html(resp);
                 setTimeout(() => {
                     $.LoadingOverlay('hide');
                     Swal.fire('Pagamento cancelado', resp, 'error').then(() => {

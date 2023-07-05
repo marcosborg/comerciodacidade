@@ -68,7 +68,7 @@
                             {{ trans('cruds.purchase.fields.internal') }}
                         </th>
                         <th>
-                            {{ trans('cruds.purchase.fields.company') }}
+                            {{ trans('cruds.purchase.fields.id_payment') }}
                         </th>
                         <th>
                             {{ trans('cruds.purchase.fields.created_at') }}
@@ -132,7 +132,7 @@
                                 {{ $purchase->internal ?? '' }}
                             </td>
                             <td>
-                                {{ $purchase->company->name ?? '' }}
+                                {{ $purchase->id_payment ?? '' }}
                             </td>
                             <td>
                                 {{ $purchase->created_at ?? '' }}
