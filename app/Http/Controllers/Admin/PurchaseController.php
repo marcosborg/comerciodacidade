@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyPurchaseRequest;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
+use App\Models\Company;
 use App\Models\Purchase;
 use App\Models\User;
 use Gate;
@@ -18,7 +19,7 @@ class PurchaseController extends Controller
     {
         abort_if(Gate::denies('purchase_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $purchases = Purchase::with(['user'])->get();
+        $purchases = Purchase::with(['user', 'company'])->get();
 
         return view('admin.purchases.index', compact('purchases'));
     }
@@ -29,7 +30,9 @@ class PurchaseController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.purchases.create', compact('users'));
+        $companies = Company::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.purchases.create', compact('companies', 'users'));
     }
 
     public function store(StorePurchaseRequest $request)
@@ -45,9 +48,11 @@ class PurchaseController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $purchase->load('user');
+        $companies = Company::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.purchases.edit', compact('purchase', 'users'));
+        $purchase->load('user', 'company');
+
+        return view('admin.purchases.edit', compact('companies', 'purchase', 'users'));
     }
 
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
@@ -61,7 +66,7 @@ class PurchaseController extends Controller
     {
         abort_if(Gate::denies('purchase_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $purchase->load('user');
+        $purchase->load('user', 'company');
 
         return view('admin.purchases.show', compact('purchase'));
     }

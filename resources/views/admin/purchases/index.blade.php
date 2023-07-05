@@ -53,6 +53,24 @@
                             {{ trans('cruds.purchase.fields.qty') }}
                         </th>
                         <th>
+                            {{ trans('cruds.purchase.fields.cart') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.purchase.fields.address') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.purchase.fields.method') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.purchase.fields.payed') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.purchase.fields.internal') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.purchase.fields.company') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.purchase.fields.created_at') }}
                         </th>
                         <th>
@@ -96,6 +114,25 @@
                             </td>
                             <td>
                                 {{ $purchase->qty ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->cart ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->address ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->method ?? '' }}
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $purchase->payed ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $purchase->payed ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                {{ $purchase->internal ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->company->name ?? '' }}
                             </td>
                             <td>
                                 {{ $purchase->created_at ?? '' }}

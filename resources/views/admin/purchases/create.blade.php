@@ -94,6 +94,61 @@
                 <span class="help-block">{{ trans('cruds.purchase.fields.qty_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="cart">{{ trans('cruds.purchase.fields.cart') }}</label>
+                <textarea class="form-control {{ $errors->has('cart') ? 'is-invalid' : '' }}" name="cart" id="cart">{{ old('cart') }}</textarea>
+                @if($errors->has('cart'))
+                    <span class="text-danger">{{ $errors->first('cart') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.cart_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="address">{{ trans('cruds.purchase.fields.address') }}</label>
+                <textarea class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" name="address" id="address">{{ old('address') }}</textarea>
+                @if($errors->has('address'))
+                    <span class="text-danger">{{ $errors->first('address') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.address_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="method">{{ trans('cruds.purchase.fields.method') }}</label>
+                <input class="form-control {{ $errors->has('method') ? 'is-invalid' : '' }}" type="text" name="method" id="method" value="{{ old('method', '') }}">
+                @if($errors->has('method'))
+                    <span class="text-danger">{{ $errors->first('method') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.method_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <div class="form-check {{ $errors->has('payed') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="payed" value="0">
+                    <input class="form-check-input" type="checkbox" name="payed" id="payed" value="1" {{ old('payed', 0) == 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="payed">{{ trans('cruds.purchase.fields.payed') }}</label>
+                </div>
+                @if($errors->has('payed'))
+                    <span class="text-danger">{{ $errors->first('payed') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.payed_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="internal">{{ trans('cruds.purchase.fields.internal') }}</label>
+                <input class="form-control {{ $errors->has('internal') ? 'is-invalid' : '' }}" type="number" name="internal" id="internal" value="{{ old('internal', '') }}" step="1">
+                @if($errors->has('internal'))
+                    <span class="text-danger">{{ $errors->first('internal') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.internal_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="company_id">{{ trans('cruds.purchase.fields.company') }}</label>
+                <select class="form-control select2 {{ $errors->has('company') ? 'is-invalid' : '' }}" name="company_id" id="company_id">
+                    @foreach($companies as $id => $entry)
+                        <option value="{{ $id }}" {{ old('company_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('company'))
+                    <span class="text-danger">{{ $errors->first('company') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.company_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

@@ -190,6 +190,28 @@ Checkout
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="mbway_modal" tabindex="-1" aria-labelledby="mbway_modal_Label" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="mbway_modal_Label">MBWAY</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="/theme/assets/img/payment/mbway-logo.png" alt="MBWay" class="img-fluid">
+                <div class="form-group">
+                    <label>Número de telemóvel</label>
+                    <input type="text" class="form-control" id="celphone">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" onclick="askMbwayPayment()">Pedir pagamento</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('styles')
 <style>

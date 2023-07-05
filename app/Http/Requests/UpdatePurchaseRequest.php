@@ -43,6 +43,16 @@ class UpdatePurchaseRequest extends FormRequest
                 'min:-2147483648',
                 'max:2147483647',
             ],
+            'method' => [
+                'string',
+                'nullable',
+            ],
+            'internal' => [
+                'nullable',
+                'integer',
+                'min:-2147483648',
+                'max:2147483647',
+            ],
         ];
     }
 }

@@ -97,6 +97,54 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.purchase.fields.cart') }}
+                        </th>
+                        <td>
+                            {{ $purchase->cart }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.address') }}
+                        </th>
+                        <td>
+                            {{ $purchase->address }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.method') }}
+                        </th>
+                        <td>
+                            {{ $purchase->method }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.payed') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $purchase->payed ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.internal') }}
+                        </th>
+                        <td>
+                            {{ $purchase->internal }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.company') }}
+                        </th>
+                        <td>
+                            {{ $purchase->company->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.purchase.fields.created_at') }}
                         </th>
                         <td>

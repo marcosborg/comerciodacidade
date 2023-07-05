@@ -99,7 +99,7 @@
         let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
         $.extend(true, $.fn.dataTable.defaults, {
             orderCellsTop: true,
-            order: [[ 1, 'desc' ]],
+            order: [[ 8, 'desc' ]],
             pageLength: 100,
         });
         let table = $('.datatable-Purchase:not(.ajaxTable)').DataTable({ buttons: dtButtons })

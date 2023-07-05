@@ -125,36 +125,117 @@
 </div>
 @endif
 <script>
-    generatePayment = (type) => {
-        $('#payment_methods').modal('hide');
-        let data = {
-            cart: {!! collect(session()->get('cart')) !!},
-            user: {!! $user !!},
-            address: {!! $address !!},
-            type: type,
+    askMbwayPayment = () => {
+
+        if ($('#celphone').val() !== ''){
+            
+            $.LoadingOverlay('show', {
+                image: '',
+                text: 'Operação financeira inicializada com sucesso'
+            });
+
+            let data = {
+                cart: {!! collect(session()->get('cart')) !!},
+                user: {!! $user !!},
+                address: {!! $address !!},
+                type: 'mbway',
+                celphone: $('#celphone').val()
+            }
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: '/cart/generate-payments',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {  
+                    // verificar pagamento
+                    setInterval(() => {
+                        checkMbwayPayment(response.IdPedido);
+                    }, 10000);
+                },
+                error: function(xhr, status, error) {
+                    $.LoadingOverlay('hide');
+                    console.error(error);
+                }
+            });
+        } else {
+            Swal.fire('Validação', 'Número de telemóvel necessário', 'error');
         }
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-        $.LoadingOverlay('show');
+    }
 
-        $.ajax({
-            url: '/cart/generate-payments',
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            },
-            success: function(response) {
-                $.LoadingOverlay('hide');
-                // Lógica de manipulação de sucesso da resposta
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                $.LoadingOverlay('hide');
-                // Lógica de manipulação de erro
-                console.error(error);
+    checkMbwayPayment = (idPedido) => {
+        $.get('/cart/check-mbway-payment/' + idPedido).then((resp) => {
+            if(resp == 'Operação financeira concluída com sucesso'){
+                $('.loadingoverlay > div').html(resp);
+                setTimeout(() => {
+                    $.LoadingOverlay('hide');
+                    Swal.fire(resp, 'Pode continuar', 'success').then(() => {
+                        deleteCart();
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+                    });
+                }, 1000);
+            } else if (resp == 'Operação financeira inicializada com sucesso' || resp == 'Operação financeira não encontrada') {
+                $('.loadingoverlay > div').html('Aguardamos conclusão da operação');
+            } else {
+                setTimeout(() => {
+                    $.LoadingOverlay('hide');
+                    Swal.fire('Pagamento cancelado', resp, 'error').then(() => {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+                    });
+                }, 1000);
             }
         });
+    }
+
+    generatePayment = (type) => {
+
+        $('#payment_methods').modal('hide');
+
+        switch (type) {
+            case 'mbway':
+                $('#mbway_modal').modal('show');
+                break;
+            default:
+                let data = {
+                    cart: {!! collect(session()->get('cart')) !!},
+                    user: {!! $user !!},
+                    address: {!! $address !!},
+                    type: type,
+                }
+            
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    url: '/cart/generate-payments',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        $.LoadingOverlay('hide');
+                        // Lógica de manipulação de sucesso da resposta
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        $.LoadingOverlay('hide');
+                        // Lógica de manipulação de erro
+                        console.error(error);
+                    }
+                });
+            break;
+        }
+
     }
 </script>
