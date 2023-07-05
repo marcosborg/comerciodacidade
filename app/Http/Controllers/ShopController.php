@@ -23,7 +23,6 @@ class ShopController extends Controller
 
     public function product(Request $request)
     {
-
         $product = ShopProduct::find($request->id)->load('shop_product_features', 'shop_product_variations', 'shop_product_categories.company.shop_company');
 
         return view('website.shop.product', compact('product'));
@@ -36,7 +35,7 @@ class ShopController extends Controller
         $user = auth()->user();
         $address = null;
 
-        if($user){
+        if ($user) {
             $address = $user->address;
         }
 
@@ -52,7 +51,7 @@ class ShopController extends Controller
 
         $address = null;
 
-        if($user){
+        if ($user) {
             $address = $user->address;
         }
 

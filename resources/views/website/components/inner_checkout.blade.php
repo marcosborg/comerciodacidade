@@ -112,7 +112,11 @@
         @if ($address)
         <div class="card shadow pt-2 mt-4">
             <div class="card-body">
+                @if (isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']))
                 <button class="btn btn-orange d-block w-100" type="button" onclick="paymentMethods()">Concluir</button>
+                @else
+                <button class="btn btn-orange d-block w-100" type="button">Reservar</button>
+                @endif
             </div>
         </div>
         @endif
@@ -152,7 +156,7 @@
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 },
-                success: function(response) {  
+                success: function(response) {
                     // verificar pagamento
                     setInterval(() => {
                         checkMbwayPayment(response.IdPedido);

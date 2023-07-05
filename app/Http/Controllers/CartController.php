@@ -20,7 +20,7 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
-        $product = ShopProduct::find($request->product_id)->load('shop_product_categories.company', 'tax');
+        $product = ShopProduct::find($request->product_id)->load('shop_product_categories.company.ifthenPay', 'tax');
 
         // Recupera o carrinho atual da sessão
         $cart = session()->get('cart', []);
@@ -224,7 +224,13 @@ class CartController extends Controller
 
         $lastPurchase = Purchase::whereHas('product.shop_product_categories', function ($shop_product_categories) use ($company_id) {
             $shop_product_categories->where('company_id', $company_id);
-        })->latest()->first()->load('product.shop_product_categories');
+        })->latest()->first();
+
+        $internal = 1;
+
+        if($lastPurchase) {
+            $internal = $lastPurchase->internal + 1;
+        }
 
         $purchase = new Purchase;
         $purchase->type = 'product';
@@ -240,7 +246,7 @@ class CartController extends Controller
         $purchase->address = json_encode($request->address);
         $purchase->method = $request->type;
         $purchase->payed = 0;
-        $purchase->internal = $lastPurchase->internal + 1;
+        $purchase->internal = $internal;
         $purchase->save();
 
         $curl = curl_init();
@@ -262,6 +268,7 @@ class CartController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
+
         return $response;
     }
 

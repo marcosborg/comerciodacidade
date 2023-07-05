@@ -71,4 +71,9 @@ class Company extends Model implements HasMedia
         return $this->hasOne(ShopCompany::class);
     }
 
+    public function ifthenPay()
+    {
+        return $this->hasOne(IfthenPay::class);
+    }
+
 }
