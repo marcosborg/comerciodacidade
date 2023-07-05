@@ -49,10 +49,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.ifthenPay.fields.antiphishing') }}
+                            {{ trans('cruds.ifthenPay.fields.mb_antiphishing') }}
                         </th>
                         <td>
-                            {{ $ifthenPay->antiphishing }}
+                            {{ $ifthenPay->mb_antiphishing }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.ifthenPay.fields.mbway_antiphishing') }}
+                        </th>
+                        <td>
+                            {{ $ifthenPay->mbway_antiphishing }}
                         </td>
                     </tr>
                 </tbody>

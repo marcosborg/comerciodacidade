@@ -277,6 +277,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('ifthen-pays/destroy', 'IfthenPayController@massDestroy')->name('ifthen-pays.massDestroy');
     Route::resource('ifthen-pays', 'IfthenPayController');
 
+    // Payment Method
+    Route::prefix('payment-methods')->group(function () {
+        Route::get('/', 'PaymentMethodController@index');
+        Route::post('update', 'PaymentMethodController@update');
+    });
+
     // System Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 

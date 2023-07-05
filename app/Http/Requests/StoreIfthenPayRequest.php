@@ -29,9 +29,13 @@ class StoreIfthenPayRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'antiphishing' => [
+            'mb_antiphishing' => [
                 'string',
-                'required',
+                'nullable',
+            ],
+            'mbway_antiphishing' => [
+                'string',
+                'nullable',
             ],
         ];
     }

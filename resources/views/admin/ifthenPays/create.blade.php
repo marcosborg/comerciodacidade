@@ -38,12 +38,20 @@
                 <span class="help-block">{{ trans('cruds.ifthenPay.fields.mbway_key_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="antiphishing">{{ trans('cruds.ifthenPay.fields.antiphishing') }}</label>
-                <input class="form-control {{ $errors->has('antiphishing') ? 'is-invalid' : '' }}" type="text" name="antiphishing" id="antiphishing" value="{{ old('antiphishing', '') }}" required>
-                @if($errors->has('antiphishing'))
-                    <span class="text-danger">{{ $errors->first('antiphishing') }}</span>
+                <label for="mb_antiphishing">{{ trans('cruds.ifthenPay.fields.mb_antiphishing') }}</label>
+                <input class="form-control {{ $errors->has('mb_antiphishing') ? 'is-invalid' : '' }}" type="text" name="mb_antiphishing" id="mb_antiphishing" value="{{ old('mb_antiphishing', '') }}">
+                @if($errors->has('mb_antiphishing'))
+                    <span class="text-danger">{{ $errors->first('mb_antiphishing') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.ifthenPay.fields.antiphishing_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.ifthenPay.fields.mb_antiphishing_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="mbway_antiphishing">{{ trans('cruds.ifthenPay.fields.mbway_antiphishing') }}</label>
+                <input class="form-control {{ $errors->has('mbway_antiphishing') ? 'is-invalid' : '' }}" type="text" name="mbway_antiphishing" id="mbway_antiphishing" value="{{ old('mbway_antiphishing', '') }}">
+                @if($errors->has('mbway_antiphishing'))
+                    <span class="text-danger">{{ $errors->first('mbway_antiphishing') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.ifthenPay.fields.mbway_antiphishing_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
