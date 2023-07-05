@@ -7,7 +7,7 @@
     </div>
     <form action="/admin/payment-methods/update" method="post">
         @csrf
-        <input type="hidden" name="company_id" value="{{ $company->id }}">
+        <input type="hidden" name="id" value="{{ $ifthen_pay->id }}">
         <div class="card-body">
             <div class="alert alert-info" role="alert">
                 <p>Estamos preparados para processar pagamentos em <span

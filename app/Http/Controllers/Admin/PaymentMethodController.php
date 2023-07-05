@@ -29,12 +29,18 @@ class PaymentMethodController extends Controller
             $ifthen_pay->save();
         }
 
-        return view('admin.paymentMethods.index', compact('ifthen_pay', 'company'));
+        return view('admin.paymentMethods.index', compact('ifthen_pay'));
     }
 
     public function update(Request $request)
     {
-        return $request;
+
+        $ifthen_pay = IfthenPay::find($request->id);
+        $ifthen_pay->mb_key = $request->mb_key;
+        $ifthen_pay->mbway_key = $request->mbway_key;
+        $ifthen_pay->save();
+
+        return redirect()->back()->with('message', 'Atualizado com sucesso');
     }
 
 }
