@@ -178,14 +178,18 @@ Checkout
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']) && array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key'] != null)
                 <button class="btn btn-outline-info d-block w-100">
                     <img src="/theme/assets/img/payment/mbway-logo.png" alt="MBWay" class="img-fluid"
                         onclick="generatePayment('mbway')">
                 </button>
+                @endif
+                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']) && array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key'] != null)
                 <button class="btn btn-outline-info d-block w-100 mt-3">
                     <img src="/theme/assets/img/payment/mb-logo.png" alt="Multibanco" class="img-fluid"
                         onclick="generatePayment('multibanco')">
                 </button>
+                @endif
             </div>
         </div>
     </div>
@@ -212,6 +216,9 @@ Checkout
         </div>
     </div>
 </div>
+@if (array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'] && array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key'])
+<input type="hidden" id="mbway_key" value="{{ array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key'] }}">    
+@endif
 @endsection
 @section('styles')
 <style>

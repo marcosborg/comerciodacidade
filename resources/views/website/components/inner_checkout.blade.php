@@ -112,7 +112,12 @@
         @if ($address)
         <div class="card shadow pt-2 mt-4">
             <div class="card-body">
-                @if (isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']))
+                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'])
+                &&
+                (array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key']
+                != null ||
+                array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key']
+                != null))
                 <button class="btn btn-orange d-block w-100" type="button" onclick="paymentMethods()">Concluir</button>
                 @else
                 <button class="btn btn-orange d-block w-100" type="button">Reservar</button>
@@ -130,7 +135,6 @@
 @endif
 <script>
     askMbwayPayment = () => {
-
         if ($('#celphone').val() !== ''){
             
             $.LoadingOverlay('show', {
@@ -157,6 +161,7 @@
                     'X-CSRF-TOKEN': csrfToken
                 },
                 success: function(response) {
+                    console.log(response);
                     // verificar pagamento
                     setInterval(() => {
                         checkMbwayPayment(response.IdPedido);
@@ -174,7 +179,8 @@
     }
 
     checkMbwayPayment = (idPedido) => {
-        $.get('/cart/check-mbway-payment/' + idPedido).then((resp) => {
+        let mbway_key = $('#mbway_key').val();
+        $.get('/cart/check-mbway-payment/' + idPedido + '/' + mbway_key).then((resp) => {
             console.log(resp);
             if(resp == 'Operação financeira concluída com sucesso'){
                 $('.loadingoverlay > div').html(resp);

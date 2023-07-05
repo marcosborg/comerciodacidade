@@ -10,14 +10,6 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-
-    private $MbWayKey;
-
-    public function __construct()
-    {
-        $this->MbWayKey = 'SXK-861353';
-    }
-
     public function addToCart(Request $request)
     {
         $product = ShopProduct::find($request->product_id)->load('shop_product_categories.company.ifthenPay', 'tax');
@@ -220,6 +212,8 @@ class CartController extends Controller
             $total = $total + ($item['product']['price'] * $item['quantity']);
         }
 
+        $MbWayKey = $cart[0]['product']['shop_product_categories'][0]['company']['ifthen_pay']['mbway_key'];
+
         $company_id = $cart[0]['product']['shop_product_categories'][0]['company_id'];
 
         $lastPurchase = Purchase::whereHas('product.shop_product_categories', function ($shop_product_categories) use ($company_id) {
@@ -254,7 +248,7 @@ class CartController extends Controller
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => 'mbway.ifthenpay.com/ifthenpaymbw.asmx/SetPedidoJSON?MbWayKey=' . $this->MbWayKey . '&canal=03&referencia=' . $purchase->id . '&valor=' . $total . '&nrtlm=' . $request->celphone . '&email=&descricao=',
+                CURLOPT_URL => 'mbway.ifthenpay.com/ifthenpaymbw.asmx/SetPedidoJSON?MbWayKey=' . $MbWayKey . '&canal=03&referencia=' . $purchase->id . '&valor=' . $total . '&nrtlm=' . $request->celphone . '&email=&descricao=',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -269,10 +263,14 @@ class CartController extends Controller
 
         curl_close($curl);
 
+        $purchase->id_payment = json_decode($response, true)['IdPedido'];
+        $purchase->save();
+
         return $response;
+        
     }
 
-    public function checkMbwayPayment($id_payment)
+    public function checkMbwayPayment($id_payment, $mbway_key)
     {
 
         $curl = curl_init();
@@ -280,7 +278,7 @@ class CartController extends Controller
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => 'mbway.ifthenpay.com/ifthenpaymbw.asmx/EstadoPedidosJSON?MbWayKey=' . $this->MbWayKey . '&canal=3&idspagamento=' . $id_payment,
+                CURLOPT_URL => 'mbway.ifthenpay.com/ifthenpaymbw.asmx/EstadoPedidosJSON?MbWayKey=' . $mbway_key . '&canal=3&idspagamento=' . $id_payment,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -307,7 +305,6 @@ class CartController extends Controller
             return json_encode($error);
         }
 
-        // Retorna a resposta como uma array
         return $data['EstadoPedidos'][0]['MsgDescricao'];
 
     }
