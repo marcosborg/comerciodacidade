@@ -187,7 +187,7 @@ Checkout
                         onclick="generatePayment('mbway')">
                 </button>
                 @endif
-                @if(isset(session()->get('cart')) && isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'])
+                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'])
                 &&
                 array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key']
                 != null)
