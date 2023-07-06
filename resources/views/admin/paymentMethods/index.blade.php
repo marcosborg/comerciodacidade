@@ -27,7 +27,8 @@
                     </div>
                     <div class="alert alert-info" role="alert">
                         Para receber as notificações automáticas dos pagamentos por referência multibanco, deve devolver
-                        à IFTHENPAY a sua chave antiphishing MB e o callback abaixo.
+                        à IFTHENPAY (<a href="mailto:suporte@ifthenpay.com">suporte@ifthenpay.com</a>) a sua chave
+                        antiphishing MB e o callback abaixo.
                     </div>
                     <div class="form-group">
                         <label>Chave antiphishing multibanco</label>
@@ -45,7 +46,8 @@
                         <input type="text" class="form-control" name="mbway_key" value="{{ $ifthen_pay->mbway_key }}">
                     </div>
                     <div class="alert alert-info" role="alert">
-                        Para receber as notificações automáticas dos pagamentos por MBWAY, deve devolver à IFTHENPAY a
+                        Para receber as notificações automáticas dos pagamentos por MBWAY, deve devolver à IFTHENPAY (<a
+                            href="mailto:suporte@ifthenpay.com">suporte@ifthenpay.com</a>) a
                         sua chave antiphishing MBWAY e o callback abaixo.
                     </div>
                     <div class="form-group">
