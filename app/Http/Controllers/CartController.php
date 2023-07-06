@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Models\ShopProduct;
 use App\Notifications\SendMbPayment;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CartController extends Controller
 {
@@ -360,6 +361,29 @@ class CartController extends Controller
 
         $purchase->user->notify(new SendMbPayment($data));
 
+    }
+
+    public function mbCallback(Request $request)
+    {
+        $purchase = Purchase::where('id_payment', $request->requestId)->first();
+        $mb_antiphishing = json_decode($purchase->cart)[0]->product->shop_product_categories[0]->company->ifthen_pay->mb_antiphishing;
+
+        abort_if($mb_antiphishing != $request->key, Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $purchase->payed = true;
+        $purchase->save();
+    }
+
+    public function mbwayCallback(Request $request)
+    {
+
+        $purchase = Purchase::where('id_payment', $request->idpedido)->first();
+        $mbway_antiphishing = json_decode($purchase->cart)[0]->product->shop_product_categories[0]->company->ifthen_pay->mbway_antiphishing;
+
+        abort_if($mbway_antiphishing != $request->chave, Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $purchase->payed = true;
+        $purchase->save();
     }
 
 }

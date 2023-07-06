@@ -29,6 +29,11 @@ Route::prefix('cart')->group(function () {
     Route::post('send-mb-payment', 'CartController@sendMbPayment');
 });
 
+Route::prefix('payments')->group(function(){
+    Route::get('mb-callback', 'CartController@mbCallback');
+    Route::get('mbway-callback', 'CartController@mbwayCallback');
+});
+
 Route::prefix('forms')->group(function () {
     Route::post('contact', 'WebsiteController@contact');
     Route::post('newsletter', 'WebsiteController@newsletter');
