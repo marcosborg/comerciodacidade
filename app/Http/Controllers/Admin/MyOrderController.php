@@ -48,4 +48,15 @@ class MyOrderController extends Controller
         return view('admin.myOrders.edit', compact('purchase'));
     }
 
+    public function update(Request $request)
+    {
+        $purchase = Purchase::find($request->purchase_id);
+
+        $purchase->payed = $request->payed;
+        $purchase->status = $request->status;
+        $purchase->save();
+
+        return redirect()->back()->with('message', 'Atualizado com sucesso.');
+    }
+
 }

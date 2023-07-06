@@ -24,10 +24,16 @@
                             {{ trans('cruds.purchase.fields.vat') }}
                         </th>
                         <th>
-                            {{ trans('cruds.purchase.fields.status') }}
+                            Pagamento
                         </th>
                         <th>
-                            {{ trans('cruds.purchase.fields.user') }}
+                            Pago
+                        </th>
+                        <th>
+                            Enviado
+                        </th>
+                        <th>
+                            Cliente
                         </th>
                         <th>
                             {{ trans('cruds.purchase.fields.total') }}
@@ -36,7 +42,7 @@
                             {{ trans('cruds.purchase.fields.qty') }}
                         </th>
                         <th>
-                            {{ trans('cruds.purchase.fields.created_at') }}
+                            Data
                         </th>
                         <th>
                             &nbsp;
@@ -47,7 +53,7 @@
                     @foreach($purchases as $key => $purchase)
                     <tr data-entry-id="{{ $purchase->id }}">
                         <td class="hide">
-
+                            {{ $purchase->id }}
                         </td>
                         <td>
                             {{ $purchase->name ?? '' }}
@@ -57,6 +63,13 @@
                         </td>
                         <td>
                             {{ $purchase->vat ?? '' }}%
+                        </td>
+                        <td>
+                            <span class="badge badge-primary">{{ $purchase->method }}</span>
+                        </td>
+                        <td>
+                            <span style="display:none">{{ $purchase->payed ?? '' }}</span>
+                            <input type="checkbox" disabled="disabled" {{ $purchase->payed ? 'checked' : '' }}>
                         </td>
                         <td>
                             <span style="display:none">{{ $purchase->status ?? '' }}</span>
@@ -99,7 +112,7 @@
         let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
         $.extend(true, $.fn.dataTable.defaults, {
             orderCellsTop: true,
-            order: [[ 8, 'desc' ]],
+            order: [[ 10, 'desc' ]],
             pageLength: 100,
         });
         let table = $('.datatable-Purchase:not(.ajaxTable)').DataTable({ buttons: dtButtons })
@@ -108,5 +121,8 @@
                 .columns.adjust();
         });
     });
+</script>
+<script>
+    console.log({!! $purchases !!})
 </script>
 @endsection

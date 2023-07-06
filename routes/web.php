@@ -276,6 +276,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::prefix('my-orders')->group(function () {
         Route::get('/', 'MyOrderController@index');
         Route::get('edit/{id}', 'MyOrderController@edit');
+        Route::post('update', 'MyOrderController@update');
     });
 
     // Ifthen Pay

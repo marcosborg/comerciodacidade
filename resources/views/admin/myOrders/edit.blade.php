@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.edit') }} {{ trans('cruds.purchase.title_singular') }}
+        Dados da compra
     </div>
 
     <div class="card-body">
@@ -14,6 +14,7 @@
                         <strong>Método de pagamento: </strong>{{ $purchase->method }}<br>
                         <strong>Id do pagamento: </strong>{{ $purchase->id_payment }}<br>
                         <strong>Estado do pagamento: </strong>{{ $purchase->payed ? 'pago' : 'Aguarda pagamento' }}<br>
+                        <strong>Estado do envio: </strong>{{ $purchase->status ? 'Enviado' : 'Aguarda envio' }}<br>
                         <strong>Total: </strong>€{{ $purchase->total }}
                     </div>
                 </div>
@@ -50,11 +51,40 @@
                         @endif
                     </div>
                 </div>
+                <div class="card">
+                    <form action="/admin/my-orders/update" method="post">
+                        @csrf
+                        <input type="hidden" name="purchase_id" value="{{ $purchase->id }}">
+                        <div class="card-header">
+                            Editar Compra
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Estado do pagamento</label>
+                                <select name="payed" class="form-control">
+                                    <option value="0" {{ !$purchase->payed ? 'selected' : '' }}>Aguarda pagamento
+                                    </option>
+                                    <option value="1" {{ $purchase->payed ? 'selected' : '' }}>Pago</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Estado do envio</label>
+                                <select name="status" class="form-control">
+                                    <option value="0" {{ !$purchase->status ? 'selected' : '' }}>Aguarda envio</option>
+                                    <option value="1" {{ $purchase->status ? 'selected' : '' }}>Enviado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-success">Gravar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+</div>
 
 
 @endsection
