@@ -189,7 +189,7 @@
                     Swal.fire(resp, 'Pode continuar', 'success').then(() => {
                         deleteCart();
                         setTimeout(() => {
-                            location.reload();
+                            window.location.href="/";
                         }, 500);
                     });
                 }, 1000);
