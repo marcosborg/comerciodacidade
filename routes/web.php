@@ -26,6 +26,7 @@ Route::prefix('cart')->group(function () {
     Route::post('update-billing-address', 'CartController@updateBillingAddress');
     Route::post('generate-payments', 'CartController@generatePayments');
     Route::get('check-mbway-payment/{id_payment}/{mbway_key}', 'CartController@checkMbwayPayment');
+    Route::post('send-mb-payment', 'CartController@sendMbPayment');
 });
 
 Route::prefix('forms')->group(function () {

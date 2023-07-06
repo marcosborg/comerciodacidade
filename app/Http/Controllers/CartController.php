@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Purchase;
 use App\Models\ShopProduct;
+use App\Notifications\SendMbPayment;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -213,6 +214,7 @@ class CartController extends Controller
         }
 
         $MbWayKey = $cart[0]['product']['shop_product_categories'][0]['company']['ifthen_pay']['mbway_key'];
+        $MbKey = $cart[0]['product']['shop_product_categories'][0]['company']['ifthen_pay']['mb_key'];
 
         $company_id = $cart[0]['product']['shop_product_categories'][0]['company_id'];
 
@@ -222,7 +224,7 @@ class CartController extends Controller
 
         $internal = 1;
 
-        if($lastPurchase) {
+        if ($lastPurchase) {
             $internal = $lastPurchase->internal + 1;
         }
 
@@ -243,31 +245,67 @@ class CartController extends Controller
         $purchase->internal = $internal;
         $purchase->save();
 
-        $curl = curl_init();
+        if ($request->type == 'mbway') {
+            $curl = curl_init();
 
-        curl_setopt_array(
-            $curl,
-            array(
-                CURLOPT_URL => 'mbway.ifthenpay.com/ifthenpaymbw.asmx/SetPedidoJSON?MbWayKey=' . $MbWayKey . '&canal=03&referencia=' . $purchase->id . '&valor=' . $total . '&nrtlm=' . $request->celphone . '&email=&descricao=',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-            )
-        );
+            curl_setopt_array(
+                $curl,
+                array(
+                    CURLOPT_URL => 'mbway.ifthenpay.com/ifthenpaymbw.asmx/SetPedidoJSON?MbWayKey=' . $MbWayKey . '&canal=03&referencia=' . $purchase->id . '&valor=' . $total . '&nrtlm=' . $request->celphone . '&email=&descricao=',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                )
+            );
 
-        $response = curl_exec($curl);
+            $response = curl_exec($curl);
 
-        curl_close($curl);
+            curl_close($curl);
 
-        $purchase->id_payment = json_decode($response, true)['IdPedido'];
-        $purchase->save();
+            $purchase->id_payment = json_decode($response, true)['IdPedido'];
+            $purchase->save();
+
+        } else {
+
+            $curl = curl_init();
+
+            curl_setopt_array(
+                $curl,
+                array(
+                    CURLOPT_URL => 'https://ifthenpay.com/api/multibanco/reference/init',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => '{
+                        "mbKey": "' . $MbKey . '",
+                        "orderId": "' . $purchase->id . '",
+                        "amount": "' . $total . '",
+                    }',
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/json',
+                    ),
+                )
+            );
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+            $purchase->id_payment = json_decode($response, true)['RequestId'];
+            $purchase->save();
+
+        }
 
         return $response;
-        
+
     }
 
     public function checkMbwayPayment($id_payment, $mbway_key)
@@ -306,6 +344,21 @@ class CartController extends Controller
         }
 
         return $data['EstadoPedidos'][0]['MsgDescricao'];
+
+    }
+
+    public function sendMbPayment(Request $request)
+    {
+
+        $purchase = Purchase::where('id_payment', $request->requestId)->first()->load('user');
+
+        $data = [
+            'purchase' => $purchase,
+            'user' => $purchase->user,
+            'reference' => $request->reference
+        ];
+
+        $purchase->user->notify(new SendMbPayment($data));
 
     }
 

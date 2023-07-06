@@ -178,13 +178,19 @@ Checkout
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']) && array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key'] != null)
+                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'])
+                &&
+                array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key']
+                != null)
                 <button class="btn btn-outline-info d-block w-100">
                     <img src="/theme/assets/img/payment/mbway-logo.png" alt="MBWay" class="img-fluid"
                         onclick="generatePayment('mbway')">
                 </button>
                 @endif
-                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']) && array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key'] != null)
+                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'])
+                &&
+                array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key']
+                != null)
                 <button class="btn btn-outline-info d-block w-100 mt-3">
                     <img src="/theme/assets/img/payment/mb-logo.png" alt="Multibanco" class="img-fluid"
                         onclick="generatePayment('multibanco')">
@@ -216,9 +222,35 @@ Checkout
         </div>
     </div>
 </div>
-@if (array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'] && array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key'])
-<input type="hidden" id="mbway_key" value="{{ array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key'] }}">    
+<!-- Modal -->
+<div class="modal fade" id="mb_modal" tabindex="-1" aria-labelledby="mb_modal_Label" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="mb_modal_Label">MULTIBANCO</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img src="/theme/assets/img/payment/mb-logo.png" alt="MBWay" class="img-fluid">
+                </div>
+                <table class="table table-striped">
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-primary" onclick="sendMbPayment()">Enviar por email</button>
+            </div>
+        </div>
+    </div>
+</div>
+@if (array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'] &&
+array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key'])
+<input type="hidden" id="mbway_key"
+    value="{{ array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key'] }}">
 @endif
+<input type="hidden" id="RequestId">
 @endsection
 @section('styles')
 <style>
@@ -381,5 +413,37 @@ Checkout
     paymentMethods = () => {
         $('#payment_methods').modal('show');
     }
+    sendMbPayment = () => {
+        $.LoadingOverlay('show');
+        let reference = $('#mb_modal table').html();
+        let requestId = $('#RequestId').val();
+        let data = {
+            reference: reference,
+            requestId: requestId
+        };
+        $.ajax({
+            url: '/cart/send-mb-payment',
+            type: 'POST',
+            data: data,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+            },
+            success: function(resp) {
+                $.LoadingOverlay('hide');
+                Swal.fire('Enviado com sucesso', 'Pode consultar o seu email', 'success').then(() => {
+                    deleteCart();
+                    setTimeout(() => {
+                        window.location.href="/";
+                    }, 500);
+                });
+                console.log(resp);
+            },
+            error: function(error) {
+                $.LoadingOverlay('hide');
+                console.log(error);
+            }
+        });
+    }
+
 </script>
 @endsection

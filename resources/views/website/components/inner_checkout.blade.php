@@ -218,6 +218,7 @@
                 $('#mbway_modal').modal('show');
                 break;
             default:
+                $.LoadingOverlay('show');
                 let data = {
                     cart: {!! collect(session()->get('cart')) !!},
                     user: {!! $user !!},
@@ -235,10 +236,24 @@
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
                     },
-                    success: function(response) {
+                    success: function(resp) {
                         $.LoadingOverlay('hide');
-                        // Lógica de manipulação de sucesso da resposta
-                        console.log(response);
+                        $('#mb_modal').modal('show');
+                        let html = '<tr>';
+                        html += '<th>Entidade</th>';
+                        html += '<td>' + resp.Entity + '</td>';
+                        html += '</tr>';
+                        html += '<tr>';
+                        html += '<th>Referência</th>';
+                        html += '<td>' + resp.Reference.replace(/(\d{3})(?=\d)/g, "$1 ") + '</td>';
+                        html += '</tr>';
+                        html += '<tr>';
+                        html += '<th>Valor</th>';
+                        html += '<td>€ ' + parseFloat(resp.Amount).toFixed(2) + '</td>';
+                        html += '</tr>';
+                        $('#mb_modal tbody').html(html);~
+                        $('#RequestId').val(resp.RequestId);
+                        console.log(resp);
                     },
                     error: function(xhr, status, error) {
                         $.LoadingOverlay('hide');

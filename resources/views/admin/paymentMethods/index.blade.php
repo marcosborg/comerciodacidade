@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label>Callback MULTIBANCO</label>
                         <textarea class="form-control"
-                            disabled>https://comerciodacidade.pt/payments/mb-callback?chave=[CHAVE_ANTI_PHISHING]&referencia=[REFERENCIA]&idpedido=[ID_TRANSACAO]&valor=[VALOR]&datahorapag=[DATA_HORA_PAGAMENTO]&estado=[ESTADO]</textarea>
+                            disabled>https://comerciodacidade.pt/payments/mb-callback?key=[ANTI_PHISHING_KEY]&orderId=[ORDER_ID]&amount=[AMOUNT]&requestId=[REQUEST_ID]&entity=[ENTITY]&reference=[REFERENCE]&payment_datetime=[PAYMENT_DATETIME]</textarea>
                     </div>
                 </div>
                 <div class="col">
@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <label>Callback MBWAY</label>
                         <textarea class="form-control"
-                            disabled>https://comerciodacidade.pt/payments/mbway-callback?key=[ANTI_PHISHING_KEY]&orderId=[ORDER_ID]&amount=[AMOUNT]&requestId=[REQUEST_ID]&entity=[ENTITY]&reference=[REFERENCE]&payment_datetime=[PAYMENT_DATETIME]</textarea>
+                            disabled>https://comerciodacidade.pt/payments/mbway-callback?chave=[CHAVE_ANTI_PHISHING]&referencia=[REFERENCIA]&idpedido=[ID_TRANSACAO]&valor=[VALOR]&datahorapag=[DATA_HORA_PAGAMENTO]&estado=[ESTADO]</textarea>
                     </div>
                 </div>
             </div>
