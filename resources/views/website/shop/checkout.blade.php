@@ -14,7 +14,7 @@ Checkout
     <div class="container" id="inner_checkout"></div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="create_address_modal" tabindex="-1" aria-labelledby="create_address_label"
+<div class="modal fade" id="create_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="create_address_label"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -62,7 +62,7 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="edit_address_modal" tabindex="-1" aria-labelledby="edit_address_label" aria-hidden="true">
+<div class="modal fade" id="edit_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit_address_label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -115,7 +115,7 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="edit_billing_address_modal" tabindex="-1" aria-labelledby="edit_billing_address_label"
+<div class="modal fade" id="edit_billing_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit_billing_address_label"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -170,7 +170,7 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="payment_methods" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="payment_methods" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -201,7 +201,7 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="mbway_modal" tabindex="-1" aria-labelledby="mbway_modal_Label" aria-hidden="true">
+<div class="modal fade" id="mbway_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mbway_modal_Label" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -223,7 +223,7 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="mb_modal" tabindex="-1" aria-labelledby="mb_modal_Label" aria-hidden="true">
+<div class="modal fade" id="mb_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mb_modal_Label" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
