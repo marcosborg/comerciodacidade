@@ -103,13 +103,15 @@
                         <div class="row">
                             @foreach ($companies_row as $company)
                             <div class="col">
-                                <div class="card">
-                                    <img class="card-img-top"
-                                        style="height: 15vh; background-image: url('{{ $company->logo ? $company->logo->getUrl() : 'https://placehold.co/600x400?text=' . $company->name }}'); background-size: cover; background-position: center center;">
-                                    <div class="card-body">
-                                        <p class="card-title text-uppercase">{{ $company->name }}</p>
+                                <a href="/lojas/loja/{{ $company->id }}/{{ Str::slug($company->name, '-') }}">
+                                    <div class="card">
+                                        <img class="card-img-top"
+                                            style="height: 15vh; background-image: url('{{ $company->logo ? $company->logo->getUrl() : 'https://placehold.co/600x400?text=' . $company->name }}'); background-size: cover; background-position: center center;">
+                                        <div class="card-body">
+                                            <p class="card-title text-uppercase">{{ $company->name }}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                             @endforeach
                         </div>

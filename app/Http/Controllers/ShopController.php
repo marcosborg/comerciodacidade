@@ -96,11 +96,12 @@ class ShopController extends Controller
     public function company($company_id)
     {
         $shop_categories = ShopCategory::orderBy('name')->get();
-        $company = Company::find($company_id)->load('shop_company');
+        $company = Company::find($company_id)->load('shop_company.shop_company_schedules');
+        $products = ShopProduct::whereHas('shop_product_categories', function ($query) use ($company) {
+            $query->where('company_id', $company->id);
+        })->get()->load('shop_product_categories');        
 
-        return $company;
-
-        return view('website.shop.company', compact('shop_categories'));
+        return view('website.shop.company', compact('shop_categories', 'products', 'company'));
     }
 
 }
