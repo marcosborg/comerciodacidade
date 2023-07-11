@@ -17,18 +17,17 @@ class ShopController extends Controller
     public function __construct()
     {
         view()->share('pages', Page::all());
+        view()->share('shop_categories', ShopCategory::all());
     }
 
     public function index()
     {
 
-        $shop_categories = ShopCategory::orderBy('name')->get();
-
         $shop_categories_slide = ShopCategory::inRandomOrder()->get()->chunk(4);
         $shop_products = ShopProduct::inRandomOrder()->limit(21)->get()->chunk(3);
         $companies = Company::inRandomOrder()->limit(20)->get()->chunk(4);
 
-        return view('website.shop.index', compact('shop_categories', 'shop_categories_slide', 'shop_products', 'companies'));
+        return view('website.shop.index', compact('shop_categories_slide', 'shop_products', 'companies'));
     }
 
     public function product(Request $request)
@@ -78,7 +77,6 @@ class ShopController extends Controller
 
     public function category($category_id)
     {
-        $shop_categories = ShopCategory::orderBy('name')->get();
         $category = ShopCategory::find($category_id);
 
         $companies = Company::whereHas('shop_company', function ($query) use ($category) {
@@ -91,7 +89,7 @@ class ShopController extends Controller
             $query->where('id', $category->id);
         })->limit(20)->get();
 
-        return view('website.shop.category', compact('shop_categories', 'category', 'companies', 'products'));
+        return view('website.shop.category', compact('category', 'companies', 'products'));
     }
 
     public function company($company_id)

@@ -10,24 +10,7 @@
 <div class="container pt-5">
     <div class="row">
         <div class="col-lg-4 col-md-5 col-sm-12">
-            <div class="card mb-5">
-                <div class="card-header">
-                    Pesquisar nas lojas
-                </div>
-                <div class="card-body">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="O que procura?">
-                        <button class="btn btn-orange" type="button"><i class="bi bi-search"></i></button>
-                    </div>
-                    <div class="list-group">
-                        @foreach ($shop_categories as $category)
-                        <a href="/lojas/categoria/{{ $category->id }}/{{ Str::slug($category->name, '-') }}"
-                            class="list-group-item list-group-item-action">{{ $category->name
-                            }}</a>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+            <x-search :shop_categories="$shop_categories" />
         </div>
         <div class="col">
             <div id="categories_slider" class="carousel slide mb-5">

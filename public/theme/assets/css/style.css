@@ -1600,3 +1600,10 @@ ul.dropdown-menu {
   background-color: #ffffff;
   color: #af5a21;
 }
+
+.list-group-item.active {
+  z-index: 2;
+  color: #ffffff;
+  background-color: #e2742b;
+  border-color: #e2742b;
+}
