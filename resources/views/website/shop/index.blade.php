@@ -37,13 +37,15 @@
                         <div class="row">
                             @foreach ($shop_categories as $category)
                             <div class="col">
-                                <div class="card">
-                                    <img class="card-img-top"
-                                        style="height: 15vh; background-image: url('{{ $category->image->getUrl() }}'); background-size: cover; background-position: center center;">
-                                    <div class="card-body">
-                                        <p class="card-title text-uppercase">{{ $category->name }}</p>
+                                <a href="/lojas/categoria/{{ $category->id }}/{{ Str::slug($category->name, '-') }}">
+                                    <div class="card">
+                                        <img class="card-img-top"
+                                            style="height: 15vh; background-image: url('{{ $category->image->getUrl() }}'); background-size: cover; background-position: center center;">
+                                        <div class="card-body">
+                                            <p class="card-title text-uppercase">{{ $category->name }}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                             @endforeach
                         </div>

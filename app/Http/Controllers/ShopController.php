@@ -75,4 +75,32 @@ class ShopController extends Controller
         return view('website.components.inner_checkout', compact('products', 'total', 'user', 'address'));
     }
 
+    public function category($category_id)
+    {
+        $shop_categories = ShopCategory::orderBy('name')->get();
+        $category = ShopCategory::find($category_id);
+
+        $companies = Company::whereHas('shop_company', function ($query) use ($category) {
+            $query->whereHas('shop_categories', function ($q) use ($category) {
+                $q->where('id', $category->id);
+            });
+        })->get();
+
+        $products = ShopProduct::whereHas('shop_product_categories', function ($query) use ($category) {
+            $query->where('id', $category->id);
+        })->limit(20)->get();
+
+        return view('website.shop.category', compact('shop_categories', 'category', 'companies', 'products'));
+    }
+
+    public function company($company_id)
+    {
+        $shop_categories = ShopCategory::orderBy('name')->get();
+        $company = Company::find($company_id)->load('shop_company');
+
+        return $company;
+
+        return view('website.shop.company', compact('shop_categories'));
+    }
+
 }

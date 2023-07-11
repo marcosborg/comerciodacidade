@@ -11,6 +11,8 @@ Route::prefix('lojas')->group(function () {
     Route::get('produto/{id}/{slug}', 'ShopController@product');
     Route::get('checkout', 'ShopController@checkout');
     Route::get('inner-checkout', 'ShopController@innerCheckout');
+    Route::get('categoria/{category_id}/{slug}', 'ShopController@category');
+    Route::get('loja/{company_id}/{slug}', 'ShopController@company');
 });
 
 Route::prefix('cart')->group(function () {
@@ -29,7 +31,7 @@ Route::prefix('cart')->group(function () {
     Route::post('send-mb-payment', 'CartController@sendMbPayment');
 });
 
-Route::prefix('payments')->group(function(){
+Route::prefix('payments')->group(function () {
     Route::get('mb-callback', 'CartController@mbCallback');
     Route::get('mbway-callback', 'CartController@mbwayCallback');
 });
