@@ -10,7 +10,24 @@
 <div class="container pt-5">
     <div class="row">
         <div class="col-lg-4 col-md-5 col-sm-12">
-            <x-search :shop_categories="$shop_categories" />
+            <div class="card mb-5">
+                <div class="card-header">
+                    Pesquisar nas lojas
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="O que procura?">
+                        <button class="btn btn-orange" type="button"><i class="bi bi-search"></i></button>
+                    </div>
+                    <div class="list-group">
+                        @foreach ($shop_categories as $shop_category)
+                        <a href="/lojas/categoria/{{ $shop_category->id }}/{{ Str::slug($shop_category->name, '-') }}"
+                            class="list-group-item list-group-item-action">{{ $shop_category->name
+                            }}</a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col">
             <!-- ======= Portfolio Section ======= -->
@@ -36,10 +53,9 @@
                             class="col-lg-4 col-md-6 portfolio-item filter-{{ count($product->shop_product_sub_categories) > 0 ? $product->shop_product_sub_categories[0]->id : '' }} wow fadeInUp">
                             <div class="portfolio-wrap">
                                 <a href="/lojas/produto/{{ $product->id }}/{{ Str::slug($product->name, '-') }}">
-                                    <figure>
-                                        <img src="{{ $product->photos ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}"
-                                            class="img-fluid" style="width: 100%">
-                                    </figure>
+                                    <div
+                                        style="background-size: auto 100%; background-repeat: no-repeat; background-position: center center; background-image: url('{{ $product->photos ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}'); height:250px; width:100%;">
+                                    </div>
                                     <div class="portfolio-info p-2">
                                         <p>{{ $product->name }}</p>
                                     </div>
