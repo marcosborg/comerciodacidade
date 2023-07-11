@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\Page;
 use App\Models\ShopCategory;
 use App\Models\ShopProduct;
+use App\Models\ShopProductSubCategory;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -97,11 +98,22 @@ class ShopController extends Controller
     {
         $shop_categories = ShopCategory::orderBy('name')->get();
         $company = Company::find($company_id)->load('shop_company.shop_company_schedules');
+
+        return view('website.shop.company', compact('shop_categories', 'company'));
+    }
+
+    public function products($company_id)
+    {
+        $shop_categories = ShopCategory::orderBy('name')->get();
+        $company = Company::find($company_id)->load('shop_company.shop_company_schedules');
         $products = ShopProduct::whereHas('shop_product_categories', function ($query) use ($company) {
             $query->where('company_id', $company->id);
-        })->get()->load('shop_product_categories');        
+        })->get()->load('shop_product_sub_categories');
+        $shop_product_sub_categories = ShopProductSubCategory::whereHas('shop_product_category', function ($query) use ($company) {
+            $query->where('company_id', $company->id);
+        })->get();
 
-        return view('website.shop.company', compact('shop_categories', 'products', 'company'));
+        return view('website.shop.products', compact('shop_categories', 'products', 'company', 'shop_product_sub_categories'));
     }
 
 }

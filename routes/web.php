@@ -13,6 +13,7 @@ Route::prefix('lojas')->group(function () {
     Route::get('inner-checkout', 'ShopController@innerCheckout');
     Route::get('categoria/{category_id}/{slug}', 'ShopController@category');
     Route::get('loja/{company_id}/{slug}', 'ShopController@company');
+    Route::get('produtos/{company_id}/{slug}', 'ShopController@products');
 });
 
 Route::prefix('cart')->group(function () {

@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-lg-8 col-md-7 col-sm-12">
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-3">
@@ -49,45 +49,39 @@
                                 <i class="bi bi-envelope"></i> {{ $company->email }}
                                 {!! $company->shop_company ? $company->shop_company->contacts : '' !!}
                             </p>
-                            <a class="btn btn-orange">Produtos</a>
+                            <a class="btn btn-orange" href="/lojas/produtos/{{ $company->id }}/{{ Str::slug($company->name, '-') }}">Produtos</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card mb-3">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            {!! $company->shop_company->about !!}
-                        </div>
-                        <div class="col">
-                            <div id="product-photos" class="carousel slide">
-                                <div class="carousel-inner">
-                                    @foreach ($company->shop_company->photos as $key => $photo)
-                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                        <img src="{{ $photo->getUrl() }}" class="d-block w-100" alt="...">
-                                    </div>
-                                    @endforeach
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#product-photos"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#product-photos"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
+                    <div id="product-photos" class="carousel slide mb-5">
+                        <div class="carousel-inner">
+                            @foreach ($company->shop_company->photos as $key => $photo)
+                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                <img src="{{ $photo->getUrl() }}" class="d-block w-100" alt="...">
                             </div>
+                            @endforeach
                         </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#product-photos"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#product-photos"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
+                    {!! $company->shop_company->about !!}
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
                     <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ $company->shop_company->latitude }},{{ $company->shop_company->longitude }}&zoom=17&size=800x400&key=AIzaSyAAYYxvit-qTdOhu1Gr78b4GMHUirs_N_c"
-                        class="img-fluid">
+                        class="img-fluid" style="width: 100%">
                 </div>
             </div>
         </div>
@@ -113,12 +107,9 @@
         background-color: rgba(0, 0, 0, 0.5);
         z-index: -1;
     }
+
+    img {
+        max-width: 100%;
+    }
 </style>
 @endsection
-
-<script>
-    console.log({
-    products: {!! $products !!},
-    company: {!! $company !!},
-})
-</script>

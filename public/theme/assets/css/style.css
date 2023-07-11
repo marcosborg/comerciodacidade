@@ -714,12 +714,12 @@ section {
 # Portfolio
 --------------------------------------------------------------*/
 .portfolio {
-  padding: 60px 0;
+  padding: 0;
 }
 
 .portfolio #portfolio-flters {
   padding: 0;
-  margin: 0 0 35px 0;
+  margin: 0;
   list-style: none;
   text-align: center;
 }
@@ -752,6 +752,7 @@ section {
 .portfolio .portfolio-wrap {
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
   transition: 0.3s;
+  border-radius: 5px;
 }
 
 .portfolio .portfolio-wrap:hover {
@@ -765,7 +766,6 @@ section {
 }
 
 .portfolio .portfolio-item figure {
-  background: #000;
   overflow: hidden;
   height: 240px;
   position: relative;
@@ -859,7 +859,7 @@ section {
 .portfolio .portfolio-item .portfolio-info p {
   padding: 0;
   margin: 0;
-  color: #b8b8b8;
+  color: #e2742b;
   font-weight: 500;
   font-size: 14px;
   text-transform: uppercase;
