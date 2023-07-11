@@ -29,6 +29,8 @@
                 @endif
                 <li><a class="nav-link scrollto"
                         href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#contact">Contactos</a></li>
+                <li><a class="nav-link scrollto"
+                        href="/lojas">Lojas</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">

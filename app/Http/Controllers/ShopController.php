@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Country;
 use App\Models\Page;
+use App\Models\ShopCategory;
 use App\Models\ShopProduct;
 use Illuminate\Http\Request;
 
@@ -18,7 +20,14 @@ class ShopController extends Controller
 
     public function index()
     {
-        return view('website.shop.index');
+
+        $shop_categories = ShopCategory::orderBy('name')->get();
+
+        $shop_categories_slide = ShopCategory::inRandomOrder()->get()->chunk(4);
+        $shop_products = ShopProduct::inRandomOrder()->limit(21)->get()->chunk(3);
+        $companies = Company::inRandomOrder()->limit(20)->get()->chunk(4);
+
+        return view('website.shop.index', compact('shop_categories', 'shop_categories_slide', 'shop_products', 'companies'));
     }
 
     public function product(Request $request)
