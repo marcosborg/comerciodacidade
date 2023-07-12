@@ -32,7 +32,7 @@
                                 <i class="bi bi-envelope"></i> {{ $company->email }}
                                 {!! $company->shop_company ? $company->shop_company->contacts : '' !!}
                             </p>
-                            <a class="btn btn-orange" href="/lojas/produtos/{{ $company->id }}/{{ Str::slug($company->name, '-') }}">Produtos</a>
+                            <a class="btn btn-orange" href="/lojas/produtos/{{ $company->id }}/todos/{{ Str::slug($company->name, '-') }}">Produtos</a>
                         </div>
                     </div>
                 </div>

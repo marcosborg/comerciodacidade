@@ -114,12 +114,14 @@
                         @endif
                         @if ($product->attachment)
                         <div class="tab-pane fade" id="others" role="tabpanel">
-                            Anexo
+
                         </div>
                         @endif
                     </div>
                 </div>
             </div>
+            <a href="/lojas/produtos/{{ $product->shop_product_categories[0]->company_id }}/todos/{{ Str::slug($product->shop_product_categories[0]->company->name, '-') }}"
+                class="btn btn-orange mt-5 mb-5">Outros produtos da loja</a>
         </div>
     </div>
 </div>

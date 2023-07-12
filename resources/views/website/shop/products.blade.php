@@ -20,10 +20,12 @@
                         <button class="btn btn-orange" type="button"><i class="bi bi-search"></i></button>
                     </div>
                     <div class="list-group">
-                        @foreach ($shop_categories as $shop_category)
-                        <a href="/lojas/categoria/{{ $shop_category->id }}/{{ Str::slug($shop_category->name, '-') }}"
-                            class="list-group-item list-group-item-action">{{ $shop_category->name
-                            }}</a>
+                        <a href="/lojas/produtos/{{ $company->id }}/todos/{{ Str::slug($company->name, '-') }}"
+                            class="list-group-item list-group-item-action {{ $shop_product_category_id == 'todos'  ? 'active' : '' }}">Todos</a>
+                        @foreach ($shop_product_categories as $shop_product_category)
+                        <a href="/lojas/produtos/{{ $company->id }}/{{ $shop_product_category->id }}/{{ Str::slug($company->name, '-') }}"
+                            class="list-group-item list-group-item-action {{ $shop_product_category_id == $shop_product_category->id ? 'active' : '' }}">{{
+                            $shop_product_category->name }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -33,7 +35,7 @@
             <!-- ======= Portfolio Section ======= -->
             <section id="portfolio" class="portfolio">
                 <div class="container">
-
+                    @if (count($shop_product_sub_categories) > 0)
                     <div class="card mb-5">
                         <div class="card-body">
                             <ul id="portfolio-flters">
@@ -45,6 +47,7 @@
                             </ul>
                         </div>
                     </div>
+                    @endif
 
                     <div class="row portfolio-container">
 
@@ -96,10 +99,6 @@
 
 @section('scripts')
 <script>
-    console.log({
-            products: {!! $products !!},
-            company: {!! $company !!},
-            shop_product_sub_categories: {!! $shop_product_sub_categories !!}
-        });
+    console.log({!! $products !!});
 </script>
 @endsection
