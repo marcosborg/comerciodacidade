@@ -19,7 +19,7 @@
         @if (session()->get('cart'))
         @foreach (session()->get('cart') as $item)
         <div class="cart-item">
-            {{ $item['product']['name'] }}<br>€{{ $item['product']['price'] }} X {{ $item['quantity'] }}
+            {{ $item['product']['name'] }}{{ $item['variation'] ? ' (' . $item['variation'] . ')' : '' }}<br>€{{ $item['product']['price'] }} X {{ $item['quantity'] }}
         </div>
         @endforeach
         <div class="d-grid gap-2">

@@ -16,6 +16,12 @@ class CartController extends Controller
     {
         $product = ShopProduct::find($request->product_id)->load('shop_product_categories.company.ifthenPay', 'tax');
 
+        if ($request->shop_product_variation_name == null) {
+            $variation = null;
+        } else {
+            $variation = $request->shop_product_variation_name;
+        }
+
         // Recupera o carrinho atual da sessão
         $cart = session()->get('cart', []);
 
@@ -36,7 +42,8 @@ class CartController extends Controller
             $cart[$product->id] = [
                 'product' => $product,
                 'quantity' => $request->qty,
-                'company_id' => $product->shop_product_categories[0]->company_id
+                'company_id' => $product->shop_product_categories[0]->company_id,
+                'variation' => $variation
             ];
         }
 

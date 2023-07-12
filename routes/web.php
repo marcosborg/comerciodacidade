@@ -14,6 +14,7 @@ Route::prefix('lojas')->group(function () {
     Route::get('categoria/{category_id}/{slug}', 'ShopController@category');
     Route::get('loja/{company_id}/{slug}', 'ShopController@company');
     Route::get('produtos/{company_id}/{shop_product_category_id}/{slug}', 'ShopController@products');
+    Route::get('searchInShop/{search}', 'ShopController@searchInShop');
 });
 
 Route::prefix('cart')->group(function () {
