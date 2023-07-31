@@ -26,7 +26,7 @@ class ShopController extends Controller
     {
 
         $shop_categories_slide = ShopCategory::inRandomOrder()->get()->chunk(4);
-        $shop_products = ShopProduct::inRandomOrder()->limit(21)->get()->chunk(3);
+        $shop_products = ShopProduct::where('state', true)->inRandomOrder()->limit(21)->get()->chunk(3);
         $companies = Company::inRandomOrder()->limit(20)->get()->chunk(4);
 
         return view('website.shop.index', compact('shop_categories_slide', 'shop_products', 'companies'));
@@ -88,8 +88,14 @@ class ShopController extends Controller
         })->get();
 
         $products = ShopProduct::whereHas('shop_product_categories', function ($query) use ($category) {
-            $query->where('id', $category->id);
-        })->limit(20)->get();
+            $query->whereHas('company.shop_company', function ($q) use ($category) {
+                $q->whereHas('shop_categories', function ($shopCategory) use ($category) {
+                    $shopCategory->where('id', $category->id);
+                });
+            });
+        })
+            ->inRandomOrder()
+            ->limit(20)->get();
 
         return view('website.shop.category', compact('category', 'companies', 'products'));
     }
@@ -110,7 +116,10 @@ class ShopController extends Controller
         $shop_product_categories = ShopProductCategory::where('company_id', $company->id)->get();
 
         $products = ShopProduct::whereHas('shop_product_categories', function ($query) use ($company, $shop_product_category_id) {
-            $query->where('company_id', $company->id);
+            $query->where([
+                'company_id' => $company->id,
+                'state' => true
+            ]);
             if ($shop_product_category_id != 'todos') {
                 $query->where('id', $shop_product_category_id);
             }
@@ -144,6 +153,7 @@ class ShopController extends Controller
         }
 
         $products = ShopProduct::where('name', 'LIKE', '%' . $request->search . '%')
+            ->where('state', true)
             ->limit(10)
             ->inRandomOrder()
             ->get();

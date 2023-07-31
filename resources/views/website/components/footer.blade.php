@@ -39,6 +39,9 @@
                         <input type="email" name="email">
                         <input type="submit" value="Subscrever">
                     </form>
+                    <a href="https://www.livroreclamacoes.pt/Inicio/" target="_new" class="mt-4 d-block">
+                        <img src="/theme/assets/img/i006572.png" class="img-fluid">
+                    </a>
                 </div>
 
             </div>

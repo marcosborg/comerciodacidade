@@ -32,7 +32,8 @@
                                 <i class="bi bi-envelope"></i> {{ $company->email }}
                                 {!! $company->shop_company ? $company->shop_company->contacts : '' !!}
                             </p>
-                            <a class="btn btn-orange" href="/lojas/produtos/{{ $company->id }}/todos/{{ Str::slug($company->name, '-') }}">Produtos</a>
+                            <a class="btn btn-orange"
+                                href="/lojas/produtos/{{ $company->id }}/todos/{{ Str::slug($company->name, '-') }}">Produtos</a>
                         </div>
                     </div>
                 </div>
@@ -63,7 +64,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ $company->shop_company->latitude }},{{ $company->shop_company->longitude }}&zoom=17&size=800x400&key=AIzaSyAAYYxvit-qTdOhu1Gr78b4GMHUirs_N_c"
+                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ $company->shop_company->latitude }},{{ $company->shop_company->longitude }}&zoom=17&size=800x400&markers=color:red%7C{{ $company->shop_company->latitude }},{{ $company->shop_company->longitude }}&key=AIzaSyAAYYxvit-qTdOhu1Gr78b4GMHUirs_N_c"
                         class="img-fluid" style="width: 100%">
                 </div>
             </div>
