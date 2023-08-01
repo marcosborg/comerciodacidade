@@ -78,9 +78,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::get('last-purchases', 'PurchaseApiController@lastPurchases');
     Route::get('delete-purchase/{id}', 'PurchaseApiController@deletePurchase');
 
-    //Checkout product
-    Route::post('checkout-product', 'CheckoutProductApiController@checkoutProduct');
-
     // Ifthen Pay
     Route::apiResource('ifthen-pays', 'IfthenPayApiController');
 });
