@@ -88,7 +88,7 @@ class ShopController extends Controller
             });
         })->get();
 
-        $products = ShopProduct::whereHas('shop_product_categories', function ($query) use ($category) {
+        $products = ShopProduct::where('state', true)->whereHas('shop_product_categories', function ($query) use ($category) {
             $query->whereHas('company.shop_company', function ($q) use ($category) {
                 $q->whereHas('shop_categories', function ($shopCategory) use ($category) {
                     $shopCategory->where('id', $category->id);
@@ -116,7 +116,7 @@ class ShopController extends Controller
 
         $shop_product_categories = ShopProductCategory::where('company_id', $company->id)->get();
 
-        $products = ShopProduct::whereHas('shop_product_categories', function ($query) use ($company, $shop_product_category_id) {
+        $products = ShopProduct::where('state', true)->whereHas('shop_product_categories', function ($query) use ($company, $shop_product_category_id) {
             $query->where([
                 'company_id' => $company->id,
                 'state' => true
