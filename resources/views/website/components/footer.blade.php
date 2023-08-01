@@ -20,10 +20,10 @@
                 <div class="col-lg-5 col-md-6 footer-links">
                     <h4>Our Services</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#hero">Início</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#about">Sobre</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#services">Serviços</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contactos</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#hero">Início</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#about">Sobre</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#services">Serviços</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ Route::currentRouteName('homepage') ? '' : '/' }}#contact">Contactos</a></li>
                         @foreach ($pages as $page)
                         <li><i class="bx bx-chevron-right"></i> <a data-bs-toggle="modal" data-bs-target="#{{ Illuminate\Support\Str::slug($page->title) }}"
                                 href="#">{{ $page->title }}</a></li>
