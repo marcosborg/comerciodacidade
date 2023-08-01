@@ -102,28 +102,57 @@
             @endif
             <span class="help-block">{{ trans('cruds.shopProduct.fields.shop_product_sub_categories_helper') }}</span>
           </div>
-          <div class="form-group">
-            <label for="price">{{ trans('cruds.shopProduct.fields.price') }}</label>
-            <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price"
-              id="price" value="{{ old('price', '') }}" step="0.01">
-            @if($errors->has('price'))
-            <span class="text-danger">{{ $errors->first('price') }}</span>
-            @endif
-            <span class="help-block">{{ trans('cruds.shopProduct.fields.price_helper') }}</span>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="price">{{ trans('cruds.shopProduct.fields.price') }}</label>
+                <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price"
+                  id="price" value="{{ old('price', '') }}" step="0.01">
+                @if($errors->has('price'))
+                <span class="text-danger">{{ $errors->first('price') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.price_helper') }}</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="required" for="tax_id">{{ trans('cruds.shopProduct.fields.tax') }}</label>
+                <select class="form-control select2 {{ $errors->has('tax') ? 'is-invalid' : '' }}" name="tax_id" id="tax_id"
+                  required>
+                  @foreach($taxes as $id => $entry)
+                  <option value="{{ $id }}" {{ old('tax_id')==$id ? 'selected' : '' }}>{{ $entry }}</option>
+                  @endforeach
+                </select>
+                @if($errors->has('tax'))
+                <span class="text-danger">{{ $errors->first('tax') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.tax_helper') }}</span>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label class="required" for="tax_id">{{ trans('cruds.shopProduct.fields.tax') }}</label>
-            <select class="form-control select2 {{ $errors->has('tax') ? 'is-invalid' : '' }}" name="tax_id" id="tax_id"
-              required>
-              @foreach($taxes as $id => $entry)
-              <option value="{{ $id }}" {{ old('tax_id')==$id ? 'selected' : '' }}>{{ $entry }}</option>
-              @endforeach
-            </select>
-            @if($errors->has('tax'))
-            <span class="text-danger">{{ $errors->first('tax') }}</span>
-            @endif
-            <span class="help-block">{{ trans('cruds.shopProduct.fields.tax_helper') }}</span>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="sales_price">{{ trans('cruds.shopProduct.fields.sales_price') }}</label>
+                <input class="form-control {{ $errors->has('sales_price') ? 'is-invalid' : '' }}" type="number" name="sales_price" id="sales_price" value="{{ old('sales_price', '') }}" step="0.01">
+                @if($errors->has('sales_price'))
+                    <span class="text-danger">{{ $errors->first('sales_price') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.sales_price_helper') }}</span>
+            </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="sales_label">{{ trans('cruds.shopProduct.fields.sales_label') }}</label>
+                <input class="form-control {{ $errors->has('sales_label') ? 'is-invalid' : '' }}" type="text" name="sales_label" id="sales_label" value="{{ old('sales_label', '') }}">
+                @if($errors->has('sales_label'))
+                    <span class="text-danger">{{ $errors->first('sales_label') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.sales_label_helper') }}</span>
+            </div>
+            </div>
           </div>
+          
           <div class="form-group">
             <label for="youtube">{{ trans('cruds.shopProduct.fields.youtube') }}</label>
             <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text" name="youtube"

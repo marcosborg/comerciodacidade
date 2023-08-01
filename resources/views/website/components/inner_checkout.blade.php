@@ -23,7 +23,7 @@
                     </div>
                     <div class="col">
                         <p class="mt-2"><strong> {{ $product['product']['name'] }}{{ $product['variation'] ? ' (' . $product['variation'] . ')' : '' }}</strong></p>
-                        <p class="mt-2"><strong>€{{ $product['product']['price'] }}</strong></p>
+                        <p class="mt-2"><strong>€{{ !$product['product']['sales_price'] ? $product['product']['price'] : $product['product']['sales_price'] }}</strong></p>
                         <p class="text-black-50"></p>
                         <div class="input-group mb-3">
                             <input class="form-control" type="number" placeholder="Qty" min="1"

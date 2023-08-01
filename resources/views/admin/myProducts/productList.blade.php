@@ -23,7 +23,8 @@
         @endforeach
     </td>
     <td>
-        {{ $shopProduct->price ?? '' }}
+        {!! $shopProduct->sales_price ? '<s>' : '' !!}{{ $shopProduct->price ?? '' }}{!! $shopProduct->sales_price ? '</s>' : '' !!}
+        {!! $shopProduct->sales_price ? '<br>' . $shopProduct->sales_price : '' !!}
     </td>
     <td>
         {{ $shopProduct->tax->name ?? '' }}

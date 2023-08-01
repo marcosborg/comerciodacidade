@@ -32,6 +32,8 @@ class ShopProduct extends Model implements HasMedia
         'reference',
         'description',
         'price',
+        'sales_price',
+        'sales_label',
         'tax_id',
         'youtube',
         'attachment_name',

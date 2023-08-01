@@ -89,6 +89,22 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.shopProduct.fields.sales_price') }}
+                        </th>
+                        <td>
+                            {{ $shopProduct->sales_price }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopProduct.fields.sales_label') }}
+                        </th>
+                        <td>
+                            {{ $shopProduct->sales_label }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.tax') }}
                         </th>
                         <td>

@@ -69,7 +69,8 @@ class ShopController extends Controller
         $total_array = [];
 
         foreach ($products as $product) {
-            $total_array[] = $product['quantity'] * $product['product']['price'];
+            $price = !$product['product']['sales_price'] ? $product['product']['price'] : $product['product']['sales_price'];
+            $total_array[] = $product['quantity'] * $price;
         }
 
         $total = number_format(array_sum($total_array), 2);
@@ -163,7 +164,7 @@ class ShopController extends Controller
                 'type' => 'product',
                 'id' => $product->id,
                 'name' => $product->name,
-                'more' => '€' . $product->price,
+                'more' => !$product->sales_price ? '€' . $product->price : '<small><s>' . $product->price . '</s></small> €' . $product->sales_price,
                 'image' => count($product->photos) > 0 ? $product->photos[0]->thumbnail : null,
             ]);
         }

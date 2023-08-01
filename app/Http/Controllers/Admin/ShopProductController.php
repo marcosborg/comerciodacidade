@@ -45,10 +45,6 @@ class ShopProductController extends Controller
     public function store(StoreShopProductRequest $request)
     {
         $shopProduct = ShopProduct::create($request->all());
-
-        $shopProduct->position = $shopProduct->count() -1;
-        $shopProduct->save();
-
         $shopProduct->shop_product_categories()->sync($request->input('shop_product_categories', []));
         $shopProduct->shop_product_sub_categories()->sync($request->input('shop_product_sub_categories', []));
         foreach ($request->input('photos', []) as $file) {
@@ -63,11 +59,12 @@ class ShopProductController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $shopProduct->id]);
         }
 
-        if (!$request->myProduct) {
-            return redirect()->route('admin.shop-products.index');
+        if ($request->myProduct) {
+            return redirect()->back()->with('message', 'Criado com sucesso.');
         } else {
-            return redirect('admin/my-products/edit/' . $shopProduct->id)->with('message', 'Criado com sucesso');
+            return redirect()->route('admin.shop-products.index');
         }
+
     }
 
     public function edit(ShopProduct $shopProduct)
@@ -114,11 +111,13 @@ class ShopProductController extends Controller
         } elseif ($shopProduct->attachment) {
             $shopProduct->attachment->delete();
         }
-        if (!$request->myProduct) {
-            return redirect()->route('admin.shop-products.index');
+
+        if ($request->myProduct) {
+            return redirect()->back()->with('message', 'Atualizado com sucesso.');
         } else {
-            return redirect()->back()->with('message', 'Atualizado com sucesso');
+            return redirect()->route('admin.shop-products.index');
         }
+
     }
 
     public function show(ShopProduct $shopProduct)
@@ -132,10 +131,13 @@ class ShopProductController extends Controller
 
     public function destroy(ShopProduct $shopProduct)
     {
+
         $allow = false;
-        if (Gate::allows('shop_product_delete') || Gate::allows('my_product_access')) {
+
+        if (Gate::allows('my_product_access') || Gate::allows('shop_product_delete')) {
             $allow = true;
         }
+
         abort_if($allow == false, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $shopProduct->delete();

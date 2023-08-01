@@ -433,6 +433,10 @@ return [
             'position_helper'                    => ' ',
             'stock'                              => 'Stock',
             'stock_helper'                       => ' ',
+            'sales_price'                        => 'Sales Price',
+            'sales_price_helper'                 => ' ',
+            'sales_label'                        => 'Sales Label',
+            'sales_label_helper'                 => ' ',
         ],
     ],
     'shopProductVariation' => [

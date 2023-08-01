@@ -43,7 +43,16 @@
                 <h2>{{ $product->name }}</h2>
                 <small><strong>Referencia: </strong>{{ $product->reference }}</small><br>
                 <strong>{{ $product->shop_product_categories[0]->company->name }}</strong>
+                @if (!$product->sales_price)
                 <h1 class="mt-4">€ <span id="price">{{ $product->price }}</span></h1>
+                @else
+                <h1 class="mt-4"><s style="
+                    color: #888;
+                    font-weight: 200;
+                    font-size: 30px;
+                    margin-right: 20px;
+                ">€ <span id="price">{{ $product->price }}</span></s>€ {{ $product->sales_price }}</h1>
+                @endif
                 <label class="mt-4 mb-2">Quantidade</label>
                 <div class="input-group mb-3 w-50">
                     <div class="input-group-append">
@@ -59,7 +68,7 @@
                     <label>Selecione a sua escolha</label>
                     <select name="shop_product_variation_name" class="form-control mt-1">
                         @foreach ($product->shop_product_variations as $key => $shop_product_variation)
-                            <option {{ $key == 0 ? 'selected' : '' }}>{{ $shop_product_variation->name }}</option>
+                        <option {{ $key==0 ? 'selected' : '' }}>{{ $shop_product_variation->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -122,7 +131,8 @@
                         @endif
                         @if ($product->attachment)
                         <div class="tab-pane fade" id="others" role="tabpanel">
-                            <a target="_new" href="{{ $product->attachment->getUrl() }}" class="btn btn-primary btn-sm">{{ $product->attachment->name }}</a>
+                            <a target="_new" href="{{ $product->attachment->getUrl() }}"
+                                class="btn btn-primary btn-sm">{{ $product->attachment->name }}</a>
                         </div>
                         @endif
                     </div>

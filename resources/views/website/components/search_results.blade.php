@@ -21,7 +21,7 @@
     <img src="{{ $result['image'] }}" class="p-2 me-2 img-thumbnail float-start">
     <div class="p-2">
         <p class="mb-0"><strong>{{ $result['name'] }}</strong></p>
-        {{ $result['more'] }}
+        {!! $result['more'] !!}
     </div>
     </a>
     @endforeach

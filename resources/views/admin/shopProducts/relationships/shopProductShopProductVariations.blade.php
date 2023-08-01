@@ -37,6 +37,9 @@
                                 {{ trans('cruds.shopProductVariation.fields.price') }}
                             </th>
                             <th>
+                                {{ trans('cruds.shopProductVariation.fields.stock') }}
+                            </th>
+                            <th>
                                 &nbsp;
                             </th>
                         </tr>
@@ -61,6 +64,9 @@
                                 </td>
                                 <td>
                                     {{ $shopProductVariation->price ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $shopProductVariation->stock ?? '' }}
                                 </td>
                                 <td>
                                     @can('shop_product_variation_show')

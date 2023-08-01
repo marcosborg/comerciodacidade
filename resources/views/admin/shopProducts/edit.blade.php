@@ -84,6 +84,22 @@
                 <span class="help-block">{{ trans('cruds.shopProduct.fields.price_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="sales_price">{{ trans('cruds.shopProduct.fields.sales_price') }}</label>
+                <input class="form-control {{ $errors->has('sales_price') ? 'is-invalid' : '' }}" type="number" name="sales_price" id="sales_price" value="{{ old('sales_price', $shopProduct->sales_price) }}" step="0.01">
+                @if($errors->has('sales_price'))
+                    <span class="text-danger">{{ $errors->first('sales_price') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.sales_price_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="sales_label">{{ trans('cruds.shopProduct.fields.sales_label') }}</label>
+                <input class="form-control {{ $errors->has('sales_label') ? 'is-invalid' : '' }}" type="text" name="sales_label" id="sales_label" value="{{ old('sales_label', $shopProduct->sales_label) }}">
+                @if($errors->has('sales_label'))
+                    <span class="text-danger">{{ $errors->first('sales_label') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.sales_label_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="tax_id">{{ trans('cruds.shopProduct.fields.tax') }}</label>
                 <select class="form-control select2 {{ $errors->has('tax') ? 'is-invalid' : '' }}" name="tax_id" id="tax_id" required>
                     @foreach($taxes as $id => $entry)
@@ -245,6 +261,7 @@ Dropzone.options.photosDropzone = {
       uploadedPhotosMap[file.name] = response.name
     },
     removedfile: function (file) {
+      console.log(file)
       file.previewElement.remove()
       var name = ''
       if (typeof file.file_name !== 'undefined') {
