@@ -55,7 +55,11 @@
 
                         @foreach ($products as $product)
                         <div
-                            class="col-lg-4 col-md-6 portfolio-item filter-{{ count($product->shop_product_sub_categories) > 0 ? $product->shop_product_sub_categories[0]->id : '' }} wow fadeInUp">
+                            class="col-lg-4 col-md-6 portfolio-item  
+                            @foreach($product->shop_product_sub_categories as $value)
+                            filter-{{ $value->id }}
+                            @endforeach
+                            wow fadeInUp">
                             <div class="portfolio-wrap">
                                 <a href="/lojas/produto/{{ $product->id }}/{{ Str::slug($product->name, '-') }}">
                                     <div
