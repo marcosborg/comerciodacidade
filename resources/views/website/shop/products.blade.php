@@ -63,7 +63,7 @@
                             <div class="portfolio-wrap">
                                 <a href="/lojas/produto/{{ $product->id }}/{{ Str::slug($product->name, '-') }}">
                                     <div
-                                        style="background-size: auto 100%; background-repeat: no-repeat; background-position: center center; background-image: url('{{ $product->photos ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}'); height:250px; width:100%;">
+                                        style="background-size: auto 100%; background-repeat: no-repeat; background-position: center center; background-image: url('{{ $product->photos && count($product->photos) > 0 ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}'); height:250px; width:100%;">
                                     </div>
                                     <div class="portfolio-info p-2">
                                         <p>{{ $product->name }}</p>
