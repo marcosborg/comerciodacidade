@@ -59,6 +59,9 @@
                                             style="height: 25vh; background-image: url('{{ count($product->photos) > 0 ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}'); background-size: cover; background-position: center center;">
                                         <div class="card-body">
                                             <p class="card-title text-uppercase">{{ $product->name }}</p>
+                                            <p class="p-0 m-0 text-secondary"><span
+                                                    class="{{ $product->sales_price ? 'text-decoration-line-through' : '' }}">€{{
+                                                    $product->price }}</span>{!! $product->sales_price ? '  <strong>€' . $product->price . '</strong>' : '' !!}</p>
                                         </div>
                                     </div>
                                 </a>

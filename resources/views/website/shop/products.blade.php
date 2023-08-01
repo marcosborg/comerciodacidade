@@ -67,6 +67,9 @@
                                     </div>
                                     <div class="portfolio-info p-2">
                                         <p>{{ $product->name }}</p>
+                                        <p class="p-0 m-0 text-secondary"><span
+                                            class="{{ $product->sales_price ? 'text-decoration-line-through' : '' }}">€{{
+                                            $product->price }}</span>{!! $product->sales_price ? '  <strong>€' . $product->price . '</strong>' : '' !!}</p>
                                     </div>
                                 </a>
                             </div>
