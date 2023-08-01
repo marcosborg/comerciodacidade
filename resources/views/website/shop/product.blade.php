@@ -132,7 +132,7 @@
                         @if ($product->attachment)
                         <div class="tab-pane fade" id="others" role="tabpanel">
                             <a target="_new" href="{{ $product->attachment->getUrl() }}"
-                                class="btn btn-primary btn-sm">{{ $product->attachment->name }}</a>
+                                class="btn btn-primary btn-sm">{{ $product->attachment_name }}</a>
                         </div>
                         @endif
                     </div>
