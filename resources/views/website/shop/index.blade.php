@@ -56,7 +56,7 @@
                                 <a href="/lojas/produto/{{ $product->id }}/{{ Str::slug($product->name, '-') }}">
                                     <div class="card">
                                         <img class="card-img-top"
-                                            style="height: 25vh; background-image: url('{{ count($product->photos) > 0 ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}'); background-size: cover; background-position: center center;">
+                                            style="height: 25vh; background-image: url('{{ count($product->photos) > 0 ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}'); background-size: contain; background-repeat: no-repeat; background-position: center center;">
                                         <div class="card-body">
                                             <p class="card-title text-uppercase">{{ $product->name }}</p>
                                             <p class="p-0 m-0 text-secondary"><span

@@ -204,7 +204,6 @@
 
     .swiper {
         width: 100%;
-        height: 100%;
     }
 
     .swiper-slide {
@@ -219,29 +218,25 @@
     .swiper-slide img {
         display: block;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     .swiper {
         width: 100%;
-        height: 300px;
         margin-left: auto;
         margin-right: auto;
     }
 
     .swiper-slide {
-        background-size: cover;
+        background-size: contain;
         background-position: center;
     }
 
     .mySwiper2 {
-        height: 80%;
         width: 100%;
     }
 
     .mySwiper {
-        height: 20%;
         box-sizing: border-box;
         padding: 10px 0;
     }
@@ -260,7 +255,7 @@
         display: block;
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     .nav-pills .nav-link.active,
