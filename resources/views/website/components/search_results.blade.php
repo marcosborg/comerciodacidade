@@ -13,7 +13,7 @@
         <a href="/lojas/produto/{{ $result['id'] }}/{{ Str::slug($result['name'], '-') }}" class="list-group-item list-group-item-action">
         @break
     @case('service')
-        <a href="#" class="list-group-item list-group-item-action">
+        <a href="/lojas/servico/{{ $result['id'] }}/{{ Str::slug($result['name'], '-') }}" class="list-group-item list-group-item-action">
         @break
     @default
         <a href="/lojas/categoria/{{ $result['id'] }}/{{ Str::slug($result['name'], '-') }}" class="list-group-item list-group-item-action">

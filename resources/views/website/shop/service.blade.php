@@ -43,7 +43,8 @@
             <small><strong>Referencia: </strong>{{ $service->reference }}</small><br>
             <strong>{{ $service->shop_product_categories[0]->company->name }}</strong>
             <h1 class="mt-4">€ <span id="price">{{ $service->price }}</span></h1>
-            <button type="button" class="btn btn-orange btn-lg mt-4">Agendar</button>
+            <button type="button" class="btn btn-orange btn-lg mt-4" data-bs-toggle="modal"
+                data-bs-target="#calendar_modal">Agendar</button>
             <div class="mt-4">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a class="btn btn-primary"
@@ -87,9 +88,28 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="calendar_modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Agendar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id='calendar'></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
 <style>
     #privacy {
         background: url("/theme/assets/img/hero-bg.jpg") bottom center;
@@ -175,10 +195,29 @@
         width: 100%;
         padding: 0px;
     }
+
+    .fc-scroller.fc-day-grid-container {
+        height: 100% !important;
+    }
+
+    .fc-day,
+    .fc-day-top {
+        cursor: pointer;
+    }
+
+    .fc-day:hover,
+    .fc-day-top:hover {
+        background: #ccc;
+        cursor: pointer;
+    }
 </style>
 @endsection
 @section('scripts')
+@parent
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/locale/pt.js"></script>
 <script>
     console.log({!! $service !!})
     var swiper = new Swiper(".mySwiper", {
@@ -199,6 +238,15 @@
       thumbs: {
         swiper: swiper,
       },
+    });
+    const calendar = document.getElementById('calendar_modal')
+    calendar.addEventListener('shown.bs.modal', event => {
+        $('#calendar').fullCalendar({
+            dateClick: function(info) {
+                var selectedDate = info.date; // Obtém a data selecionada
+                console.log('Dia selecionado:', selectedDate.toISOString()); // Exibe no console
+            },
+        });
     });
 </script>
 @endsection
