@@ -8,8 +8,8 @@
 @endsection
 @section('content')
 <div class="container pt-5">
-    <div class="row">
-        <div class="col-lg-4 col-md-5 col-sm-12">
+    <div class="row flex-row">
+        <div class="col-lg-4 col-md-5 col-sm-12" id="left">
             <x-search :shop_categories="$shop_categories" :category="$category" />
         </div>
         <div class="col">
@@ -19,7 +19,7 @@
                     <a href="/lojas/loja/{{ $company->id }}/{{ Str::slug($company->name, '-') }}">
                         <div class="card mb-4">
                             <img class="card-img-top"
-                                style="height: 15vh; background-image: url('{{ $company->logo ? $company->logo->getUrl() : 'https://placehold.co/600x400?text=' . $company->name }}'); background-size: cover; background-position: center center;">
+                                style="height: 15vh; background-image: url('{{ $company->logo ? $company->logo->getUrl() : 'https://placehold.co/600x400?text=' . $company->name }}'); background-repeat: no-repeat; background-size: contain; background-position: center center;">
                             <div class="card-body">
                                 <p class="card-title text-uppercase">{{ $company->name }}</p>
                             </div>
@@ -34,12 +34,13 @@
                     <a href="/lojas/produto/{{ $product->id }}/{{ Str::slug($product->name, '-') }}">
                         <div class="card mb-4">
                             <img class="card-img-top"
-                                style="height: 25vh; background-image: url('{{ count($product->photos) > 0 ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}'); background-size: cover; background-position: center center;">
+                                style="height: 25vh; background-image: url('{{ count($product->photos) > 0 ? $product->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $product->name }}'); background-repeat: no-repeat; background-size: contain; background-position: center center;">
                             <div class="card-body">
                                 <p class="card-title text-uppercase">{{ $product->name }}</p>
                                 <p class="p-0 m-0 text-secondary"><span
-                                    class="{{ $product->sales_price ? 'text-decoration-line-through' : '' }}">€{{
-                                    $product->price }}</span>{!! $product->sales_price ? '  <strong>€' . $product->price . '</strong>' : '' !!}</p>
+                                        class="{{ $product->sales_price ? 'text-decoration-line-through' : '' }}">€{{
+                                        $product->price }}</span>{!! $product->sales_price ? ' <strong>€' .
+                                        $product->price . '</strong>' : '' !!}</p>
                             </div>
                         </div>
                     </a>

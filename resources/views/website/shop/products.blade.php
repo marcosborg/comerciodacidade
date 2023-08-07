@@ -9,7 +9,7 @@
 @section('content')
 <div class="container pt-5">
     <div class="row">
-        <div class="col-lg-4 col-md-5 col-sm-12">
+        <div class="col-lg-4 col-md-5 col-sm-12" id="left">
             <div class="card mb-5">
                 <div class="card-header">
                     Pesquisar nas lojas
@@ -33,6 +33,25 @@
                 </div>
             </div>
         </div>
+        @section('scripts')
+        <script>
+            function detectScreenSize() {
+                if (window.innerWidth <= 767) {
+                    $('#left').addClass('order-2');
+                    console.log('telemovel')
+                } else {
+                    $('#left').removeClass('order-2');
+                }
+            }
+        
+            // Chama a função inicialmente para verificar o tamanho da tela no carregamento da página
+            detectScreenSize();
+        
+            // Adiciona um ouvinte de evento de redimensionamento da janela
+            window.addEventListener('resize', detectScreenSize);
+        </script>
+
+        @endsection
         <div class="col">
             <!-- ======= Portfolio Section ======= -->
             <section id="portfolio" class="portfolio">
@@ -54,8 +73,7 @@
                     <div class="row portfolio-container">
 
                         @foreach ($products as $product)
-                        <div
-                            class="col-lg-4 col-md-6 portfolio-item  
+                        <div class="col-lg-4 col-md-6 portfolio-item  
                             @foreach($product->shop_product_sub_categories as $value)
                             filter-{{ $value->id }}
                             @endforeach
@@ -68,8 +86,9 @@
                                     <div class="portfolio-info p-2">
                                         <p>{{ $product->name }}</p>
                                         <p class="p-0 m-0 text-secondary"><span
-                                            class="{{ $product->sales_price ? 'text-decoration-line-through' : '' }}">€{{
-                                            $product->price }}</span>{!! $product->sales_price ? '  <strong>€' . $product->price . '</strong>' : '' !!}</p>
+                                                class="{{ $product->sales_price ? 'text-decoration-line-through' : '' }}">€{{
+                                                $product->price }}</span>{!! $product->sales_price ? ' <strong>€' .
+                                                $product->price . '</strong>' : '' !!}</p>
                                     </div>
                                 </a>
                             </div>

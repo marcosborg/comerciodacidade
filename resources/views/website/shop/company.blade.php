@@ -9,7 +9,7 @@
 @section('content')
 <div class="container pt-5">
     <div class="row">
-        <div class="col-lg-4 col-md-5 col-sm-12">
+        <div class="col-lg-4 col-md-5 col-sm-12" id="left">
             <x-search :shop_categories="$shop_categories" />
         </div>
         <div class="col-lg-8 col-md-7 col-sm-12">

@@ -56,5 +56,18 @@
             $('#searchField').val('');
         });
     }
+    function detectScreenSize() {
+                if (window.innerWidth <= 767) {
+                    $('#left').addClass('order-2');
+                } else {
+                    $('#left').removeClass('order-2');
+                }
+            }
+        
+            // Chama a função inicialmente para verificar o tamanho da tela no carregamento da página
+            detectScreenSize();
+        
+            // Adiciona um ouvinte de evento de redimensionamento da janela
+            window.addEventListener('resize', detectScreenSize);
 </script>
 @endsection
