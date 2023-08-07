@@ -47,6 +47,9 @@
                             {{ trans('cruds.shopCompany.fields.longitude') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopCompany.fields.whatsapp') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.shopCompany.fields.youtube') }}
                         </th>
                         <th>
@@ -88,6 +91,9 @@
                             </td>
                             <td>
                                 {{ $shopCompany->longitude ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopCompany->whatsapp ?? '' }}
                             </td>
                             <td>
                                 {{ $shopCompany->youtube ?? '' }}

@@ -90,6 +90,14 @@
                 <span class="help-block">{{ trans('cruds.shopCompany.fields.contacts_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="whatsapp">{{ trans('cruds.shopCompany.fields.whatsapp') }}</label>
+                <input class="form-control {{ $errors->has('whatsapp') ? 'is-invalid' : '' }}" type="text" name="whatsapp" id="whatsapp" value="{{ old('whatsapp', '') }}">
+                @if($errors->has('whatsapp'))
+                    <span class="text-danger">{{ $errors->first('whatsapp') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.whatsapp_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="youtube">{{ trans('cruds.shopCompany.fields.youtube') }}</label>
                 <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text" name="youtube" id="youtube" value="{{ old('youtube', '') }}">
                 @if($errors->has('youtube'))

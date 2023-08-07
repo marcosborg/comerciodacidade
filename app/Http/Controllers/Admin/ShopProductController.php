@@ -60,7 +60,7 @@ class ShopProductController extends Controller
         }
 
         if ($request->myProduct) {
-            return redirect()->back()->with('message', 'Criado com sucesso.');
+            return redirect('admin/my-products/edit/' . $shopProduct->id)->with('message', 'Criado com sucesso.');
         } else {
             return redirect()->route('admin.shop-products.index');
         }

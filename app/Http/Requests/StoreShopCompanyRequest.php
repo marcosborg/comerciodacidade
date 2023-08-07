@@ -53,6 +53,10 @@ class StoreShopCompanyRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'whatsapp' => [
+                'string',
+                'nullable',
+            ],
             'photos' => [
                 'array',
             ],

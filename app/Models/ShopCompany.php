@@ -32,6 +32,7 @@ class ShopCompany extends Model implements HasMedia
         'shop_location_id',
         'address',
         'contacts',
+        'whatsapp',
         'youtube',
         'latitude',
         'longitude',

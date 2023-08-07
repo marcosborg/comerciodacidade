@@ -371,6 +371,8 @@ return [
             'latitude_helper'        => ' ',
             'longitude'              => 'Longitude',
             'longitude_helper'       => ' ',
+            'whatsapp'               => 'Whatsapp',
+            'whatsapp_helper'        => ' ',
         ],
     ],
     'shopProductCategory' => [

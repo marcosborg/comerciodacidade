@@ -91,6 +91,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.shopCompany.fields.whatsapp') }}
+                        </th>
+                        <td>
+                            {{ $shopCompany->whatsapp }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.shopCompany.fields.youtube') }}
                         </th>
                         <td>
