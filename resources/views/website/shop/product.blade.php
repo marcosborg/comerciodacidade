@@ -100,18 +100,10 @@
                         <textarea name="whatsapp" id="whatsapp" rows="5" class="form-control"
                             placeholder="Escreva a sua mensagem aqui."></textarea>
                     </div>
-                    <button type="button" class="btn btn-success btn-sm mt-4" onclick="sendWhatsappMsg({{ $product->shop_product_categories[0]->company->shop_company->whatsapp }})">Enviar
+                    <button type="button" class="btn btn-success btn-sm mt-4"
+                        onclick="sendWhatsappMsg({{ $product->shop_product_categories[0]->company->shop_company->whatsapp }})">Enviar
                         mensagem</button>
                 </div>
-                @section('scripts')
-                <script>
-                    sendWhatsappMsg = (whatsapp) => {
-                    let message = $('#whatsapp').val();
-                    let url = "https://api.whatsapp.com/send?phone=+351" + whatsapp + "&text=" + message;
-                    window.open(url, '_blank', 'width=800,height=600');
-                }
-                </script>
-                @endsection
                 @endif
             </div>
             <div class="card mt-5">
@@ -352,5 +344,10 @@
             }
         });
     });
+    sendWhatsappMsg = (whatsapp) => {
+        let message = $('#whatsapp').val();
+        let url = "https://api.whatsapp.com/send?phone=+351" + whatsapp + "&text=" + message;
+        window.open(url, '_blank', 'width=800,height=600');
+    }
 </script>
 @endsection

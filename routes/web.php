@@ -9,6 +9,7 @@ Route::post('delete-account', 'WebsiteController@deleteAccount');
 Route::prefix('lojas')->group(function () {
     Route::get('/', 'ShopController@index');
     Route::get('produto/{id}/{slug}', 'ShopController@product');
+    Route::get('servico/{id}/{slug}', 'ShopController@service');
     Route::get('checkout', 'ShopController@checkout');
     Route::get('inner-checkout', 'ShopController@innerCheckout');
     Route::get('categoria/{category_id}/{slug}', 'ShopController@category');

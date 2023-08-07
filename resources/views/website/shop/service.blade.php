@@ -1,0 +1,204 @@
+@extends('website.layouts.website')
+@section('description')
+{{ $service->shop_product_categories[0]->company->name }} | {{ $service->name }}
+@endsection
+@section('header')
+<section id="privacy" style="position: relative; z-index: 1;">
+    <div class="container d-xl-flex justify-content-xl-center align-items-xl-center" style="height: 100px;">
+        <h1 class="display-3" style="color: #ffffff;">{{ $service->name }}</h1>
+    </div>
+</section>
+@endsection
+@section('content')
+<div class="container p-5">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Slider main container -->
+            <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2"
+                zoom="true">
+                <div class="swiper-wrapper">
+                    @foreach ($service->photos as $photo)
+                    <div class="swiper-slide">
+                        <div class="swiper-zoom-container">
+                            <img src="{{ $photo->original_url }}" />
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+            <div thumbsSlider="" class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    @foreach ($service->photos as $photo)
+                    <div class="swiper-slide">
+                        <img src="{{ $photo->original_url }}" />
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>{{ $service->name }}</h2>
+            <small><strong>Referencia: </strong>{{ $service->reference }}</small><br>
+            <strong>{{ $service->shop_product_categories[0]->company->name }}</strong>
+            <h1 class="mt-4">€ <span id="price">{{ $service->price }}</span></h1>
+            <button type="button" class="btn btn-orange btn-lg mt-4">Agendar</button>
+            <div class="mt-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a class="btn btn-primary"
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}&amp;title={{ $service->name }}"
+                        target="_blank">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a class="btn btn-success"
+                        href="https://api.whatsapp.com/send?text={{ $service->name }}:%20{{ url()->current() }}"
+                        target="_blank">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                </div>
+                @if ($service->shop_product_categories &&
+                $service->shop_product_categories[0]->company->shop_company->whatsapp)
+                <button class="btn btn-success btn-sm d-block mt-4" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#whatsapp_box" aria-expanded="false">
+                    Contactar por Whatsapp
+                </button>
+                <div class="collapse" id="whatsapp_box">
+                    <div class="form-group mt-4">
+                        <textarea name="whatsapp" id="whatsapp" rows="5" class="form-control"
+                            placeholder="Escreva a sua mensagem aqui."></textarea>
+                    </div>
+                    <button type="button" class="btn btn-success btn-sm mt-4"
+                        onclick="sendWhatsappMsg(910898931)">Enviar
+                        mensagem</button>
+                </div>
+                @endif
+                <div class="card mt-5">
+                    <div class="card-header text-center">
+                        Descrição
+                    </div>
+                    <div class="card-body">
+                        {!! $service->description !!}
+                    </div>
+                </div>
+            </div>
+            <a href="/lojas/produtos/{{ $service->shop_product_categories[0]->company_id }}/todos/{{ Str::slug($service->shop_product_categories[0]->company->name, '-') }}"
+                class="btn btn-orange mt-5 mb-5">Outros produtos da loja</a>
+        </div>
+    </div>
+</div>
+@endsection
+@section('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<style>
+    #privacy {
+        background: url("/theme/assets/img/hero-bg.jpg") bottom center;
+        background-size: cover;
+        margin-top: 70px;
+    }
+
+    #privacy::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+    }
+
+    .swiper {
+        width: 100%;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .swiper {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .swiper-slide {
+        background-size: contain;
+        background-position: center;
+    }
+
+    .mySwiper2 {
+        width: 100%;
+    }
+
+    .mySwiper {
+        box-sizing: border-box;
+        padding: 10px 0;
+    }
+
+    .mySwiper .swiper-slide {
+        width: 25%;
+        height: 100%;
+        opacity: 0.4;
+    }
+
+    .mySwiper .swiper-slide-thumb-active {
+        opacity: 1;
+    }
+
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .nav-pills .nav-link.active,
+    .nav-pills .show>.nav-link {
+        color: var(--bs-nav-pills-link-active-color);
+        background-color: #e2742b;
+    }
+
+    .nav-fill .nav-item .nav-link,
+    .nav-justified .nav-item .nav-link {
+        width: 100%;
+        padding: 0px;
+    }
+</style>
+@endsection
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script>
+    console.log({!! $service !!})
+    var swiper = new Swiper(".mySwiper", {
+      loop: true,
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesProgress: true,
+    });
+    var swiper2 = new Swiper(".mySwiper2", {
+      zoom: true,
+      loop: true,
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      thumbs: {
+        swiper: swiper,
+      },
+    });
+</script>
+@endsection

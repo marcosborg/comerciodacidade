@@ -38,7 +38,6 @@
             function detectScreenSize() {
                 if (window.innerWidth <= 767) {
                     $('#left').addClass('order-2');
-                    console.log('telemovel')
                 } else {
                     $('#left').removeClass('order-2');
                 }
@@ -94,7 +93,25 @@
                             </div>
                         </div>
                         @endforeach
-
+                        @foreach ($services as $service)
+                        <div class="col-lg-4 col-md-6 portfolio-item  
+                        @foreach($service->shop_product_sub_categories as $value)
+                        filter-{{ $value->id }}
+                        @endforeach
+                        wow fadeInUp">
+                            <div class="portfolio-wrap">
+                                <a href="/lojas/servico/{{ $service->id }}/{{ Str::slug($service->name, '-') }}">
+                                    <div
+                                        style="background-size: auto 100%; background-repeat: no-repeat; background-position: center center; background-image: url('{{ $service->photos && count($service->photos) > 0 ? $service->photos[0]->getUrl() : 'https://placehold.co/600x400?text=' . $service->name }}'); height:250px; width:100%;">
+                                    </div>
+                                    <div class="portfolio-info p-2">
+                                        <p>{{ $service->name }}</p>
+                                        <p class="p-0 m-0 text-secondary"><span class="{{ $service->price }}"></p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
 
                 </div>
@@ -107,45 +124,36 @@
 @section('styles')
 <style>
     #privacy {
-        background: url("/theme/assets/img/hero-bg.jpg") bottom center;
-        background-size: cover;
-        margin-top: 70px;
-    }
-
-    #privacy::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: -1;
-    }
-</style>
-@endsection
+        background: url("/theme/assets/img/hero-bg.jpg") bottom center; background-size: cover; margin-top: 70px; }
+                                                #privacy::before { content: '' ; position: absolute; top: 0; left: 0;
+                                                width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);
+                                                z-index: -1; } </style>
+                                                @endsection
 
 
-<!-- Modal -->
-<div class="modal fade" id="searchResult" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Resultados da pesquisa</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="searchResult" tabindex="-1"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5">Resultados da pesquisa</h1>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body"></div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Fechar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-@section('scripts')
-@parent
-<script>
-    function handleKeyPress(event) {
+                                                @section('scripts')
+                                                @parent
+                                                <script>
+                                                    function handleKeyPress(event) {
         if (event.keyCode === 13) { // Verifica se a tecla pressionada é a tecla Enter
             searchInShop();
             event.preventDefault(); // Impede o comportamento padrão de submissão do formulário
@@ -164,5 +172,8 @@
             $('#searchField').val('');
         });
     }
-</script>
-@endsection
+                                                </script>
+                                                @endsection
+                                                <script>
+                                                    console.log({!! $services !!})
+                                                </script>

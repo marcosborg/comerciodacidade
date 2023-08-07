@@ -39,6 +39,13 @@ class ShopController extends Controller
         return view('website.shop.product', compact('product'));
     }
 
+    public function service(Request $request)
+    {
+        $service = Service::find($request->id)->load('shop_product_categories.company.shop_company');
+
+        return view('website.shop.service', compact('service'));
+    }
+
     public function checkout()
     {
 
@@ -131,7 +138,9 @@ class ShopController extends Controller
             $query->where('id', $shop_product_category_id);
         })->get();
 
-        return view('website.shop.products', compact('shop_product_categories', 'products', 'company', 'shop_product_sub_categories', 'shop_product_category_id'));
+        $services = Service::where('shop_company_id', $company->shop_company->id)->get()->load('shop_product_sub_categories');
+
+        return view('website.shop.products', compact('shop_product_categories', 'products', 'company', 'shop_product_sub_categories', 'shop_product_category_id', 'services'));
     }
 
     public function searchInShop(Request $request)
