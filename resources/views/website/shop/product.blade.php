@@ -79,7 +79,7 @@
             <div class="mt-4">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a class="btn btn-primary"
-                        href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}&title={{ $product->name }}&picture={{ $product->photos[0]->getUrl() }}"
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}&title={{ $product->name }}{{ count($product->photos) > 0 ? '&picture=' . $product->photos[0]->getUrl() : '' }}"
                         target="_blank">
                         <i class="bi bi-facebook"></i>
                     </a>
