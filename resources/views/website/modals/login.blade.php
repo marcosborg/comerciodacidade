@@ -20,6 +20,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-orange">Login</button>
+                    <p><a href="#" data-bs-toggle="modal"
+                        data-bs-target="#create_modal">Ainda não tenho conta</a></p>
                 </div>
             </form>
         </div>

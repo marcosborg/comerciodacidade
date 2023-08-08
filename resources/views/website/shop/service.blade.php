@@ -41,10 +41,17 @@
         <div class="col-md-6">
             <h2>{{ $service->name }}</h2>
             <small><strong>Referencia: </strong>{{ $service->reference }}</small><br>
-            <strong>{{ $service->shop_product_categories[0]->company->name }}</strong>
+            <strong>{{ $service->shop_product_categories[0]->company->name }}</strong><br>
+            <i class="bi bi-stopwatch-fill"></i> {{ $service->service_duration->name }}
             <h1 class="mt-4">€ <span id="price">{{ $service->price }}</span></h1>
+            @auth
             <button type="button" class="btn btn-orange btn-lg mt-4" data-bs-toggle="modal"
                 data-bs-target="#calendar_modal">Agendar</button>
+            @else
+            <button type="button" class="btn btn-orange btn-lg mt-4" data-bs-toggle="modal"
+                data-bs-target="#login_modal">Login para agendar</button>
+            @endauth
+
             <div class="mt-4">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a class="btn btn-primary"
@@ -88,6 +95,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="service_id" value="{{ $service->id }}">
 <!-- Modal -->
 <div class="modal fade" id="calendar_modal" tabindex="-1">
     <div class="modal-dialog">
@@ -99,9 +107,37 @@
             <div class="modal-body">
                 <div id='calendar'></div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="employees_modal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Agendar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Selecionar profissional</label>
+                    <select name="employee_id" id="employee_id" class="form-control">
+                        <option selected disabled>Selecionar</option>
+                        @foreach ($service->service_employees as $service_employee)
+                        <option value="{{ $service_employee->id }}">{{ $service_employee->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hora preferencial de atendimento</label>
+                    <input type="time" class="form-control" name="time" id="time" step="1800">
+                </div>
+                <div class="alert alert-info mt-2">
+                    Sujeito a confirmação
+                </div>
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="schedule_service">Pedir agendamento</button>
             </div>
         </div>
     </div>
@@ -210,6 +246,12 @@
         background: #ccc;
         cursor: pointer;
     }
+
+    .disabled {
+        pointer-events: none;
+        cursor: default;
+        background: #eeeeee;
+    }
 </style>
 @endsection
 @section('scripts')
@@ -239,13 +281,37 @@
         swiper: swiper,
       },
     });
-    const calendar = document.getElementById('calendar_modal')
+    const calendar = document.getElementById('calendar_modal');
     calendar.addEventListener('shown.bs.modal', event => {
+        var today = moment();
         $('#calendar').fullCalendar({
-            dateClick: function(info) {
-                var selectedDate = info.date; // Obtém a data selecionada
-                console.log('Dia selecionado:', selectedDate.toISOString()); // Exibe no console
+            dayRender: function(date, cell) {
+                if(date < today){
+                    cell.addClass('disabled');
+                }
             },
+            dayClick: function(date) {
+                if(date >= today){
+                    const day = date.format();
+                    $('#calendar_modal').modal('hide');
+                    $('#employees_modal').modal('show');
+                    $('#schedule_service').on('click', function() {
+                        const employee_id = $('#employee_id').val();
+                        const time = $('#time').val();
+                        const service_id = $('#service_id').val();
+                        if(time && employee_id){
+                            $.LoadingOverlay('show');
+                            $.get('/cart/shop_schedules/' + day + '/' + time + '/' + employee_id + '/' + service_id).done((resp) => {
+                                $('#employees_modal').modal('hide');
+                                swal.fire('Pedido enviado com sucesso.', 'Aguarde confirmação.', 'success');
+                                $.LoadingOverlay('hide');
+                            });
+                        } else {
+                            swal.fire('Validação!', 'Os capos são obrigatórios', 'error');
+                        }
+                    });
+                }
+            }
         });
     });
 </script>

@@ -41,7 +41,7 @@ class ShopController extends Controller
 
     public function service(Request $request)
     {
-        $service = Service::find($request->id)->load('shop_product_categories.company.shop_company');
+        $service = Service::find($request->id)->load('shop_product_categories.company.shop_company.shop_company_schedules', 'service_duration', 'service_employees');
 
         return view('website.shop.service', compact('service'));
     }

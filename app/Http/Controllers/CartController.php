@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Purchase;
+use App\Models\Service;
 use App\Models\ShopProduct;
+use App\Models\ShopSchedule;
+use App\Notifications\ClientScheduleNotification;
+use App\Notifications\ScheduleNotification;
 use App\Notifications\SendMbPayment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class CartController extends Controller
@@ -391,6 +397,62 @@ class CartController extends Controller
 
         $purchase->payed = true;
         $purchase->save();
+    }
+
+    public function shop_schedules(Request $request)
+    {
+
+        $service = Service::find($request->service_id)->load('service_duration');
+
+        $start_time = $request->day . ' ' . $request->time . ':00';
+
+        $end_time = Carbon::parse($start_time)->addMinutes($service->service_duration->minutes)->format('Y-m-d H:i:s');
+
+        $client_id = auth()->user()->id;
+        $service_employee_id = $request->employee_id;
+        $service_id = $request->service_id;
+
+        $shop_schedule = new ShopSchedule;
+        $shop_schedule->client_id = $client_id;
+        $shop_schedule->service_employee_id = $service_employee_id;
+        $shop_schedule->service_id = $service_id;
+        $shop_schedule->start_time = $start_time;
+        $shop_schedule->end_time = $end_time;
+        $shop_schedule->save();
+
+        $shop_schedule->load('service_employee.shop_company.company', 'client', 'service');
+        $client_name = $shop_schedule->client->name;
+        $client_email = $shop_schedule->client->email;
+        $service_name = $shop_schedule->service->name;
+        $service_employee_name = $shop_schedule->service_employee->name;
+        $company_email = $shop_schedule->service_employee->shop_company->company->email;
+        $company_name = $shop_schedule->service_employee->shop_company->company->name;
+        $company_address = $shop_schedule->service_employee->shop_company->company->address;
+        $company_contacts = $shop_schedule->service_employee->shop_company->contacts;
+
+        $data = [
+            'client_name' => $client_name,
+            'client_email' => $client_email,
+            'service_name' => $service_name,
+            'service_employee_name' => $service_employee_name,
+            'company_email' => $company_email,
+            'company_name' => $company_name,
+            'company_address' => $company_address,
+            'company_contacts' => $company_contacts,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+        ];
+
+        //Enviar emails
+        Notification::route('mail', [
+            $company_email => $company_name,
+        ])
+            ->notify(new ScheduleNotification($data));
+
+        Notification::route('mail', [
+            $client_email => $client_name,
+        ])
+            ->notify(new ClientScheduleNotification($data));
     }
 
 }

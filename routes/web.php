@@ -32,6 +32,7 @@ Route::prefix('cart')->group(function () {
     Route::post('generate-payments', 'CartController@generatePayments');
     Route::get('check-mbway-payment/{id_payment}/{mbway_key}', 'CartController@checkMbwayPayment');
     Route::post('send-mb-payment', 'CartController@sendMbPayment');
+    Route::get('shop_schedules/{day}/{time}/{employee_id}/{service_id}', 'CartController@shop_schedules');
 });
 
 Route::prefix('payments')->group(function () {
