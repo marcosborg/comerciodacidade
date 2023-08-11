@@ -22,8 +22,10 @@
                             src="{{ $product['product']['photos'][0]['preview_url'] }}" />
                     </div>
                     <div class="col">
-                        <p class="mt-2"><strong> {{ $product['product']['name'] }}{{ $product['variation'] ? ' (' . $product['variation'] . ')' : '' }}</strong></p>
-                        <p class="mt-2"><strong>€{{ !$product['product']['sales_price'] ? $product['product']['price'] : $product['product']['sales_price'] }}</strong></p>
+                        <p class="mt-2"><strong> {{ $product['product']['name'] }}{{ $product['variation'] ? ' (' .
+                                $product['variation'] . ')' : '' }}</strong></p>
+                        <p class="mt-2"><strong>€{{ !$product['product']['sales_price'] ? $product['product']['price'] :
+                                $product['product']['sales_price'] }}</strong></p>
                         <p class="text-black-50"></p>
                         <div class="input-group mb-3">
                             <input class="form-control" type="number" placeholder="Qty" min="1"
@@ -119,6 +121,11 @@
                 array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key']
                 != null))
                 <button class="btn btn-orange d-block w-100" type="button" onclick="paymentMethods()">Concluir</button>
+                @elseif (array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['simple_mbway_number']
+                != null)
+                <button class="btn btn-orange d-block w-100" type="button"
+                    onclick="paySimpleMbway({{ $total }}, {{ array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['simple_mbway_number'] }})">Pagar
+                    para MBWAY</button>
                 @else
                 <button class="btn btn-orange d-block w-100" type="button">Reservar</button>
                 @endif
@@ -264,5 +271,38 @@
             break;
         }
 
+    }
+
+    paySimpleMbway = (total, simple_mbway_number) => {
+        $.LoadingOverlay('show');
+            let data = {
+                cart: {!! collect(session()->get('cart')) !!},
+                user: {!! $user !!},
+                address: {!! $address !!},
+                type: 'simple mbway',
+            }
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: '/cart/generate-payments',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    $.LoadingOverlay('hide');
+                    console.log(response);
+                    $('#simple_mbway_modal').modal('show');
+                    $('#simple_mbway_modal span').text(total);
+                    $('#simple_mbway_modal h3').text(simple_mbway_number);
+                },
+                error: function(xhr, status, error) {
+                    $.LoadingOverlay('hide');
+                    console.error(error);
+                }
+            });
     }
 </script>

@@ -14,8 +14,8 @@ Checkout
     <div class="container" id="inner_checkout"></div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="create_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="create_address_label"
-    aria-hidden="true">
+<div class="modal fade" id="create_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="create_address_label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -66,7 +66,8 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="edit_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit_address_label" aria-hidden="true">
+<div class="modal fade" id="edit_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="edit_address_label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -111,8 +112,7 @@ Checkout
                     </div>
                     <div class="form-group">
                         <label>Número de contribuinte</label>
-                        <input type="text" name="vat" class="form-control"
-                            value="{{ $address ? $address->vat : '' }}">
+                        <input type="text" name="vat" class="form-control" value="{{ $address ? $address->vat : '' }}">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -124,8 +124,8 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="edit_billing_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit_billing_address_label"
-    aria-hidden="true">
+<div class="modal fade" id="edit_billing_address_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="edit_billing_address_label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -179,7 +179,8 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="payment_methods" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="payment_methods" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -210,7 +211,8 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="mbway_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mbway_modal_Label" aria-hidden="true">
+<div class="modal fade" id="mbway_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="mbway_modal_Label" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -232,7 +234,8 @@ Checkout
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="mb_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mb_modal_Label" aria-hidden="true">
+<div class="modal fade" id="mb_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="mb_modal_Label" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -250,6 +253,29 @@ Checkout
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 <button type="submit" class="btn btn-primary" onclick="sendMbPayment()">Enviar por email</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="simple_mbway_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="mb_modal_Label" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="mb_modal_Label">MBWAY</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img src="/theme/assets/img/payment/mbway-logo.png" alt="MBWay" class="img-fluid">
+                </div>
+                <p>Pode pagar o valor de <strong><span></span> €</strong> para o número:</p>
+                <h3></h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" onclick="simpleMbwayPayed()">Já paguei</button>
             </div>
         </div>
     </div>
@@ -453,6 +479,12 @@ array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]
             }
         });
     }
-
+    simpleMbwayPayed = () => {
+        deleteCart();
+        setTimeout(() => {
+            window.location.href="/";
+        }, 500);
+    }
+    
 </script>
 @endsection
