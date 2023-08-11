@@ -20,7 +20,9 @@
                     @foreach ($product->photos as $photo)
                     <div class="swiper-slide">
                         <div class="swiper-zoom-container">
-                            <img src="{{ $photo->original_url }}" />
+                            <picture>
+                                <img src="{{ $photo->original_url }}" />
+                            </picture>
                         </div>
                     </div>
                     @endforeach
