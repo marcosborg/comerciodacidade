@@ -127,7 +127,7 @@
                     onclick="paySimpleMbway({{ $total }}, {{ array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['simple_mbway_number'] }})">Pagar
                     para MBWAY</button>
                 @else
-                <button class="btn btn-orange d-block w-100" type="button">Reservar</button>
+                <button class="btn btn-orange d-block w-100" type="button" onclick="justBook()">Reservar</button>
                 @endif
             </div>
         </div>
@@ -298,6 +298,41 @@
                     $('#simple_mbway_modal').modal('show');
                     $('#simple_mbway_modal span').text(total);
                     $('#simple_mbway_modal h3').text(simple_mbway_number);
+                },
+                error: function(xhr, status, error) {
+                    $.LoadingOverlay('hide');
+                    console.error(error);
+                }
+            });
+    }
+
+    justBook = () => {
+        $.LoadingOverlay('show');
+            let data = {
+                cart: {!! collect(session()->get('cart')) !!},
+                user: {!! $user !!},
+                address: {!! $address !!},
+                type: 'reserva',
+            }
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: '/cart/generate-payments',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    $.LoadingOverlay('hide');
+                    swal.fire('Reservado', 'Vamos contactar para cuidar do pagamento e entrega.', 'success').then(() => {
+                        deleteCart();
+                        setTimeout(() => {
+                            window.location.href="/";
+                        }, 500);
+                    });
                 },
                 error: function(xhr, status, error) {
                     $.LoadingOverlay('hide');
