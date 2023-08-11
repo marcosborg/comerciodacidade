@@ -342,3 +342,4 @@
             });
     }
 </script>
+<script>console.log({!! $products !!})</script>

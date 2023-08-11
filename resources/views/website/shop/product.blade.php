@@ -73,9 +73,9 @@
                 </div>
                 <div class="form-group w-50">
                     <label>Selecione a sua escolha</label>
-                    <select name="shop_product_variation_name" class="form-control mt-1">
+                    <select name="shop_product_variation_id" class="form-control mt-1">
                         @foreach ($product->shop_product_variations as $key => $shop_product_variation)
-                        <option {{ $key==0 ? 'selected' : '' }}>{{ $shop_product_variation->name }}</option>
+                        <option {{ $key==0 ? 'selected' : '' }} value="{{ $shop_product_variation->id }}">{{ $shop_product_variation->name }}</option>
                         @endforeach
                     </select>
                 </div>

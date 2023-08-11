@@ -7,6 +7,7 @@ use App\Models\Address;
 use App\Models\Purchase;
 use App\Models\Service;
 use App\Models\ShopProduct;
+use App\Models\ShopProductVariation;
 use App\Models\ShopSchedule;
 use App\Notifications\ClientScheduleNotification;
 use App\Notifications\ScheduleNotification;
@@ -22,10 +23,13 @@ class CartController extends Controller
     {
         $product = ShopProduct::find($request->product_id)->load('shop_product_categories.company.ifthenPay', 'tax');
 
-        if ($request->shop_product_variation_name == null) {
-            $variation = null;
+        if ($request->shop_product_variation_id) {
+            $variation = ShopProductVariation::find($request->shop_product_variation_id);
+            $variation_name = $variation->name;
+            $price = $variation->price;
         } else {
-            $variation = $request->shop_product_variation_name;
+            $variation_name = '';
+            $price = $product->price;
         }
 
         // Recupera o carrinho atual da sessão
@@ -49,7 +53,8 @@ class CartController extends Controller
                 'product' => $product,
                 'quantity' => $request->qty,
                 'company_id' => $product->shop_product_categories[0]->company_id,
-                'variation' => $variation
+                'variation' => $variation_name,
+                'price' => $price
             ];
         }
 

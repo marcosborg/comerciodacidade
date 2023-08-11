@@ -75,7 +75,9 @@ class ShopController extends Controller
         $total_array = [];
 
         foreach ($products as $product) {
-            $price = !$product['product']['sales_price'] ? $product['product']['price'] : $product['product']['sales_price'];
+
+            $price = !$product['product']['sales_price'] ? $product['price'] : $product['product']['sales_price'];
+
             $total_array[] = $product['quantity'] * $price;
         }
 
