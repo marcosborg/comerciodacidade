@@ -439,6 +439,8 @@ return [
             'sales_price_helper'                 => ' ',
             'sales_label'                        => 'Sales Label',
             'sales_label_helper'                 => ' ',
+            'shipping_cost'                      => 'Custo de entrega',
+            'shipping_cost_helper'               => ' ',
         ],
     ],
     'shopProductVariation' => [

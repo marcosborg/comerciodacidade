@@ -163,6 +163,14 @@
                             {{ $shopProduct->stock }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopProduct.fields.shipping_cost') }}
+                        </th>
+                        <td>
+                            {{ $shopProduct->shipping_cost }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

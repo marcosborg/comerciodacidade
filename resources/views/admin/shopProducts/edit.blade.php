@@ -164,6 +164,14 @@
                 <span class="help-block">{{ trans('cruds.shopProduct.fields.stock_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="shipping_cost">{{ trans('cruds.shopProduct.fields.shipping_cost') }}</label>
+                <input class="form-control {{ $errors->has('shipping_cost') ? 'is-invalid' : '' }}" type="number" name="shipping_cost" id="shipping_cost" value="{{ old('shipping_cost', $shopProduct->shipping_cost) }}" step="0.01">
+                @if($errors->has('shipping_cost'))
+                    <span class="text-danger">{{ $errors->first('shipping_cost') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.shipping_cost_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

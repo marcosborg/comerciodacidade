@@ -41,7 +41,7 @@
                             {{ trans('cruds.shopProduct.fields.price') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopProduct.fields.tax') }}
+                            Transporte
                         </th>
                         <th>
                             {{ trans('cruds.shopTax.fields.tax') }}

@@ -48,7 +48,6 @@ class ShopController extends Controller
 
     public function checkout()
     {
-
         $countries = Country::all();
         $user = auth()->user();
         $address = null;

@@ -174,16 +174,31 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="youtube">{{ trans('cruds.shopProduct.fields.youtube') }}</label>
-                        <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text"
-                            name="youtube" id="youtube" value="{{ old('youtube', $shopProduct->youtube) }}">
-                        @if($errors->has('youtube'))
-                        <span class="text-danger">{{ $errors->first('youtube') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.shopProduct.fields.youtube_helper') }}</span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="shipping_cost">{{ trans('cruds.shopProduct.fields.shipping_cost') }}</label>
+                                <input class="form-control {{ $errors->has('shipping_cost') ? 'is-invalid' : '' }}" type="text"
+                                    name="shipping_cost" id="shipping_cost" value="{{ old('shipping_cost', $shopProduct->shipping_cost) }}">
+                                @if($errors->has('shipping_cost'))
+                                <span class="text-danger">{{ $errors->first('shipping_cost') }}</span>
+                                @endif
+                                <span class="help-block">{{ trans('cruds.shopProduct.fields.shipping_cost_helper') }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="youtube">{{ trans('cruds.shopProduct.fields.youtube') }}</label>
+                                <input class="form-control {{ $errors->has('youtube') ? 'is-invalid' : '' }}" type="text"
+                                    name="youtube" id="youtube" value="{{ old('youtube', $shopProduct->youtube) }}">
+                                @if($errors->has('youtube'))
+                                <span class="text-danger">{{ $errors->first('youtube') }}</span>
+                                @endif
+                                <span class="help-block">{{ trans('cruds.shopProduct.fields.youtube_helper') }}</span>
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="form-group">
                         <label for="attachment_name">{{ trans('cruds.shopProduct.fields.attachment_name') }}</label>
                         <input class="form-control {{ $errors->has('attachment_name') ? 'is-invalid' : '' }}"

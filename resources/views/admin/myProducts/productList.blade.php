@@ -27,7 +27,7 @@
         {!! $shopProduct->sales_price ? '<br>' . $shopProduct->sales_price : '' !!}
     </td>
     <td>
-        {{ $shopProduct->tax->name ?? '' }}
+        {{ $shopProduct->shipping_cost ?? '' }}
     </td>
     <td>
         {{ $shopProduct->tax->tax ?? '' }}
