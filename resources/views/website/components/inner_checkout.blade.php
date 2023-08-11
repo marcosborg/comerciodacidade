@@ -80,7 +80,8 @@
             <div class="card-body">
                 @if ($address)
                 <strong>Endereço de entrega</strong>
-                <p>{{ $address->address }}<br>{{ $address->zip }} {{ $address->city }}<br>{{ $address->country->name }}
+                <p>{{ $address->address }}<br>{{ $address->zip }} {{ $address->city }}<br>{{ $address->country->name }}<br>
+                    {!! $address->vat ? '<strong>NIF/ NIPC: </strong>' . $address->vat : '' !!}
                 </p>
                 <button class="btn btn-outline-dark d-block w-100" type="button" onclick="editAddress()">Editar</button>
                 <div class="form-check form-switch mt-4">

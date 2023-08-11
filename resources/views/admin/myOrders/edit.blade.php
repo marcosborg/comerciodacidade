@@ -36,6 +36,7 @@
                         <strong>Cliente: </strong>{{ $purchase->user->name }}<br>
                         <strong>Email: </strong>{{ $purchase->user->email }}<br>
                         <strong>Contacto: </strong>{{ $purchase->user->address->phone }}<br>
+                        <strong>NIF/ NIPC: </strong>{{ $purchase->user->address->vat }}<br>
                         <strong>Endereço de entrega</strong><br>
                         {{ $purchase->user->address->address }}, {{ $purchase->user->address->zip }}, {{
                         $purchase->user->address->city }}, {{ $purchase->user->address->country->name }}<br>
