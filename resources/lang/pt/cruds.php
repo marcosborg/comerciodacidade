@@ -837,6 +837,8 @@ return [
             'mb_antiphishing_helper'    => ' ',
             'mbway_antiphishing'        => 'Mbway Antiphishing',
             'mbway_antiphishing_helper' => ' ',
+            'simple_mbway_number'        => 'Simple Mbway Number',
+            'simple_mbway_number_helper' => ' ',
         ],
     ],
     'paymentMethod' => [

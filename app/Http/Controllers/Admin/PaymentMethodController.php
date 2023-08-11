@@ -38,6 +38,7 @@ class PaymentMethodController extends Controller
         $ifthen_pay = IfthenPay::find($request->id);
         $ifthen_pay->mb_key = $request->mb_key;
         $ifthen_pay->mbway_key = $request->mbway_key;
+        $ifthen_pay->simple_mbway_number = $request->simple_mbway_number;
         $ifthen_pay->save();
 
         return redirect()->back()->with('message', 'Atualizado com sucesso');

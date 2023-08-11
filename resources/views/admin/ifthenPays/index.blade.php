@@ -41,6 +41,9 @@
                             {{ trans('cruds.ifthenPay.fields.mbway_antiphishing') }}
                         </th>
                         <th>
+                            {{ trans('cruds.ifthenPay.fields.simple_mbway_number') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -68,6 +71,9 @@
                             </td>
                             <td>
                                 {{ $ifthenPay->mbway_antiphishing ?? '' }}
+                            </td>
+                            <td>
+                                {{ $ifthenPay->simple_mbway_number ?? '' }}
                             </td>
                             <td>
                                 @can('ifthen_pay_show')

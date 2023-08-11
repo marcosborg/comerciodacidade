@@ -25,6 +25,7 @@ class IfthenPay extends Model
         'mbway_key',
         'mb_antiphishing',
         'mbway_antiphishing',
+        'simple_mbway_number',
         'created_at',
         'updated_at',
         'deleted_at',

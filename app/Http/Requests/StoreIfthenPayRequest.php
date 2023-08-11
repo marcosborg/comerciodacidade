@@ -37,6 +37,10 @@ class StoreIfthenPayRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'simple_mbway_number' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }

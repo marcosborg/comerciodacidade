@@ -61,6 +61,24 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Pagamentos diretor para MBWAY
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info">
+                                Se desejar que os clientes paguem diretamente para o seu MBWAY, coloque o número abaixo.
+                            </div>
+                            <div class="form-group">
+                                <label>Número para pagamentos MBWAY</label>
+                                <input type="text" name="simple_mbway_number" class="form-control" value="{{ $ifthen_pay->simple_mbway_number ? $ifthen_pay->simple_mbway_number : '' }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button class="btn btn-success" type="submit">Gravar</button>
         </div>
     </form>

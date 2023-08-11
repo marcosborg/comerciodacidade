@@ -54,6 +54,14 @@
                 <span class="help-block">{{ trans('cruds.ifthenPay.fields.mbway_antiphishing_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="simple_mbway_number">{{ trans('cruds.ifthenPay.fields.simple_mbway_number') }}</label>
+                <input class="form-control {{ $errors->has('simple_mbway_number') ? 'is-invalid' : '' }}" type="text" name="simple_mbway_number" id="simple_mbway_number" value="{{ old('simple_mbway_number', '') }}">
+                @if($errors->has('simple_mbway_number'))
+                    <span class="text-danger">{{ $errors->first('simple_mbway_number') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.ifthenPay.fields.simple_mbway_number_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

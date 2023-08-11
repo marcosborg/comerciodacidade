@@ -63,6 +63,14 @@
                             {{ $ifthenPay->mbway_antiphishing }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.ifthenPay.fields.simple_mbway_number') }}
+                        </th>
+                        <td>
+                            {{ $ifthenPay->simple_mbway_number }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
