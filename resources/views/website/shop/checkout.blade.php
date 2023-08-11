@@ -52,6 +52,10 @@ Checkout
                         <label>Telefone</label>
                         <input type="text" name="phone" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label>Número de contribuinte</label>
+                        <input type="text" name="vat" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -104,6 +108,11 @@ Checkout
                         <label>Telefone</label>
                         <input type="text" name="phone" class="form-control"
                             value="{{ $address ? $address->phone : '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Número de contribuinte</label>
+                        <input type="text" name="vat" class="form-control"
+                            value="{{ $address ? $address->vat : '' }}">
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -73,6 +73,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.address.fields.vat') }}
+                        </th>
+                        <td>
+                            {{ $address->vat }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.address.fields.billing_same') }}
                         </th>
                         <td>

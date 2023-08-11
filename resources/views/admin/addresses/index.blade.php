@@ -44,6 +44,9 @@
                             {{ trans('cruds.address.fields.phone') }}
                         </th>
                         <th>
+                            {{ trans('cruds.address.fields.vat') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.address.fields.billing_same') }}
                         </th>
                         <th>
@@ -89,6 +92,9 @@
                             </td>
                             <td>
                                 {{ $address->phone ?? '' }}
+                            </td>
+                            <td>
+                                {{ $address->vat ?? '' }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $address->billing_same ?? '' }}</span>

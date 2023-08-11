@@ -741,6 +741,8 @@ return [
             'billing_zip_helper'     => ' ',
             'billing_country'        => 'País (faturação)',
             'billing_country_helper' => ' ',
+            'vat'                    => 'Número de contribuinte',
+            'vat_helper'             => ' ',
         ],
     ],
     'country' => [

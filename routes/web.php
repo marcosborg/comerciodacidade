@@ -6,6 +6,10 @@ Route::get('termos-e-condicoes', 'WebsiteController@termosECondicoes');
 Route::get('eliminar-conta', 'WebsiteController@accountDelete');
 Route::post('delete-account', 'WebsiteController@deleteAccount');
 
+Route::get('recuperar-password', function() {
+    return view('auth.passwords.email');
+});
+
 Route::prefix('lojas')->group(function () {
     Route::get('/', 'ShopController@index');
     Route::get('produto/{id}/{slug}', 'ShopController@product');

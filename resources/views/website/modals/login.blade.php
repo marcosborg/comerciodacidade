@@ -20,8 +20,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-orange">Login</button>
-                    <p><a href="#" data-bs-toggle="modal"
-                        data-bs-target="#create_modal">Ainda não tenho conta</a></p>
+                    <p><a href="#" data-bs-toggle="modal" data-bs-target="#create_modal">Ainda não tenho conta</a></p>
+                    <p><a href="/recuperar-password">Recuperar password</a></p>
                 </div>
             </form>
         </div>

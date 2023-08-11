@@ -66,6 +66,14 @@
                 <span class="help-block">{{ trans('cruds.address.fields.phone_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="vat">{{ trans('cruds.address.fields.vat') }}</label>
+                <input class="form-control {{ $errors->has('vat') ? 'is-invalid' : '' }}" type="text" name="vat" id="vat" value="{{ old('vat', '') }}">
+                @if($errors->has('vat'))
+                    <span class="text-danger">{{ $errors->first('vat') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.address.fields.vat_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <div class="form-check {{ $errors->has('billing_same') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="billing_same" value="0">
                     <input class="form-check-input" type="checkbox" name="billing_same" id="billing_same" value="1" {{ old('billing_same', 0) == 1 || old('billing_same') === null ? 'checked' : '' }}>

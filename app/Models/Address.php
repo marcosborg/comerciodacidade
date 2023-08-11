@@ -26,6 +26,7 @@ class Address extends Model
         'zip',
         'country_id',
         'phone',
+        'vat',
         'billing_same',
         'billing_address',
         'billing_city',

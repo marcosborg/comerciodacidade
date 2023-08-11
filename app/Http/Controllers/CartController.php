@@ -140,6 +140,10 @@ class CartController extends Controller
                 'string',
                 'nullable',
             ],
+            'vat' => [
+                'string',
+                'nullable',
+            ],
         ]);
 
         $address = new Address;
@@ -149,6 +153,7 @@ class CartController extends Controller
         $address->city = $request->city;
         $address->country_id = $request->country_id;
         $address->phone = $request->phone;
+        $address->vat = $request->vat;
         $address->save();
     }
 
@@ -175,6 +180,10 @@ class CartController extends Controller
                 'string',
                 'nullable',
             ],
+            'vat' => [
+                'string',
+                'nullable',
+            ],
         ]);
 
         $address = Address::find($request->address_id);
@@ -183,6 +192,7 @@ class CartController extends Controller
         $address->city = $request->city;
         $address->country_id = $request->country_id;
         $address->phone = $request->phone;
+        $address->vat = $request->vat;
         $address->save();
     }
 

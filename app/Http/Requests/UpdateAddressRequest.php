@@ -41,6 +41,10 @@ class UpdateAddressRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'vat' => [
+                'string',
+                'nullable',
+            ],
             'billing_address' => [
                 'string',
                 'nullable',
