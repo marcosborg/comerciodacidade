@@ -1,6 +1,6 @@
 @extends('website.layouts.website')
 @section('facebook_image')
-@if ($product->photos)
+@if (count($product->photos) > 0)
 <meta property="og:image" content="{{ $product->photos[0]->original_url }}" />
 @endif
 @endsection
