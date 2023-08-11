@@ -1,4 +1,9 @@
 @extends('website.layouts.website')
+@section('facebook_image')
+@if ($product->photos)
+<meta property="og:image" content="{{ $product->photos[0]->original_url }}" />
+@endif
+@endsection
 @section('description')
 {{ $product->shop_product_categories[0]->company->name }} | {{ $product->name }}
 @endsection

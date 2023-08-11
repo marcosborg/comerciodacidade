@@ -11,6 +11,7 @@
         @yield('description')
         @endif
     </title>
+    @yield('facebook_image')
     <meta content="Aplicação para estímulo do comércio tradicional" name="description">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicons -->
