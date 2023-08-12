@@ -239,7 +239,7 @@ class CartController extends Controller
 
         foreach ($request->cart as $item) {
             $cart->add($item);
-            $total = $total + ($item['product']['price'] * $item['quantity']);
+            $total = $total + ($item['price'] * $item['quantity']);
         }
 
         $MbWayKey = $cart[0]['product']['shop_product_categories'][0]['company']['ifthen_pay']['mbway_key'];

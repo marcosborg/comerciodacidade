@@ -58,7 +58,7 @@
                         <p>Transporte já incluido</p>
                     </div>
                     <div class="col">
-                        <p class="text-end"><i class="fa fa-euro"></i>  {{ array_values(session()->get('cart'))[0]['product']['shipping_cost'] ? '€ ' . array_values(session()->get('cart'))[0]['product']['shipping_cost'] : 'Gratuito' }}</p>
+                        <p class="text-end"><i class="fa fa-euro"></i>  {{ array_values(session()->get('cart'))[0]['product']['shipping_cost'] ? '€ ' . array_values(session()->get('cart'))[0]['product']['shipping_cost'] : '' }}</p>
                     </div>
                 </div>
                 <hr style="color: rgb(0,0,0);" />
