@@ -86,3 +86,8 @@ Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function (
     Route::get('mb', 'Api\PaymentsController@mb');
     Route::get('mbway', 'Api\PaymentsController@mbway');
 });
+
+Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
+    Route::post('order', 'Api\OrdersController@order');
+    Route::post('ifthen-payments', 'Api\OrdersController@ifthenPayments');
+});

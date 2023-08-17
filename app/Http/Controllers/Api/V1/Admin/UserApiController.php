@@ -65,6 +65,7 @@ class UserApiController extends Controller
         $address->country_id = $request->country_id;
         $address->phone = $request->phone;
         $address->zip = $request->zip;
+        $address->vat = $request->vat;
         $address->save();
 
     }
