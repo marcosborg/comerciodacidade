@@ -55,6 +55,7 @@ class OrdersController extends Controller
 
     public function ifthenPayments(Request $request)
     {
+
         $cart = json_decode($request->cart);
         foreach ($cart as $item) {
             $product = ShopProduct::find($item->product_id)->load('tax', 'shop_product_categories.company.ifthenPay');
@@ -154,10 +155,16 @@ class OrdersController extends Controller
             $purchase->id_payment = json_decode($response, true)['RequestId'];
             $purchase->save();
 
+            $json_response = json_decode($response);
+
+            $reference = '<p>Entidade: ' . $json_response->Entity . '</p>';
+            $reference .= '<p>Referência: ' . $json_response->Reference . '</p>';
+            $reference .= '<p>Valor: ' . $json_response->Amount . '€</p>';
+
             $data = [
                 'purchase' => $purchase,
                 'user' => $purchase->user,
-                'reference' => $request->reference
+                'reference' => $reference
             ];
     
             $purchase->user->notify(new SendMbPayment($data));
