@@ -134,6 +134,7 @@ class MyProductController extends Controller
             $shopProductVariation = ShopProductVariation::find($variation->shop_product_variation_id);
             $shopProductVariation->price = $variation->price;
             $shopProductVariation->stock = $variation->stock;
+            $shopProductVariation->weight = $variation->weight;
             $shopProductVariation->save();
         }
     }

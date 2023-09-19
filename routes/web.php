@@ -6,7 +6,7 @@ Route::get('termos-e-condicoes', 'WebsiteController@termosECondicoes');
 Route::get('eliminar-conta', 'WebsiteController@accountDelete');
 Route::post('delete-account', 'WebsiteController@deleteAccount');
 
-Route::get('recuperar-password', function() {
+Route::get('recuperar-password', function () {
     return view('auth.passwords.email');
 });
 
@@ -302,6 +302,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Delivery Ranges
     Route::delete('delivery-ranges/destroy', 'DeliveryRangesController@massDestroy')->name('delivery-ranges.massDestroy');
     Route::resource('delivery-ranges', 'DeliveryRangesController');
+
+    // Delivery
+    Route::prefix('deliveries')->group(function () {
+        Route::get('/', 'DeliveryController@index')->name('deliveries.index');
+        Route::post('new_delivery_range', 'DeliveryController@newDeliveryRange');
+        Route::post('update_delivery_range', 'DeliveryController@updateDeliveryRange');
+        Route::get('delete_delivery_range/{delivery_range_id}', 'DeliveryController@deleteDeliveryRange');
+        Route::post('updateShopProduct', 'DeliveryController@updateShopProduct');
+    });
 
     // System Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');

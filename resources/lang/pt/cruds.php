@@ -877,5 +877,9 @@ return [
             'deleted_at_helper'   => ' ',
         ],
     ],
+    'delivery' => [
+        'title'          => 'Transportadora',
+        'title_singular' => 'Transportadora',
+    ],
 
 ];

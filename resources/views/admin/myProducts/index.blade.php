@@ -50,6 +50,9 @@
                             Stock
                         </th>
                         <th>
+                            Peso
+                        </th>
+                        <th>
                             {{ trans('cruds.shopProduct.fields.state') }}
                         </th>
                         <th>

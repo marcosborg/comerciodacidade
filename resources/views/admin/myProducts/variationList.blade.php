@@ -8,11 +8,14 @@
             </div>
         </div>
         <input type="hidden" name="shop_product_variation_id" value="{{ $shopProductVariation->id }}">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="text" name="price" class="form-control" value="{{ $shopProductVariation->price }}" placeholder="Preço">
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="text" name="stock" class="form-control" value="{{ $shopProductVariation->stock }}" placeholder="Stock">
+        </div>
+        <div class="col-md-2">
+            <input type="number" name="weight" class="form-control" value="{{ $shopProductVariation->weight }}" placeholder="Peso (kg)">
         </div>
         <div class="col-md-2 text-right">
             <button onclick="deleteShopProductVariation({{ $shopProductVariation->id }})" type="button"

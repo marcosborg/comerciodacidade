@@ -85,4 +85,9 @@ class ShopCompany extends Model implements HasMedia
     {
         return $this->hasOne(ShopCompanySchedule::class);
     }
+
+    public function delivery_ranges()
+    {
+        return $this->hasMany(DeliveryRange::class);
+    }
 }

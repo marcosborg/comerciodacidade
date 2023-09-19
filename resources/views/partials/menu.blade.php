@@ -572,6 +572,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('delivery_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.deliveries.index") }}" class="nav-link {{ request()->is("admin/deliveries") || request()->is("admin/deliveries/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-truck">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.delivery.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is("admin/system-calendar") || request()->is("admin/system-calendar/*") ? "active" : "" }}">
                         <i class="fas fa-fw fa-calendar nav-icon">

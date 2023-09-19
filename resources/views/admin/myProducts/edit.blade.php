@@ -177,13 +177,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="shipping_cost">{{ trans('cruds.shopProduct.fields.shipping_cost') }}</label>
-                                <input class="form-control {{ $errors->has('shipping_cost') ? 'is-invalid' : '' }}" type="text"
-                                    name="shipping_cost" id="shipping_cost" value="{{ old('shipping_cost', $shopProduct->shipping_cost) }}">
-                                @if($errors->has('shipping_cost'))
-                                <span class="text-danger">{{ $errors->first('shipping_cost') }}</span>
+                                <label for="weight">Peso (kg)</label>
+                                <input class="form-control {{ $errors->has('weight') ? 'is-invalid' : '' }}" type="number"
+                                    name="weight" id="weight" value="{{ old('weight', $shopProduct->weight) }}">
+                                @if($errors->has('weight'))
+                                <span class="text-danger">{{ $errors->first('weight') }}</span>
                                 @endif
-                                <span class="help-block">{{ trans('cruds.shopProduct.fields.shipping_cost_helper') }}</span>
+                                <span class="help-block">{{ trans('cruds.shopProduct.fields.weight_helper') }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -698,7 +698,8 @@ updateShopProductVariationPrices = () => {
         data.push({
             shop_product_variation_id: $(this).find('input[name="shop_product_variation_id"]').val(),
             price: $(this).find('input[name="price"]').val(),
-            stock: $(this).find('input[name="stock"]').val()
+            stock: $(this).find('input[name="stock"]').val(),
+            weight: $(this).find('input[name="weight"]').val(),
         });
     });
     $.ajax({

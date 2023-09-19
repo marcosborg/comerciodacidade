@@ -36,6 +36,9 @@
         {{ $shopProduct->stock }}
     </td>
     <td>
+        {{ $shopProduct->weight }}
+    </td>
+    <td>
         <span style="display:none">{{ $shopProduct->state ?? '' }}</span>
         <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
     </td>
