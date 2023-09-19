@@ -299,6 +299,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::post('update', 'PaymentMethodController@update');
     });
 
+    // Delivery Ranges
+    Route::delete('delivery-ranges/destroy', 'DeliveryRangesController@massDestroy')->name('delivery-ranges.massDestroy');
+    Route::resource('delivery-ranges', 'DeliveryRangesController');
+
     // System Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 

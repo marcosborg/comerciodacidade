@@ -47,6 +47,14 @@
                 <span class="help-block">{{ trans('cruds.shopProductVariation.fields.stock_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="weight">{{ trans('cruds.shopProductVariation.fields.weight') }}</label>
+                <input class="form-control {{ $errors->has('weight') ? 'is-invalid' : '' }}" type="number" name="weight" id="weight" value="{{ old('weight', $shopProductVariation->weight) }}" step="1">
+                @if($errors->has('weight'))
+                    <span class="text-danger">{{ $errors->first('weight') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProductVariation.fields.weight_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

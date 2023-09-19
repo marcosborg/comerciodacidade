@@ -77,6 +77,9 @@
                             {{ trans('cruds.shopProduct.fields.shipping_cost') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopProduct.fields.weight') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -153,6 +156,9 @@
                             </td>
                             <td>
                                 {{ $shopProduct->shipping_cost ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopProduct->weight ?? '' }}
                             </td>
                             <td>
                                 @can('shop_product_show')

@@ -171,6 +171,14 @@
                             {{ $shopProduct->shipping_cost }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopProduct.fields.weight') }}
+                        </th>
+                        <td>
+                            {{ $shopProduct->weight }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

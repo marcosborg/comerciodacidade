@@ -36,6 +36,8 @@ class ShopCompany extends Model implements HasMedia
         'youtube',
         'latitude',
         'longitude',
+        'delivery_company',
+        'minimum_delivery_value',
         'created_at',
         'updated_at',
         'deleted_at',

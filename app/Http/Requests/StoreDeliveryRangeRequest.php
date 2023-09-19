@@ -2,40 +2,39 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ShopProductVariation;
+use App\Models\DeliveryRange;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 
-class UpdateShopProductVariationRequest extends FormRequest
+class StoreDeliveryRangeRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('shop_product_variation_edit');
+        return Gate::allows('delivery_range_create');
     }
 
     public function rules()
     {
         return [
-            'shop_product_id' => [
+            'shop_company_id' => [
                 'required',
                 'integer',
             ],
-            'name' => [
-                'string',
+            'from' => [
                 'required',
-            ],
-            'stock' => [
-                'nullable',
                 'integer',
                 'min:-2147483648',
                 'max:2147483647',
             ],
-            'weight' => [
-                'nullable',
+            'to' => [
+                'required',
                 'integer',
                 'min:-2147483648',
                 'max:2147483647',
+            ],
+            'value' => [
+                'required',
             ],
         ];
     }

@@ -41,6 +41,7 @@ class ShopProduct extends Model implements HasMedia
         'position',
         'stock',
         'shipping_cost',
+        'weight',
         'created_at',
         'updated_at',
         'deleted_at',

@@ -40,6 +40,9 @@
                                 {{ trans('cruds.shopProductVariation.fields.stock') }}
                             </th>
                             <th>
+                                {{ trans('cruds.shopProductVariation.fields.weight') }}
+                            </th>
+                            <th>
                                 &nbsp;
                             </th>
                         </tr>
@@ -67,6 +70,9 @@
                                 </td>
                                 <td>
                                     {{ $shopProductVariation->stock ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $shopProductVariation->weight ?? '' }}
                                 </td>
                                 <td>
                                     @can('shop_product_variation_show')

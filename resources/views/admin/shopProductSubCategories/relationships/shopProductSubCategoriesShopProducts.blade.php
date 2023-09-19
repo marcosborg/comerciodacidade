@@ -43,13 +43,40 @@
                                 {{ trans('cruds.shopProduct.fields.price') }}
                             </th>
                             <th>
+                                {{ trans('cruds.shopProduct.fields.sales_price') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.shopProduct.fields.sales_label') }}
+                            </th>
+                            <th>
                                 {{ trans('cruds.shopProduct.fields.tax') }}
                             </th>
                             <th>
                                 {{ trans('cruds.shopTax.fields.tax') }}
                             </th>
                             <th>
+                                {{ trans('cruds.shopProduct.fields.youtube') }}
+                            </th>
+                            <th>
                                 {{ trans('cruds.shopProduct.fields.state') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.shopProduct.fields.attachment_name') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.shopProduct.fields.attachment') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.shopProduct.fields.position') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.shopProduct.fields.stock') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.shopProduct.fields.shipping_cost') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.shopProduct.fields.weight') }}
                             </th>
                             <th>
                                 &nbsp;
@@ -92,14 +119,45 @@
                                     {{ $shopProduct->price ?? '' }}
                                 </td>
                                 <td>
+                                    {{ $shopProduct->sales_price ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $shopProduct->sales_label ?? '' }}
+                                </td>
+                                <td>
                                     {{ $shopProduct->tax->name ?? '' }}
                                 </td>
                                 <td>
                                     {{ $shopProduct->tax->tax ?? '' }}
                                 </td>
                                 <td>
+                                    {{ $shopProduct->youtube ?? '' }}
+                                </td>
+                                <td>
                                     <span style="display:none">{{ $shopProduct->state ?? '' }}</span>
                                     <input type="checkbox" disabled="disabled" {{ $shopProduct->state ? 'checked' : '' }}>
+                                </td>
+                                <td>
+                                    {{ $shopProduct->attachment_name ?? '' }}
+                                </td>
+                                <td>
+                                    @if($shopProduct->attachment)
+                                        <a href="{{ $shopProduct->attachment->getUrl() }}" target="_blank">
+                                            {{ trans('global.view_file') }}
+                                        </a>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ $shopProduct->position ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $shopProduct->stock ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $shopProduct->shipping_cost ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $shopProduct->weight ?? '' }}
                                 </td>
                                 <td>
                                     @can('shop_product_show')

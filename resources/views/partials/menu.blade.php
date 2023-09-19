@@ -560,6 +560,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('delivery_range_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.delivery-ranges.index") }}" class="nav-link {{ request()->is("admin/delivery-ranges") || request()->is("admin/delivery-ranges/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-truck">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.deliveryRange.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is("admin/system-calendar") || request()->is("admin/system-calendar/*") ? "active" : "" }}">
                         <i class="fas fa-fw fa-calendar nav-icon">

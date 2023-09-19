@@ -117,6 +117,22 @@
                             @endforeach
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.delivery_company') }}
+                        </th>
+                        <td>
+                            {{ $shopCompany->delivery_company }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.minimum_delivery_value') }}
+                        </th>
+                        <td>
+                            {{ $shopCompany->minimum_delivery_value }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

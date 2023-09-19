@@ -60,6 +60,10 @@ class StoreShopCompanyRequest extends FormRequest
             'photos' => [
                 'array',
             ],
+            'delivery_company' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }

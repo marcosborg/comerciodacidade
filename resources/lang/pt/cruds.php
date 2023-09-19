@@ -373,6 +373,10 @@ return [
             'longitude_helper'       => ' ',
             'whatsapp'               => 'Whatsapp',
             'whatsapp_helper'        => ' ',
+            'delivery_company'              => 'Delivery Company',
+            'delivery_company_helper'       => ' ',
+            'minimum_delivery_value'        => 'Minimum Delivery Value',
+            'minimum_delivery_value_helper' => ' ',
         ],
     ],
     'shopProductCategory' => [
@@ -441,6 +445,8 @@ return [
             'sales_label_helper'                 => ' ',
             'shipping_cost'                      => 'Custo de entrega',
             'shipping_cost_helper'               => ' ',
+            'weight'                             => 'Weight',
+            'weight_helper'                      => ' ',
         ],
     ],
     'shopProductVariation' => [
@@ -463,6 +469,8 @@ return [
             'deleted_at_helper'   => ' ',
             'stock'               => 'Stock',
             'stock_helper'        => ' ',
+            'weight'              => 'Weight',
+            'weight_helper'       => ' ',
         ],
     ],
     'shopProductFeature' => [
@@ -846,6 +854,28 @@ return [
     'paymentMethod' => [
         'title'          => 'Métodos de pagamento',
         'title_singular' => 'Métodos de pagamento',
+    ],
+    'deliveryRange' => [
+        'title'          => 'Delivery Ranges',
+        'title_singular' => 'Delivery Range',
+        'fields'         => [
+            'id'                  => 'ID',
+            'id_helper'           => ' ',
+            'shop_company'        => 'Shop Company',
+            'shop_company_helper' => ' ',
+            'from'                => 'From',
+            'from_helper'         => ' ',
+            'to'                  => 'To',
+            'to_helper'           => ' ',
+            'value'               => 'Value',
+            'value_helper'        => ' ',
+            'created_at'          => 'Created at',
+            'created_at_helper'   => ' ',
+            'updated_at'          => 'Updated at',
+            'updated_at_helper'   => ' ',
+            'deleted_at'          => 'Deleted at',
+            'deleted_at_helper'   => ' ',
+        ],
     ],
 
 ];

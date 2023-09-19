@@ -1,47 +1,41 @@
 @extends('layouts.admin')
 @section('content')
-@can('shop_product_variation_create')
+@can('delivery_range_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.shop-product-variations.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.shopProductVariation.title_singular') }}
+            <a class="btn btn-success" href="{{ route('admin.delivery-ranges.create') }}">
+                {{ trans('global.add') }} {{ trans('cruds.deliveryRange.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.shopProductVariation.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.deliveryRange.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-ShopProductVariation">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-DeliveryRange">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.id') }}
+                            {{ trans('cruds.deliveryRange.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.shop_product') }}
+                            {{ trans('cruds.deliveryRange.fields.shop_company') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopProduct.fields.reference') }}
+                            {{ trans('cruds.deliveryRange.fields.from') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.name') }}
+                            {{ trans('cruds.deliveryRange.fields.to') }}
                         </th>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.price') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.shopProductVariation.fields.stock') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.shopProductVariation.fields.weight') }}
+                            {{ trans('cruds.deliveryRange.fields.value') }}
                         </th>
                         <th>
                             &nbsp;
@@ -49,47 +43,41 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($shopProductVariations as $key => $shopProductVariation)
-                        <tr data-entry-id="{{ $shopProductVariation->id }}">
+                    @foreach($deliveryRanges as $key => $deliveryRange)
+                        <tr data-entry-id="{{ $deliveryRange->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $shopProductVariation->id ?? '' }}
+                                {{ $deliveryRange->id ?? '' }}
                             </td>
                             <td>
-                                {{ $shopProductVariation->shop_product->name ?? '' }}
+                                {{ $deliveryRange->shop_company->address ?? '' }}
                             </td>
                             <td>
-                                {{ $shopProductVariation->shop_product->reference ?? '' }}
+                                {{ $deliveryRange->from ?? '' }}
                             </td>
                             <td>
-                                {{ $shopProductVariation->name ?? '' }}
+                                {{ $deliveryRange->to ?? '' }}
                             </td>
                             <td>
-                                {{ $shopProductVariation->price ?? '' }}
+                                {{ $deliveryRange->value ?? '' }}
                             </td>
                             <td>
-                                {{ $shopProductVariation->stock ?? '' }}
-                            </td>
-                            <td>
-                                {{ $shopProductVariation->weight ?? '' }}
-                            </td>
-                            <td>
-                                @can('shop_product_variation_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.shop-product-variations.show', $shopProductVariation->id) }}">
+                                @can('delivery_range_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.delivery-ranges.show', $deliveryRange->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('shop_product_variation_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.shop-product-variations.edit', $shopProductVariation->id) }}">
+                                @can('delivery_range_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.delivery-ranges.edit', $deliveryRange->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('shop_product_variation_delete')
-                                    <form action="{{ route('admin.shop-product-variations.destroy', $shopProductVariation->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('delivery_range_delete')
+                                    <form action="{{ route('admin.delivery-ranges.destroy', $deliveryRange->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -114,11 +102,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('shop_product_variation_delete')
+@can('delivery_range_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.shop-product-variations.massDestroy') }}",
+    url: "{{ route('admin.delivery-ranges.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -149,7 +137,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let table = $('.datatable-ShopProductVariation:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-DeliveryRange:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

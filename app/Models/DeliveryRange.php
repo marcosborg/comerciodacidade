@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ShopProductVariation extends Model
+class DeliveryRange extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'shop_product_variations';
+    public $table = 'delivery_ranges';
 
     protected $dates = [
         'created_at',
@@ -20,11 +20,10 @@ class ShopProductVariation extends Model
     ];
 
     protected $fillable = [
-        'shop_product_id',
-        'name',
-        'price',
-        'stock',
-        'weight',
+        'shop_company_id',
+        'from',
+        'to',
+        'value',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -35,8 +34,8 @@ class ShopProductVariation extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function shop_product()
+    public function shop_company()
     {
-        return $this->belongsTo(ShopProduct::class, 'shop_product_id');
+        return $this->belongsTo(ShopCompany::class, 'shop_company_id');
     }
 }

@@ -172,6 +172,14 @@
                 <span class="help-block">{{ trans('cruds.shopProduct.fields.shipping_cost_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="weight">{{ trans('cruds.shopProduct.fields.weight') }}</label>
+                <input class="form-control {{ $errors->has('weight') ? 'is-invalid' : '' }}" type="number" name="weight" id="weight" value="{{ old('weight', $shopProduct->weight) }}" step="1">
+                @if($errors->has('weight'))
+                    <span class="text-danger">{{ $errors->first('weight') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopProduct.fields.weight_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

@@ -80,6 +80,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Ifthen Pay
     Route::apiResource('ifthen-pays', 'IfthenPayApiController');
+
+    // Delivery Ranges
+    Route::apiResource('delivery-ranges', 'DeliveryRangesApiController');
 });
 
 Route::middleware('verifyAntiPhishingKey')->prefix('callback')->group(function () {

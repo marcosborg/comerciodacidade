@@ -115,6 +115,22 @@
                 <span class="help-block">{{ trans('cruds.shopCompany.fields.photos_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="delivery_company">{{ trans('cruds.shopCompany.fields.delivery_company') }}</label>
+                <input class="form-control {{ $errors->has('delivery_company') ? 'is-invalid' : '' }}" type="text" name="delivery_company" id="delivery_company" value="{{ old('delivery_company', '') }}">
+                @if($errors->has('delivery_company'))
+                    <span class="text-danger">{{ $errors->first('delivery_company') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.delivery_company_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="minimum_delivery_value">{{ trans('cruds.shopCompany.fields.minimum_delivery_value') }}</label>
+                <input class="form-control {{ $errors->has('minimum_delivery_value') ? 'is-invalid' : '' }}" type="number" name="minimum_delivery_value" id="minimum_delivery_value" value="{{ old('minimum_delivery_value', '') }}" step="0.01">
+                @if($errors->has('minimum_delivery_value'))
+                    <span class="text-danger">{{ $errors->first('minimum_delivery_value') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.minimum_delivery_value_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

@@ -56,6 +56,12 @@
                             {{ trans('cruds.shopCompany.fields.photos') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopCompany.fields.delivery_company') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.minimum_delivery_value') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -104,6 +110,12 @@
                                         <img src="{{ $media->getUrl('thumb') }}">
                                     </a>
                                 @endforeach
+                            </td>
+                            <td>
+                                {{ $shopCompany->delivery_company ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopCompany->minimum_delivery_value ?? '' }}
                             </td>
                             <td>
                                 @can('shop_company_show')

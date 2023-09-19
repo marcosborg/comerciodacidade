@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.shopProductVariation.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.deliveryRange.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.shop-product-variations.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.delivery-ranges.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,56 +17,48 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.id') }}
+                            {{ trans('cruds.deliveryRange.fields.id') }}
                         </th>
                         <td>
-                            {{ $shopProductVariation->id }}
+                            {{ $deliveryRange->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.shop_product') }}
+                            {{ trans('cruds.deliveryRange.fields.shop_company') }}
                         </th>
                         <td>
-                            {{ $shopProductVariation->shop_product->name ?? '' }}
+                            {{ $deliveryRange->shop_company->address ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.name') }}
+                            {{ trans('cruds.deliveryRange.fields.from') }}
                         </th>
                         <td>
-                            {{ $shopProductVariation->name }}
+                            {{ $deliveryRange->from }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.price') }}
+                            {{ trans('cruds.deliveryRange.fields.to') }}
                         </th>
                         <td>
-                            {{ $shopProductVariation->price }}
+                            {{ $deliveryRange->to }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.shopProductVariation.fields.stock') }}
+                            {{ trans('cruds.deliveryRange.fields.value') }}
                         </th>
                         <td>
-                            {{ $shopProductVariation->stock }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.shopProductVariation.fields.weight') }}
-                        </th>
-                        <td>
-                            {{ $shopProductVariation->weight }}
+                            {{ $deliveryRange->value }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.shop-product-variations.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.delivery-ranges.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
