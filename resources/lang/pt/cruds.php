@@ -819,6 +819,10 @@ return [
             'internal_helper'     => ' ',
             'id_payment'          => 'Id Payment',
             'id_payment_helper'   => ' ',
+            'delivery'              => 'Transportadora',
+            'delivery_helper'       => ' ',
+            'delivery_value'        => 'Transporte (€)',
+            'delivery_value_helper' => ' ',
         ],
     ],
     'myOrder' => [

@@ -145,6 +145,22 @@
                 <span class="help-block">{{ trans('cruds.purchase.fields.id_payment_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="delivery">{{ trans('cruds.purchase.fields.delivery') }}</label>
+                <input class="form-control {{ $errors->has('delivery') ? 'is-invalid' : '' }}" type="text" name="delivery" id="delivery" value="{{ old('delivery', '') }}">
+                @if($errors->has('delivery'))
+                    <span class="text-danger">{{ $errors->first('delivery') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.delivery_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="delivery_value">{{ trans('cruds.purchase.fields.delivery_value') }}</label>
+                <input class="form-control {{ $errors->has('delivery_value') ? 'is-invalid' : '' }}" type="number" name="delivery_value" id="delivery_value" value="{{ old('delivery_value', '') }}" step="0.01">
+                @if($errors->has('delivery_value'))
+                    <span class="text-danger">{{ $errors->first('delivery_value') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.purchase.fields.delivery_value_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

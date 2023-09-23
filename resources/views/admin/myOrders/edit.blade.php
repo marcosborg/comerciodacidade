@@ -14,8 +14,10 @@
                         <strong>Método de pagamento: </strong>{{ $purchase->method }}<br>
                         <strong>Id do pagamento: </strong>{{ $purchase->id_payment }}<br>
                         <strong>Estado do pagamento: </strong>{{ $purchase->payed ? 'pago' : 'Aguarda pagamento' }}<br>
+                        <strong>Transportadora: </strong>{{ $purchase->delivery ? $purchase->delivery : 'Recolha na loja' }}<br>
+                        <strong>Valor de transporte: </strong>€ {{ $purchase->delivery_value ? $purchase->delivery_value : 0 }}<br>
                         <strong>Estado do envio: </strong>{{ $purchase->status ? 'Enviado' : 'Aguarda envio' }}<br>
-                        <strong>Total: </strong>€{{ $purchase->total }}
+                        <strong>Total: </strong>€ {{ $purchase->total }}
                     </div>
                 </div>
                 @foreach (json_decode($purchase->cart) as $item)

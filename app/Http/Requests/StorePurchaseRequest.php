@@ -57,6 +57,10 @@ class StorePurchaseRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'delivery' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }

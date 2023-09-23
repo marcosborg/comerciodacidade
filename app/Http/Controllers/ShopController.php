@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Country;
+use App\Models\DeliveryRange;
 use App\Models\Page;
 use App\Models\Service;
 use App\Models\ShopCategory;
@@ -73,17 +74,49 @@ class ShopController extends Controller
         }
 
         $total_array = [];
+        $weight_array = [];
 
         foreach ($products as $product) {
-
+            $company_id = $product['company_id'];
             $price = !$product['product']['sales_price'] ? $product['price'] : $product['product']['sales_price'];
-
             $total_array[] = $product['quantity'] * $price;
+            $weight_array[] = $product['weight'] * $product['quantity'];
         }
 
-        $total = number_format(array_sum($total_array), 2);
+        //GET SHIPPING
 
-        return view('website.components.inner_checkout', compact('products', 'total', 'user', 'address'));
+        if (session()->has('delivery')) {
+            $delivery = session()->get('delivery');
+        } else {
+            $delivery = 0;
+            session()->put('delivery', $delivery);
+        }
+
+        $total_weight = array_sum($weight_array);
+
+        $company = Company::find($company_id)->load('shop_company');
+
+        $delivery_range = DeliveryRange::where('shop_company_id', $company->shop_company->id)
+            ->where('from', '<=', $total_weight)
+            ->where('to', '>=', $total_weight)
+            ->first();
+
+        if ($delivery_range) {
+            $delivery_price = $delivery_range->value;
+        } else {
+            $delivery_price = $company->shop_company->minimum_delivery_value;
+        }
+
+        $total_no_delivery = number_format(array_sum($total_array), 2);
+        
+        if ($delivery == 0) {
+            $total = number_format(array_sum($total_array), 2);
+        } else {
+            $total = number_format(array_sum($total_array) + $delivery_price, 2);
+        }
+
+
+        return view('website.components.inner_checkout', compact('products', 'total_no_delivery', 'total', 'user', 'address', 'company', 'delivery_price', 'delivery'));
     }
 
     public function category($category_id)
@@ -212,6 +245,11 @@ class ShopController extends Controller
         $results = $results->shuffle();
 
         return view('website.components.search_results', compact('results'));
+    }
+
+    public function changeDelivery($delivery)
+    {
+        session()->put('delivery', $delivery);
     }
 
 }

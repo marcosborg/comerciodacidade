@@ -42,6 +42,12 @@
                             {{ trans('cruds.purchase.fields.qty') }}
                         </th>
                         <th>
+                            Transportadora
+                        </th>
+                        <th>
+                            Transporte
+                        </th>
+                        <th>
                             Data
                         </th>
                         <th>
@@ -85,6 +91,12 @@
                             {{ $purchase->qty ?? '' }}
                         </td>
                         <td>
+                            {{ $purchase->delivery ? $purchase->delivery : 'Recolha na loja' }}
+                        </td>
+                        <td>
+                            € {{ $purchase->delivery_value ? $purchase->delivery_value : 0 }}
+                        </td>
+                        <td>
                             {{ $purchase->created_at ?? '' }}
                         </td>
                         <td>
@@ -112,7 +124,7 @@
         let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
         $.extend(true, $.fn.dataTable.defaults, {
             orderCellsTop: true,
-            order: [[ 10, 'desc' ]],
+            order: [[ 12, 'desc' ]],
             pageLength: 100,
         });
         let table = $('.datatable-Purchase:not(.ajaxTable)').DataTable({ buttons: dtButtons })

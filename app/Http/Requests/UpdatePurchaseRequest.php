@@ -57,6 +57,10 @@ class UpdatePurchaseRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'delivery' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }

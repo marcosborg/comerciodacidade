@@ -49,18 +49,27 @@
                         <p>Preço</p>
                     </div>
                     <div class="col">
-                        <p class="text-end">€ {{ $total }}</p>
+                        <p class="text-end">€ {{ $total_no_delivery }}</p>
                     </div>
                 </div>
+                @auth
                 <hr style="color: rgb(0,0,0);" />
-                <div class="row">
-                    <div class="col">
-                        <p>Transporte já incluido</p>
-                    </div>
-                    <div class="col">
-                        <p class="text-end"><i class="fa fa-euro"></i>  {{ array_values(session()->get('cart'))[0]['product']['shipping_cost'] ? '€ ' . array_values(session()->get('cart'))[0]['product']['shipping_cost'] : '' }}</p>
-                    </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="delivery" id="delivery1" value="0" {{ $delivery == 0 ? 'checked' : '' }}>
+                    <label class="form-check-label d-flex justify-content-between" for="delivery1">
+                        <span>Recolha na loja</span><span>Gratuito</span>
+                    </label>
                 </div>
+                @if($company->shop_company->delivery_company)
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="delivery" id="delivery2" value="1" {{ $delivery == 1 ? 'checked' : '' }}>
+                    <label class="form-check-label d-flex justify-content-between" for="delivery2">
+                        <span>{{ $company->shop_company->delivery_company }}</span><span>€ {{ $delivery_price }}</span>
+                    </label>
+                </div>
+                @endif
+
+                @endauth
                 <hr style="color: rgb(0,0,0);" />
                 <div class="row">
                     <div class="col">
@@ -80,7 +89,8 @@
             <div class="card-body">
                 @if ($address)
                 <strong>Endereço de entrega</strong>
-                <p>{{ $address->address }}<br>{{ $address->zip }} {{ $address->city }}<br>{{ $address->country->name }}<br>
+                <p>{{ $address->address }}<br>{{ $address->zip }} {{ $address->city }}<br>{{ $address->country->name
+                    }}<br>
                     {!! $address->vat ? '<strong>NIF/ NIPC: </strong>' . $address->vat : '' !!}
                 </p>
                 <button class="btn btn-outline-dark d-block w-100" type="button" onclick="editAddress()">Editar</button>
@@ -155,6 +165,7 @@
                 user: {!! $user !!},
                 address: {!! $address !!},
                 type: 'mbway',
+                delivery: {!! $delivery !!},
                 celphone: $('#celphone').val()
             }
 
@@ -232,6 +243,7 @@
                     user: {!! $user !!},
                     address: {!! $address !!},
                     type: type,
+                    delivery: {!! $delivery !!},
                 }
             
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -281,6 +293,7 @@
                 user: {!! $user !!},
                 address: {!! $address !!},
                 type: 'simple mbway',
+                delivery: {!! $delivery !!},
             }
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -341,5 +354,14 @@
                 }
             });
     }
+
+    $(()=>{
+        $('input[name=delivery]').on('change', function() {
+            var delivery = $(this).val();
+            $.get('/lojas/changeDelivery/' + delivery).then(()=>{
+                getCheckout();
+            });
+        });
+    });
+
 </script>
-<script>console.log({!! $products !!})</script>

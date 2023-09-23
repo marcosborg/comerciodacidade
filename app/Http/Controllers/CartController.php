@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\DeliveryRange;
 use App\Models\Purchase;
 use App\Models\Service;
+use App\Models\ShopCompany;
 use App\Models\ShopProduct;
 use App\Models\ShopProductVariation;
 use App\Models\ShopSchedule;
@@ -27,9 +29,11 @@ class CartController extends Controller
             $variation = ShopProductVariation::find($request->shop_product_variation_id);
             $variation_name = $variation->name;
             $price = $variation->price;
+            $weight = $variation->weight;
         } else {
             $variation_name = '';
             $price = $product->price;
+            $weight = $product->weight;
         }
 
         // Recupera o carrinho atual da sessão
@@ -54,7 +58,8 @@ class CartController extends Controller
                 'quantity' => $request->qty,
                 'company_id' => $product->shop_product_categories[0]->company_id,
                 'variation' => $variation_name,
-                'price' => $price
+                'price' => $price,
+                'weight' => $weight
             ];
         }
 
@@ -236,16 +241,47 @@ class CartController extends Controller
 
         $cart = collect();
         $total = 0;
+        $weight_array = [];
 
         foreach ($request->cart as $item) {
+            if ($item['weight']) {
+                $weight = $item['weight'];
+            } else {
+                $weight = 0;
+            }
+
             $cart->add($item);
             $total = $total + ($item['price'] * $item['quantity']);
+            $weight_array[] = intval($weight) * $item['quantity'];
         }
+
+        $company_id = $cart[0]['product']['shop_product_categories'][0]['company_id'];
+
+        $total_weight = array_sum($weight_array);
+
+        $shop_company = ShopCompany::where('company_id', $company_id)->first();
+
+        $delivery_range = DeliveryRange::where('shop_company_id', $shop_company->id)
+            ->where('from', '<=', $total_weight)
+            ->where('to', '>=', $total_weight)
+            ->first();
+
+        if ($request->delivery == 0) {
+            $delivery = 'Recolha na loja';
+            $delivery_value = 0;
+        } else {
+            $delivery = $shop_company->delivery_company;
+            if ($delivery_range) {
+                $delivery_value = $delivery_range->value;
+            } else {
+                $delivery_value = $shop_company->minimum_delivery_value;
+            }
+        }
+
+        $total = $total + $delivery_value;
 
         $MbWayKey = $cart[0]['product']['shop_product_categories'][0]['company']['ifthen_pay']['mbway_key'];
         $MbKey = $cart[0]['product']['shop_product_categories'][0]['company']['ifthen_pay']['mb_key'];
-
-        $company_id = $cart[0]['product']['shop_product_categories'][0]['company_id'];
 
         $lastPurchase = Purchase::whereHas('product.shop_product_categories', function ($shop_product_categories) use ($company_id) {
             $shop_product_categories->where('company_id', $company_id);
@@ -272,6 +308,8 @@ class CartController extends Controller
         $purchase->method = $request->type;
         $purchase->payed = 0;
         $purchase->internal = $internal;
+        $purchase->delivery = $delivery;
+        $purchase->delivery_value = $delivery_value;
         $purchase->save();
 
         if ($request->type == 'mbway') {

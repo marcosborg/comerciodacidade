@@ -40,6 +40,8 @@ class Purchase extends Model
         'payed',
         'internal',
         'id_payment',
+        'delivery',
+        'delivery_value',
         'created_at',
         'updated_at',
         'deleted_at',

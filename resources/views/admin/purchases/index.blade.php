@@ -71,6 +71,12 @@
                             {{ trans('cruds.purchase.fields.id_payment') }}
                         </th>
                         <th>
+                            {{ trans('cruds.purchase.fields.delivery') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.purchase.fields.delivery_value') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.purchase.fields.created_at') }}
                         </th>
                         <th>
@@ -133,6 +139,12 @@
                             </td>
                             <td>
                                 {{ $purchase->id_payment ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->delivery ?? '' }}
+                            </td>
+                            <td>
+                                {{ $purchase->delivery_value ?? '' }}
                             </td>
                             <td>
                                 {{ $purchase->created_at ?? '' }}

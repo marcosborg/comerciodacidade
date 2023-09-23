@@ -145,6 +145,22 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.purchase.fields.delivery') }}
+                        </th>
+                        <td>
+                            {{ $purchase->delivery }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.purchase.fields.delivery_value') }}
+                        </th>
+                        <td>
+                            {{ $purchase->delivery_value }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.purchase.fields.created_at') }}
                         </th>
                         <td>
