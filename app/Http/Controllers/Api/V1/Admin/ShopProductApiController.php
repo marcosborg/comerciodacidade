@@ -24,6 +24,7 @@ class ShopProductApiController extends Controller
             'shop_product_categories',
             'tax',
         ])
+            ->where('state', true)
             ->get());
     }
 
@@ -48,6 +49,7 @@ class ShopProductApiController extends Controller
             ->whereHas('shop_product_categories', function ($query) use ($request) {
                 $query->where('id', $request->id);
             })
+            ->where('state', true)
             ->paginate(10);
 
         return $products;
@@ -61,6 +63,7 @@ class ShopProductApiController extends Controller
             ->whereHas('shop_product_sub_categories', function ($query) use ($request) {
                 $query->where('id', $request->id);
             })
+            ->where('state', true)
             ->paginate(10);
 
         return $products;
@@ -112,7 +115,7 @@ class ShopProductApiController extends Controller
 
     public function randomShopProducts()
     {
-        $products = ShopProduct::inRandomOrder()->take(20)->get();
+        $products = ShopProduct::inRandomOrder()->take(20)->where('state', true)->get();
         return $products;
     }
 
