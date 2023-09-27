@@ -377,6 +377,8 @@ return [
             'delivery_company_helper'       => ' ',
             'minimum_delivery_value'        => 'Minimum Delivery Value',
             'minimum_delivery_value_helper' => ' ',
+            'delivery_free_after'           => 'Delivery Free After',
+            'delivery_free_after_helper'    => ' ',
         ],
     ],
     'shopProductCategory' => [

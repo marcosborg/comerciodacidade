@@ -132,6 +132,14 @@
                 <span class="help-block">{{ trans('cruds.shopCompany.fields.minimum_delivery_value_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="delivery_free_after">{{ trans('cruds.shopCompany.fields.delivery_free_after') }}</label>
+                <input class="form-control {{ $errors->has('delivery_free_after') ? 'is-invalid' : '' }}" type="number" name="delivery_free_after" id="delivery_free_after" value="{{ old('delivery_free_after', $shopCompany->delivery_free_after) }}" step="0.01">
+                @if($errors->has('delivery_free_after'))
+                    <span class="text-danger">{{ $errors->first('delivery_free_after') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shopCompany.fields.delivery_free_after_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

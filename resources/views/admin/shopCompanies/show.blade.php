@@ -133,6 +133,14 @@
                             {{ $shopCompany->minimum_delivery_value }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shopCompany.fields.delivery_free_after') }}
+                        </th>
+                        <td>
+                            {{ $shopCompany->delivery_free_after }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

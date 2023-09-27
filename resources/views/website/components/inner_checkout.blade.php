@@ -364,4 +364,6 @@
         });
     });
 
+    console.log({!! $company !!})
+
 </script>

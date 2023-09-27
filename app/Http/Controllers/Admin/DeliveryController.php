@@ -101,6 +101,7 @@ class DeliveryController extends Controller
         $shop_company = ShopCompany::find($request->shop_company_id);
         $shop_company->delivery_company = $request->delivery_company;
         $shop_company->minimum_delivery_value = $request->minimum_delivery_value;
+        $shop_company->delivery_free_after = $request->delivery_free_after;
         $shop_company->save();
 
         return redirect()->back();

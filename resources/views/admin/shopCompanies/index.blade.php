@@ -62,6 +62,9 @@
                             {{ trans('cruds.shopCompany.fields.minimum_delivery_value') }}
                         </th>
                         <th>
+                            {{ trans('cruds.shopCompany.fields.delivery_free_after') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -116,6 +119,9 @@
                             </td>
                             <td>
                                 {{ $shopCompany->minimum_delivery_value ?? '' }}
+                            </td>
+                            <td>
+                                {{ $shopCompany->delivery_free_after ?? '' }}
                             </td>
                             <td>
                                 @can('shop_company_show')

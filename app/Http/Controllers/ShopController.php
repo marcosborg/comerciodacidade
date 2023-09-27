@@ -108,7 +108,11 @@ class ShopController extends Controller
         }
 
         $total_no_delivery = number_format(array_sum($total_array), 2);
-        
+
+        if ($company->shop_company->delivery_free_after != null && $total_no_delivery >= floatval($company->shop_company->delivery_free_after)) {
+            $delivery_price = 0;
+        }
+
         if ($delivery == 0) {
             $total = number_format(array_sum($total_array), 2);
         } else {

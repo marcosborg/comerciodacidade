@@ -28,6 +28,10 @@
                                 <label>Valor mínimo a cobrar</label>
                                 <input type="text" name="minimum_delivery_value" class="form-control" value="{{ $user->company[0]->shop_company->minimum_delivery_value }}">
                             </div>
+                            <div class="form-group">
+                                <label>Transporte gratuito em compras superiores a</label>
+                                <input type="text" name="delivery_free_after" class="form-control" value="{{ $user->company[0]->shop_company->delivery_free_after }}">
+                            </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-success">Atualizar</button>

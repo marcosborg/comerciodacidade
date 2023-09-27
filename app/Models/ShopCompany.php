@@ -38,6 +38,7 @@ class ShopCompany extends Model implements HasMedia
         'longitude',
         'delivery_company',
         'minimum_delivery_value',
+        'delivery_free_after',
         'created_at',
         'updated_at',
         'deleted_at',
