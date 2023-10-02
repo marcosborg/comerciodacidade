@@ -33,6 +33,7 @@ class SearchApiController extends Controller
         $products = ShopProduct::where('name', 'LIKE', '%' . $request->search . '%')
             ->limit(10)
             ->inRandomOrder()
+            ->where('state', true)
             ->get();
 
         foreach ($products as $product) {
