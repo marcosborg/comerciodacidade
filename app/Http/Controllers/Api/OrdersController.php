@@ -48,6 +48,8 @@ class OrdersController extends Controller
         $purchase->payed = 0;
         $purchase->internal = $internal;
         $purchase->id_payment = '';
+        $purchase->delivery = $request->delivery;
+        $purchase->delivery_value = $request->delivery_value;
         $purchase->save();
 
         return $purchase;
@@ -96,6 +98,8 @@ class OrdersController extends Controller
         $purchase->payed = 0;
         $purchase->internal = $internal;
         $purchase->id_payment = '';
+        $purchase->delivery = $request->delivery;
+        $purchase->delivery_value = $request->delivery_value;
         $purchase->save();
 
         if ($request->method == 'mbway') {

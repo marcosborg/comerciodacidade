@@ -40,7 +40,7 @@ class CompanyApiController extends Controller
     {
         //abort_if(Gate::denies('company_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new CompanyResource($company->load(['users', 'ifthenPay', 'shop_company.shop_location', 'shop_company.shop_company_schedules']));
+        return new CompanyResource($company->load(['users', 'ifthenPay', 'shop_company.shop_location', 'shop_company.shop_company_schedules', 'shop_company.delivery_ranges']));
     }
 
     public function update(UpdateCompanyRequest $request, Company $company)

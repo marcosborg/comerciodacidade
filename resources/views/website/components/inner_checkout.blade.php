@@ -125,12 +125,7 @@
         @if ($address)
         <div class="card shadow pt-2 mt-4">
             <div class="card-body">
-                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay'])
-                &&
-                (array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key']
-                != null ||
-                array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key']
-                != null))
+                @if(isset(array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']) && (array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mb_key'] != null || array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['mbway_key'] != null))
                 <button class="btn btn-orange d-block w-100" type="button" onclick="paymentMethods()">Concluir</button>
                 @elseif (array_values(session()->get('cart'))[0]['product']['shop_product_categories'][0]['company']['ifThenPay']['simple_mbway_number']
                 != null)

@@ -121,6 +121,6 @@ class ShopProductApiController extends Controller
 
     public function orderProduct(Request $request)
     {
-        return $request;
+        
     }
 }
