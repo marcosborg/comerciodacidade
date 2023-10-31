@@ -94,3 +94,20 @@ Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
     Route::post('order', 'Api\OrdersController@order');
     Route::post('ifthen-payments', 'Api\OrdersController@ifthenPayments');
 });
+
+// New API
+Route::post('shop-categories/media', 'Api\V1\Admin\ShopCategoryApiController@storeMedia')->name('shop-categories.storeMedia');
+Route::apiResource('shop-categories', 'Api\V1\Admin\ShopCategoryApiController');
+Route::get('randomShopProducts', 'Api\V1\Admin\ShopProductApiController@randomShopProducts');
+Route::get('randomServices', 'Api\V1\Admin\ServiceApiController@randomServices');
+Route::post('search', 'Api\V1\Admin\SearchApiController@search');
+Route::apiResource('shop-products', 'Api\V1\Admin\ShopProductApiController');
+Route::apiResource('shop-product-variations', 'Api\V1\Admin\ShopProductVariationsApiController');
+Route::get('companiesByCategory/{category_id}', 'Api\V1\Admin\ShopCompanyApiController@companiesByCategory');
+Route::apiResource('companies', 'Api\V1\Admin\CompanyApiController');
+Route::get('categoriesByCompany/{id}', 'Api\V1\Admin\ShopProductCategoryApiController@categoriesByCompany');
+Route::get('companyByProductCategory/{id}', 'Api\V1\Admin\ShopCompanyApiController@companyByProductCategory');
+Route::get('shop-product-sub-category-by-category-id/{id}', 'Api\V1\Admin\ShopProductSubCategoryApiController@shopProductSubCategoryByCategoryId');
+Route::get('shopProductsByCategoryProduct/{id}', 'Api\V1\Admin\ShopProductApiController@shopProductsByCategoryProduct');
+Route::get('shopServicesByCategoryProduct/{id}', 'Api\V1\Admin\ServiceApiController@shopServicesByCategoryProduct');
+Route::apiResource('services', 'Api\V1\Admin\ServiceApiController');
