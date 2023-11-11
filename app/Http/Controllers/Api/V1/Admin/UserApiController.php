@@ -73,12 +73,6 @@ class UserApiController extends Controller
 
     public function askForDelete(Request $request)
     {
-        $request->validate([
-            'reason' => 'required',
-        ], [], [
-            'reason' => 'Motivo'
-        ]);
-
         $user = Auth::guard('sanctum')->user();
 
         $reason = $request->reason;
