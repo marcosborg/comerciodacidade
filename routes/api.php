@@ -65,6 +65,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::prefix('users')->group(function () {
         Route::get('user', 'UserApiController@user');
         Route::post('update', 'UserApiController@update');
+        Route::post('ask-for-delete', 'UserApiController@askForDelete');
     });
 
     // Countries

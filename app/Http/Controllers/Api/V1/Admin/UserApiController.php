@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\User;
+use App\Notifications\SendAskForDelete;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,12 +44,12 @@ class UserApiController extends Controller
                 'nullable',
             ],
         ], [], [
-                'name' => 'Nome',
-                'address' => 'Endereço',
-                'city' => 'Cidade',
-                'zip' => 'Código postal',
-                'phone' => 'Contacto'
-            ]);
+            'name' => 'Nome',
+            'address' => 'Endereço',
+            'city' => 'Cidade',
+            'zip' => 'Código postal',
+            'phone' => 'Contacto'
+        ]);
 
         $user = User::find($request->user_id);
         $user->name = $request->name;
@@ -68,6 +69,23 @@ class UserApiController extends Controller
         $address->vat = $request->vat;
         $address->save();
 
+    }
+
+    public function askForDelete(Request $request)
+    {
+        $request->validate([
+            'reason' => 'required',
+        ], [], [
+            'reason' => 'Motivo'
+        ]);
+
+        $user = Auth::guard('sanctum')->user();
+
+        $reason = $request->reason;
+        $name = $user->name;
+        $email = $user->email;
+
+        User::find(1)->notify(new SendAskForDelete($name, $email, $reason));
     }
 
 }
