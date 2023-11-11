@@ -113,3 +113,4 @@ Route::get('shopProductsByCategoryProduct/{id}', 'Api\V1\Admin\ShopProductApiCon
 Route::get('shopServicesByCategoryProduct/{id}', 'Api\V1\Admin\ServiceApiController@shopServicesByCategoryProduct');
 Route::apiResource('services', 'Api\V1\Admin\ServiceApiController');
 Route::get('shopProductsBySubcategoryProduct/{id}', 'Api\V1\Admin\ShopProductApiController@shopProductsBySubcategoryProduct');
+Route::get('shopServicesBySubcategoryProduct/{id}', 'Api\V1\Admin\ServiceApiController@shopServicesBySubcategoryProduct');
