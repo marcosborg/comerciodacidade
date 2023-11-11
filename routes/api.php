@@ -112,3 +112,4 @@ Route::get('shop-product-sub-category-by-category-id/{id}', 'Api\V1\Admin\ShopPr
 Route::get('shopProductsByCategoryProduct/{id}', 'Api\V1\Admin\ShopProductApiController@shopProductsByCategoryProduct');
 Route::get('shopServicesByCategoryProduct/{id}', 'Api\V1\Admin\ServiceApiController@shopServicesByCategoryProduct');
 Route::apiResource('services', 'Api\V1\Admin\ServiceApiController');
+Route::get('shopProductsBySubcategoryProduct/{id}', 'Api\V1\Admin\ShopProductApiController@shopProductsBySubcategoryProduct');
