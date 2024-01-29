@@ -13,6 +13,7 @@ use App\Models\ShopProduct;
 use App\Models\ShopProductCategory;
 use App\Models\ShopProductSubCategory;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ShopController extends Controller
 {
@@ -35,7 +36,15 @@ class ShopController extends Controller
 
     public function product(Request $request)
     {
-        $product = ShopProduct::find($request->id)->load('shop_product_features', 'shop_product_variations', 'shop_product_categories.company.shop_company');
+        $product = ShopProduct::where('id', $request->id)
+            ->with([
+                'shop_product_features',
+                'shop_product_variations',
+                'shop_product_categories.company.shop_company'
+            ])
+            ->first();
+
+        abort_if(!$product->state, Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('website.shop.product', compact('product'));
     }

@@ -5,7 +5,7 @@
 @endif
 @endsection
 @section('description')
-{{ $product->shop_product_categories[0]->company->name }} | {{ $product->name }}
+{{ $product->shop_product_categories->count() > 0 ? $product->shop_product_categories[0]->company->name : '' }} | {{ $product->name }}
 @endsection
 @section('header')
 <section id="privacy" style="position: relative; z-index: 1;">
@@ -49,7 +49,7 @@
             <form action="/cart/add-to-cart" method="post" id="cart_submit">
                 <h2>{{ $product->name }}</h2>
                 <small><strong>Referencia: </strong>{{ $product->reference }}</small><br>
-                <strong>{{ $product->shop_product_categories[0]->company->name }}</strong>
+                <strong>{{ $product->shop_product_categories->count() > 0 ? $product->shop_product_categories[0]->company->name : '' }}</strong>
                 @if (!$product->sales_price)
                 <h1 class="mt-4">€ <span id="price">{{ $product->price }}</span></h1>
                 @else
@@ -96,7 +96,7 @@
                         <i class="bi bi-whatsapp"></i>
                     </a>
                 </div>
-                @if ($product->shop_product_categories &&
+                @if ($product->shop_product_categories->count() > 0 &&
                 $product->shop_product_categories[0]->company->shop_company->whatsapp)
                 <button class="btn btn-success btn-sm d-block mt-4" type="button" data-bs-toggle="collapse"
                     data-bs-target="#whatsapp_box" aria-expanded="false">
@@ -108,7 +108,7 @@
                             placeholder="Escreva a sua mensagem aqui."></textarea>
                     </div>
                     <button type="button" class="btn btn-success btn-sm mt-4"
-                        onclick="sendWhatsappMsg({{ $product->shop_product_categories[0]->company->shop_company->whatsapp }})">Enviar
+                        onclick="sendWhatsappMsg({{ $product->shop_product_categories->count() > 0 ? $product->shop_product_categories[0]->company->shop_company->whatsapp : '' }})">Enviar
                         mensagem</button>
                 </div>
                 @endif
@@ -175,7 +175,7 @@
                     </div>
                 </div>
             </div>
-            <a href="/lojas/produtos/{{ $product->shop_product_categories[0]->company_id }}/todos/{{ Str::slug($product->shop_product_categories[0]->company->name, '-') }}"
+            <a href="/lojas/produtos/{{ $product->shop_product_categories->count() > 0 ? $product->shop_product_categories[0]->company_id : '' }}/todos/{{ Str::slug($product->shop_product_categories->count() > 0 ? $product->shop_product_categories[0]->company->name : '', '-') }}"
                 class="btn btn-orange mt-5 mb-5">Outros produtos da loja</a>
         </div>
     </div>
