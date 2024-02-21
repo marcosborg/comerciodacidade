@@ -6,6 +6,8 @@ Route::get('termos-e-condicoes', 'WebsiteController@termosECondicoes');
 Route::get('eliminar-conta', 'WebsiteController@accountDelete');
 Route::post('delete-account', 'WebsiteController@deleteAccount');
 
+Route::get('mobile', 'WebsiteController@mobile');
+
 Route::get('recuperar-password', function () {
     return view('auth.passwords.email');
 });

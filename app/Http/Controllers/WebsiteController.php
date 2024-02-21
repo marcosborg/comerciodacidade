@@ -9,13 +9,11 @@ use App\Models\Register;
 use App\Models\Plan;
 use App\Models\User;
 use App\Models\Subscription;
-use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 class WebsiteController extends Controller
 {
@@ -196,5 +194,10 @@ class WebsiteController extends Controller
 
         return redirect()->back()->with('message', 'Eliminado com sucesso.');
 
+    }
+
+    public function mobile()
+    {
+        return redirect('https://play.google.com/store/apps/details?id=pt.comerciodacidade.app');
     }
 }
