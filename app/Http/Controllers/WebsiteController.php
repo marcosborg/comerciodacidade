@@ -196,8 +196,20 @@ class WebsiteController extends Controller
 
     }
 
-    public function mobile()
+    public function mobile(Request $request)
     {
-        return redirect('https://play.google.com/store/apps/details?id=pt.comerciodacidade.app');
+        $userAgent = $request->header('User-Agent');
+        // Detectar dispositivos iOS
+        if (stripos($userAgent, 'iPhone') !== false || stripos($userAgent, 'iPad') !== false) {
+            return redirect()->away('https://apps.apple.com/pt/app/com%C3%A9rcio-da-cidade/id6470311626');
+        }
+        // Detectar dispositivos Android
+        elseif (stripos($userAgent, 'Android') !== false) {
+            return redirect()->away('https://play.google.com/store/apps/details?id=pt.comerciodacidade.app');
+        }
+        // Caso não seja nem iOS nem Android, redirecionar para um local padrão (opcional)
+        else {
+            return redirect()->to('https://comerciodacidade.pt/lojas');
+        }
     }
 }
