@@ -201,7 +201,7 @@ class WebsiteController extends Controller
         $userAgent = $request->header('User-Agent');
         // Detectar dispositivos iOS
         if (stripos($userAgent, 'iPhone') !== false || stripos($userAgent, 'iPad') !== false) {
-            return redirect()->away('https://apps.apple.com/pt/app/com%C3%A9rcio-da-cidade/id6470311626');
+            return redirect()->away('https://apps.apple.com/pt/app/id6470311626');
         }
         // Detectar dispositivos Android
         elseif (stripos($userAgent, 'Android') !== false) {
